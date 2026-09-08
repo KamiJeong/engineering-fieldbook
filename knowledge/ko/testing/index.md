@@ -2,7 +2,7 @@
 
 범위와 추천 학습 순서: Testing fundamentals → Integration / Contract testing → Test strategy.
 
-핵심 Concept는 아직 작성하지 않았다. 실제 학습·실험에서 필요한 문서를 추가한다.
+- [변경 감지와 지식 검증](verification-vs-change-detection.md) — 개념을 읽고 연결된 실험, Checklist, Runbook 순으로 확인한다.
 
 [Glossary](../../../glossary/ko/index.md) · [Related domains](../index.md) · [Other language](../../en/testing/index.md)
 

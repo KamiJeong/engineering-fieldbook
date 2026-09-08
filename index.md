@@ -19,6 +19,9 @@ okf_version: "0.2"
 
 ## Authoring and maintenance
 
+- [첫 운영 흐름](knowledge/ko/testing/verification-vs-change-detection.md) — Concept → 실제 실험 → Checklist → Runbook으로 연결한 예제.
+- [ADR-0001](decisions/ADR/ko/ADR-0001-file-based-bilingual-knowledge.md) — 초기 구조 선택과 대안.
+
 - [README](README.md) — 사람을 위한 빠른 시작.
 - [Policies](policies/index.md) — 구조, Metadata, 검증, 번역 계약.
 - [Templates](templates/index.md) — 문서 종류별 작성 시작점.

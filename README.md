@@ -43,3 +43,5 @@ python3 skills/refresh-fieldbook/scripts/fieldbook.py stale --as-of 2026-09-08T0
 ```
 
 Agent에게 `skills/refresh-fieldbook/SKILL.md를 읽고 glossary/ko/oidc.md를 Verify해줘`처럼 모드와 범위를 지정한다. Refresh는 실제 사실 차이만 반영한다. 자세한 절차는 [유지보수 정책](policies/maintenance.md), 구조 선택 이유는 [Architecture](policies/architecture.md)를 참고한다.
+
+첫 실제 흐름은 [변경 감지와 검증 Concept](knowledge/ko/testing/verification-vs-change-detection.md) → [로컬 실험](experiments/ko/2026-09-08-fieldbook-audit.md) → [Checklist](checklists/ko/knowledge-maintenance.md) → [Audit 실패 Runbook](runbooks/ko/fieldbook-audit-failure.md) 순으로 읽는다. 매주 화요일 수동 점검부터 시작하며 다음 점검일은 2026-09-15다.

@@ -7,3 +7,5 @@
 [Glossary](../../../glossary/ko/index.md) · [Related domains](../index.md) · [Other language](../../en/architecture/index.md)
 
 [Checklist](../../../checklists/index.md) · [ADR](../../../decisions/index.md) · [Experiment](../../../experiments/index.md) · [Runbook](../../../runbooks/index.md)
+
+[ADR-0001](../../../decisions/ADR/ko/ADR-0001-file-based-bilingual-knowledge.md) — 이 저장소의 구조 선택 사례.

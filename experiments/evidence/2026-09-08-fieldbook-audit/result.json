@@ -1,0 +1,362 @@
+{
+  "executed_at": "2026-09-08T04:24:48+00:00",
+  "baseline_commit": "8fa8472ebab16911dffaee8a5037bde84094ab3c",
+  "python": "3.12.3",
+  "platform": "Linux x86_64",
+  "pyyaml": "6.0.1",
+  "tool_sha256": "f878748fb2d3b5a1e55ec1c0b45681be626910c1811a879b3cecf740efc510c2",
+  "reproducer_sha256": "ad0b9dc2bc2053fbdeaf36781b8b9425717d3e45468a5e3a3dd8dc2f4a64d950",
+  "seed_sha256": {
+    "glossary/ko/oidc.md": "a63df7fa6495e744a0c621daab68cee25ced99f5c975d67c7becdba318d8dc48",
+    "glossary/en/oidc.md": "b7b7f74cbd86f0e716bd5c717f31412a828e73d8ca5245c6dedd490b6e255019"
+  },
+  "passed": true,
+  "cases": [
+    {
+      "case": "baseline",
+      "mode": "translations",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "expected_code": "SYNCED",
+      "codes": [
+        "SYNCED"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "translations",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 52,
+        "issues": 0,
+        "findings": [
+          {
+            "code": "SYNCED",
+            "path": "glossary/en/oidc.md",
+            "message": "oidc: source_changed=False, target_changed=False; semantic review remains separate",
+            "level": "info"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "case": "verification-only",
+      "mode": "translations",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "expected_code": "SYNCED",
+      "codes": [
+        "SYNCED"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "translations",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 52,
+        "issues": 0,
+        "findings": [
+          {
+            "code": "SYNCED",
+            "path": "glossary/en/oidc.md",
+            "message": "oidc: source_changed=False, target_changed=False; semantic review remains separate",
+            "level": "info"
+          }
+        ]
+      },
+      "stderr": "",
+      "body_preserved": true,
+      "generated_preserved": true
+    },
+    {
+      "case": "korean-change",
+      "mode": "translations",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "expected_code": "TRANSLATION_STALE",
+      "codes": [
+        "TRANSLATION_STALE"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "translations",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 52,
+        "issues": 1,
+        "findings": [
+          {
+            "code": "TRANSLATION_STALE",
+            "path": "glossary/en/oidc.md",
+            "message": "oidc: source_changed=True, target_changed=False; semantic review remains separate",
+            "level": "issue"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "case": "english-change",
+      "mode": "translations",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "expected_code": "CONTENT_DIVERGED",
+      "codes": [
+        "CONTENT_DIVERGED"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "translations",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 52,
+        "issues": 1,
+        "findings": [
+          {
+            "code": "CONTENT_DIVERGED",
+            "path": "glossary/en/oidc.md",
+            "message": "oidc: source_changed=False, target_changed=True; semantic review remains separate",
+            "level": "issue"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "case": "missing-translation",
+      "mode": "translations",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "expected_code": "MISSING_TRANSLATION",
+      "codes": [
+        "MISSING_TRANSLATION"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "translations",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 51,
+        "issues": 1,
+        "findings": [
+          {
+            "code": "MISSING_TRANSLATION",
+            "path": "oidc",
+            "message": "missing language: en",
+            "level": "issue"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "case": "invalid-metadata",
+      "mode": "validate",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "expected_code": "PARSE_ERROR",
+      "codes": [
+        "PARSE_ERROR"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "validate",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 51,
+        "issues": 1,
+        "findings": [
+          {
+            "code": "PARSE_ERROR",
+            "path": "glossary/ko/oidc.md",
+            "message": "duplicate YAML key: type",
+            "level": "issue"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "case": "broken-link",
+      "mode": "links",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "expected_code": "BROKEN_LINK",
+      "codes": [
+        "BROKEN_LINK",
+        "EXTERNAL_UNCHECKED"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "links",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 52,
+        "issues": 1,
+        "findings": [
+          {
+            "code": "BROKEN_LINK",
+            "path": "glossary/ko/oidc.md",
+            "message": "./missing-experiment-fixture.md",
+            "level": "issue"
+          },
+          {
+            "code": "EXTERNAL_UNCHECKED",
+            "path": "external",
+            "message": "https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/ad30107c31c06aec8a7d5636e0d1058118604e6f/SPEC.md",
+            "level": "info"
+          },
+          {
+            "code": "EXTERNAL_UNCHECKED",
+            "path": "external",
+            "message": "https://openid.net/specs/openid-connect-core-1_0.html",
+            "level": "info"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "case": "stale-boundary",
+      "mode": "stale",
+      "as_of": "2027-09-08T03:00:05+00:00",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "expected_code": "STALE",
+      "codes": [
+        "STALE",
+        "VERIFICATION_OLD"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "stale",
+        "as_of": "2027-09-08T03:00:05+00:00",
+        "documents": 52,
+        "issues": 4,
+        "findings": [
+          {
+            "code": "VERIFICATION_OLD",
+            "path": "glossary/en/oidc.md",
+            "message": "last verification exceeds review_days",
+            "level": "issue"
+          },
+          {
+            "code": "STALE",
+            "path": "glossary/en/oidc.md",
+            "message": "due since 2027-09-08T03:00:05+00:00",
+            "level": "issue"
+          },
+          {
+            "code": "VERIFICATION_OLD",
+            "path": "glossary/ko/oidc.md",
+            "message": "last verification exceeds review_days",
+            "level": "issue"
+          },
+          {
+            "code": "STALE",
+            "path": "glossary/ko/oidc.md",
+            "message": "due since 2027-09-08T03:00:05+00:00",
+            "level": "issue"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "case": "invalid-root",
+      "mode": "audit",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "expected_code": null,
+      "codes": [],
+      "read_only": true,
+      "passed": true,
+      "report": {},
+      "stderr": "usage: fieldbook.py [-h] [--root ROOT] [--as-of AS_OF] [--json]\n                    {audit,validate,stale,translations,links,fingerprint}\n                    [path]\nfieldbook.py: error: --root must contain the Fieldbook root index.md\n"
+    },
+    {
+      "case": "repair-local-link",
+      "mode": "links",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "expected_code": "BROKEN_LINK",
+      "codes": [
+        "BROKEN_LINK",
+        "EXTERNAL_UNCHECKED"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "links",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 52,
+        "issues": 1,
+        "findings": [
+          {
+            "code": "BROKEN_LINK",
+            "path": "glossary/ko/oidc.md",
+            "message": "./missing-experiment-fixture.md",
+            "level": "issue"
+          },
+          {
+            "code": "EXTERNAL_UNCHECKED",
+            "path": "external",
+            "message": "https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/ad30107c31c06aec8a7d5636e0d1058118604e6f/SPEC.md",
+            "level": "info"
+          },
+          {
+            "code": "EXTERNAL_UNCHECKED",
+            "path": "external",
+            "message": "https://openid.net/specs/openid-connect-core-1_0.html",
+            "level": "info"
+          }
+        ]
+      },
+      "stderr": "",
+      "recovery": {
+        "exit": 0,
+        "broken_link_remaining": false,
+        "original_bytes_restored": true,
+        "read_only": true
+      }
+    },
+    {
+      "case": "hash-is-not-semantic-review",
+      "mode": "translations",
+      "as_of": "2026-09-08T04:24:48+00:00",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "expected_code": "SYNCED",
+      "codes": [
+        "SYNCED"
+      ],
+      "read_only": true,
+      "passed": true,
+      "report": {
+        "mode": "translations",
+        "as_of": "2026-09-08T04:24:48+00:00",
+        "documents": 52,
+        "issues": 0,
+        "findings": [
+          {
+            "code": "SYNCED",
+            "path": "glossary/en/oidc.md",
+            "message": "oidc: source_changed=False, target_changed=False; semantic review remains separate",
+            "level": "info"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

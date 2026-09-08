@@ -103,6 +103,19 @@ class FieldbookTests(unittest.TestCase):
         (self.root / self.en).rename(self.root / self.en.with_name("different.md"))
         self.assertIn("NEEDS_HUMAN_REVIEW", self.codes())
 
+    def test_adr_pairs_use_language_below_adr_directory(self):
+        paths = (Path("decisions/ADR/ko/ADR-0001-sample.md"),
+                 Path("decisions/ADR/en/ADR-0001-sample.md"))
+        for old, new in zip((self.ko, self.en), paths):
+            (self.root / new).parent.mkdir(parents=True)
+            (self.root / old).rename(self.root / new)
+        audit = fb.Audit(self.root, self.now)
+        audit.load()
+        audit.translations()
+        self.assertEqual(["SYNCED"], [f["code"] for f in audit.findings])
+        self.assertEqual("ko", fb.language_path(paths[0]))
+        self.assertEqual(fb.pair_path(paths[0]), fb.pair_path(paths[1]))
+
     def test_stale_at_exact_boundary_and_independent_periods(self):
         self.assertNotIn("STALE", self.codes(self.now + timedelta(days=60, microseconds=-1)))
         self.assertIn("STALE", self.codes(self.now + timedelta(days=60)))

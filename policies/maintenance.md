@@ -63,3 +63,11 @@ Git은 실제 diff·작성자·시점을 보존한다. log는 무엇이 왜 달�
 links는 Markdown inline/reference link와 로컬 sources/resource의 파일 존재를 확인한다. 외부 URL은 목록만 출력하며 연결 여부·anchor·GitHub heading slug·복잡한 HTML은 자동 증명하지 않는다. Audit에서는 Agent가 외부 링크와 release/deprecation 공지를 별도로 확인한다. JSON 출력을 원하면 `--json`을 쓴다. 스크립트의 정상 종료는 Audit의 외부 확인까지 완료했다는 의미가 아니다.
 
 검사 도구 변경 시 `python3 -m unittest discover -s skills/refresh-fieldbook/scripts -p 'test_*.py'`로 회귀 검사를 실행한다. 테스트는 임시 디렉터리에서 번역 변경, 검증 기한, 잘못된 입력과 읽기 전용 동작을 확인한다.
+
+## 정기 운영 시작: 2026-09-08
+
+주간 점검은 매주 화요일에 저장소 소유자 또는 위임받은 Agent가 [유지보수 Checklist](../checklists/ko/knowledge-maintenance.md)를 사용하여 수동으로 실행한다. 첫 후속 점검일은 2026-09-15 (Asia/Seoul)이다. 이는 운영 계획이며 OS cron, CI, 알림이나 자동 실행 예약을 설치한 것은 아니다.
+
+점검에서는 stale/미검증 문서, 미동기화 pair 수와 남은 검토 대상을 기록한다. 결과가 정상이라고 검증 날짜를 일괄 갱신하지 않는다. 외부 원문 확인과 번역 의미 검토는 별도로 수행한다. 코드의 exit 0만으로 Audit 전체를 완료 처리하지 않는다.
+
+월간 검토의 첫 예정일은 2026-10-06이다. 실제 검토 시간·남은 번역 수·반복 경고를 근거로 작성 범위와 review_days를 조정한다. 아직 장기간 관측이 없으므로 이번에는 주기를 일괄 변경하지 않았다. 최초 로컬 Runbook과 Checklist는 90일, 검사 동작 Concept와 용어는 120일로 시작한다. 새 데이터가 생기면 문서별 reason과 변경 이유를 함께 갱신한다.

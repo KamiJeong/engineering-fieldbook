@@ -2,7 +2,7 @@
 
 Scope and suggested learning order: Testing fundamentals → Integration / Contract testing → Test strategy.
 
-No detailed concepts yet. Add knowledge when learning or experiments create a concrete need.
+- [Change detection and knowledge verification](verification-vs-change-detection.md) — read the concept, then its experiment, checklist, and runbook.
 
 [Glossary](../../../glossary/en/index.md) · [Related domains](../index.md) · [Other language](../../ko/testing/index.md)
 

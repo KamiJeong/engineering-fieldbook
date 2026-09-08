@@ -87,7 +87,7 @@ def language_path(path):
 
 def pair_path(path):
     parts = list(path.parts)
-    offset = 2 if parts[:2] == ("decisions", "ADR") else 1
+    offset = 2 if parts[:2] == ["decisions", "ADR"] else 1
     if len(parts) > offset:
         parts[offset] = "{language}"
     return "/".join(parts)
