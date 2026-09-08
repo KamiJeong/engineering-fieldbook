@@ -9,6 +9,8 @@ title: Engineering Fieldbook
 
 [전체 지도](index.md) · [한국어 지식](knowledge/ko/index.md) · [English knowledge](knowledge/en/index.md) · [용어집](glossary/index.md)
 
+[AWS 학습 경로](knowledge/ko/cloud/index.md)에서 Compute·Network·Database·Storage·Security의 23개 Concept를 읽을 수 있다. 각 문서는 공식 근거, 선택 기준, 설계 예시와 운영 확인 항목을 제공한다. [English AWS path](knowledge/en/cloud/index.md)도 같은 개념을 다룬다.
+
 ## 구조와 문서 역할
 
 | 위치 | 기록하는 것 |

@@ -329,7 +329,8 @@ class Audit:
             definitions = dict(re.findall(r"^ {0,3}\[([^\]^]+)\]:\s*<?([^\s>]+)>?", text, re.M))
             definitions = {k.casefold(): v for k, v in definitions.items()}
             targets = re.findall(r"!?\[[^\]\n]*\]\(\s*(<[^>]+>|[^\s)]+)(?:\s+[^)]*)?\)", text)
-            for label, ref in re.findall(r"\[([^\]\n]+)\]\[([^\]\n]*)\]", text):
+            # Adjacent footnotes [^a][^b] are citations, not a full reference link.
+            for label, ref in re.findall(r"\[(?!\^)([^\]\n]+)\]\[([^\]\n]*)\]", text):
                 key = (ref or label).casefold()
                 if key not in definitions:
                     self.report("BROKEN_REFERENCE", path, f"undefined reference: {key}")

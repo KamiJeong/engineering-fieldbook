@@ -9,6 +9,7 @@ okf_version: "0.2"
 ## Knowledge
 
 - [Knowledge domains](knowledge/index.md) — 개념과 도메인별 학습 경로.
+- [AWS 학습 경로](knowledge/ko/cloud/index.md) · [English](knowledge/en/cloud/index.md) — Compute, Network, Database, Storage, Security의 23개 Concept.
 - [Glossary](glossary/index.md) — 전문 용어를 한 개념씩 관리.
 - [Decisions](decisions/index.md) — 기술 선택의 맥락과 대안.
 - [Experiments](experiments/index.md) — 환경과 재현 가능한 검증 기록.

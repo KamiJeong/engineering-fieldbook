@@ -65,6 +65,18 @@ class FieldbookTests(unittest.TestCase):
         self.assertEqual([], [f for f in audit.findings if f["level"] == "issue"])
         self.assertIn("SYNCED", self.codes())
 
+    def test_adjacent_footnotes_are_not_reference_links(self):
+        body = ("\n# Evidence\n\nClaim.[^spec][^other][^third]\n\n"
+                "[Valid][guide] and [Missing][absent].\n\n"
+                "[^spec]: First source\n[^other]: Second source\n[^third]: Third source\n"
+                "[guide]: https://example.com/guide\n")
+        self.write(self.ko, self.kmeta, body)
+        audit = fb.Audit(self.root, self.now)
+        audit.load()
+        audit.links()
+        broken = [f for f in audit.findings if f["code"] == "BROKEN_REFERENCE"]
+        self.assertEqual(["undefined reference: absent"], [f["message"] for f in broken])
+
     def test_verify_only_preserves_translation_fingerprint(self):
         self.kmeta["verified"].append({"by": "process:check", "at": self.now + timedelta(days=1)})
         self.kmeta["stale_after"] += timedelta(days=1)
