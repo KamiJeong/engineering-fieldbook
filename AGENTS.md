@@ -19,3 +19,12 @@ title: Agent entrypoint
 8. 편집 후 `python3 skills/refresh-fieldbook/scripts/fieldbook.py audit`를 실행한다. 자동 검사는 기술 사실이나 번역 의미의 검증을 대신하지 않는다.
 
 Skill은 위 경로를 직접 읽어 사용한다. 특정 Agent의 전역 설치나 자동 발견 설정은 이 저장소에서 변경하지 않는다.
+
+## 사이트 유지보수
+
+- 사이트는 기존 Markdown/OKF의 표현 계층이다. 본문·경로·번역을 `site/`로 복제하지 않는다. 문서 추가 시 라우터나 React 목차를 수정하지 않는다.
+- 공개 경계·첨부 허용·URL base는 `site/config.ts`에서 관리한다. 비공개·초안은 검색/JSON/자산에서도 제외하고 원본 링크 오류를 숨기지 않는다.
+- `site/dist/`, `site/.generated/`, `site/.server/`는 생성물이다. 배포는 `site/dist/`만 사용한다. 제외 대응표가 있는 `.generated`를 공개하지 않는다.
+- 사이트 변경은 `bun run verify`로 검증한다. 설치/배포 절차와 한계는 [사이트 운영](site/README.md), [English](site/README.en.md)를 따른다. 기존 문서 audit/번역/최신화 규칙은 그대로 적용한다.
+
+- 사이트 언어는 URL과 일치시킨다. 한국어는 base 다음 언어 접두사를 생략하고 영어는 `/en/`을 사용한다. 언어별 홈·검색·탐색·번역 링크를 함께 검증하며 원본 경로를 바꾸지 않는다. 이전 `/docs/` 주소 안내 페이지를 유지한다.

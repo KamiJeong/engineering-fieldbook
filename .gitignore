@@ -2,3 +2,11 @@
 __pycache__/
 *.py[cod]
 .DS_Store
+
+# Disposable site output
+node_modules/
+site/.generated/
+site/dist/
+site/.server/
+playwright-report/
+test-results/
