@@ -45,9 +45,8 @@
   --fb-neutral-900: #1a222c;
   --fb-neutral-950: #0f151d;
   --fb-white: #ffffff;
-  --fb-radius-control: 10px;
-  --fb-radius-card: 16px;
-  --fb-radius-panel: 24px;
+  --fb-radius-control: 6px;
+  --fb-radius-card: 8px;
   --fb-reading: 46rem;
   --fb-control: 44px;
   --fb-motion-fast: 120ms;

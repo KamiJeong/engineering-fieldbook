@@ -475,30 +475,6 @@ export function App({ data }: { data: PageData }) {
                 ))}
                 <span> / {doc.title}</span>
               </nav>
-              <Learning data={data} locale={locale} active={activePath} />
-              {data.languages.some(
-                (language) =>
-                  language !== locale && !doc.translations[language],
-              ) && (
-                <div
-                  className="translation translation-missing"
-                  aria-label={t.translation}
-                >
-                  {data.languages
-                    .filter(
-                      (language) =>
-                        language !== locale && !doc.translations[language],
-                    )
-                    .map((language) => (
-                      <span key={language}>
-                        {languageName(language)}: {t.missing} ·{" "}
-                        <a href={languageHome(data.base, language)}>
-                          {languageName(language)} {t.home}
-                        </a>
-                      </span>
-                    ))}
-                </div>
-              )}
               <article ref={article} className="prose" lang={doc.language}>
                 <header className="doc-heading">
                   <div dangerouslySetInnerHTML={articleParts.title} />
@@ -516,6 +492,30 @@ export function App({ data }: { data: PageData }) {
                     </span>
                   </div>
                 </header>
+                <Learning data={data} locale={locale} active={activePath} />
+                {data.languages.some(
+                  (language) =>
+                    language !== locale && !doc.translations[language],
+                ) && (
+                  <div
+                    className="translation translation-missing"
+                    aria-label={t.translation}
+                  >
+                    {data.languages
+                      .filter(
+                        (language) =>
+                          language !== locale && !doc.translations[language],
+                      )
+                      .map((language) => (
+                        <span key={language}>
+                          {languageName(language)}: {t.missing} ·{" "}
+                          <a href={languageHome(data.base, language)}>
+                            {languageName(language)} {t.home}
+                          </a>
+                        </span>
+                      ))}
+                  </div>
+                )}
                 {doc.mermaid && (
                   <button
                     className="diagram-button"

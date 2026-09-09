@@ -265,6 +265,16 @@ test("article heading precedes metadata; mobile no-JS navigation and anchors rem
       );
     }),
   ).toBe(true);
+  expect(
+    await page.locator("article").evaluate((article) => {
+      const title = article.querySelector("h1")!,
+        learning = article.querySelector(".learning-context")!;
+      return !!(
+        title.compareDocumentPosition(learning) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+      );
+    }),
+  ).toBe(true);
   const context = await browser.newContext({
     javaScriptEnabled: false,
     viewport: { width: 375, height: 900 },

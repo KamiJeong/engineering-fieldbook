@@ -35,12 +35,23 @@ button,
 select {
   color: var(--text);
   background: var(--panel);
-  border: 1px solid var(--fb-input);
+  border: 1px solid var(--line);
   border-radius: var(--fb-radius-control);
   padding: 8px 12px;
 }
+select {
+  border-color: var(--fb-input);
+}
 button {
   cursor: pointer;
+}
+.theme-trigger,
+.search-heading button,
+.copy-code,
+.diagram-button,
+.diagram-controls button {
+  border-color: transparent;
+  background: transparent;
 }
 button:hover,
 select:hover {
@@ -261,7 +272,7 @@ kbd {
   padding: 10px 12px;
   color: var(--text);
   line-height: 1.6;
-  border-radius: 8px;
+  border-radius: var(--fb-radius-control);
   overflow-wrap: anywhere;
 }
 .sidebar a:hover {
@@ -272,7 +283,6 @@ kbd {
   background: var(--fb-sidebar-active);
   color: var(--fb-sidebar-active-foreground);
   font-weight: 700;
-  box-shadow: inset 3px 0 var(--accent);
 }
 .nav-section {
   font-size: 12px;
@@ -301,8 +311,8 @@ kbd {
 }
 .sidebar .active-path {
   font-weight: 650;
-  background: var(--fb-accent-subtle);
-  color: var(--accent);
+  background: var(--fb-sidebar-active);
+  color: var(--fb-sidebar-active-foreground);
 }
 .drawer-close-mark {
   display: none;
@@ -396,13 +406,16 @@ kbd {
   overflow: auto;
   background: var(--fb-code);
   color: var(--fb-code-text);
-  padding: 60px 20px 20px;
+  padding: 16px 20px;
   border: 1px solid var(--line);
   border-radius: var(--fb-radius-control);
   line-height: 1.65;
   max-width: 100%;
   white-space: pre;
   font-size: 14px;
+}
+.prose pre:has(.copy-code) {
+  padding-top: 48px;
 }
 .prose code {
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -447,11 +460,9 @@ kbd {
   height: auto;
 }
 .prose blockquote {
-  border-left: 3px solid var(--accent);
-  background: var(--fb-accent-subtle);
+  border-left: 2px solid var(--line);
   margin: 24px 0;
   padding: 1px 20px;
-  border-radius: 0 10px 10px 0;
 }
 .prose hr {
   border: 0;
@@ -473,8 +484,8 @@ kbd {
 }
 .copy-code {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 2px;
+  right: 4px;
   font-size: 13px;
   padding: 6px 12px;
 }
@@ -655,24 +666,14 @@ kbd {
 }
 .learning-start {
   margin: 32px 0;
-  padding: 24px 28px;
-  border-radius: var(--fb-radius-panel);
-  background: var(--fb-brand-surface);
-  color: var(--fb-brand-foreground);
-}
-.learning-start h2 {
-  color: var(--fb-brand-foreground);
-  margin-bottom: 8px;
 }
 .learning-start > p {
-  color: var(--fb-primary-200);
+  color: var(--muted);
   margin: 8px 0 20px;
   font-size: 14px;
 }
 .learning-start .learning-stages {
-  color: var(--fb-brand-label);
-  font-size: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 .start-paths {
   display: grid;
@@ -683,8 +684,8 @@ kbd {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
-  border-top: 1px solid var(--fb-primary-500);
+  gap: 8px 24px;
+  border-top: 1px solid var(--line);
   padding-top: 16px;
 }
 .start-path > div {
@@ -692,43 +693,40 @@ kbd {
   gap: 6px;
 }
 .start-path small {
-  color: var(--fb-primary-200);
+  color: var(--muted);
   font-size: 14px;
 }
 .start-path a {
-  color: var(--fb-secondary-foreground);
-  background: var(--fb-secondary);
-  border-radius: var(--fb-radius-control);
-  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 0;
   min-height: 44px;
   font-weight: 600;
   font-size: 14px;
-}
-.start-path a:hover {
-  background: var(--fb-secondary-300);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 .topics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 8px 24px;
 }
 .topics > a {
   display: flex;
   gap: 12px;
-  align-items: center;
-  padding: 16px;
+  align-items: baseline;
+  padding: 12px 0;
   color: var(--text);
   font-size: 14px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  border-radius: var(--fb-radius-card);
   min-height: 80px;
 }
 .topics > a:hover {
-  background: var(--fb-accent-subtle);
-  border-color: var(--accent);
+  color: var(--accent);
   text-decoration: none;
+}
+.topics > a:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 .topics strong {
   font-weight: 600;
@@ -851,11 +849,10 @@ kbd {
   display: block;
   border-top: 1px solid var(--line);
   padding: 16px 12px;
-  border-radius: 8px;
 }
 .search-results a:hover,
 .search-results a:focus-visible {
-  background: var(--fb-accent-subtle);
+  background: var(--soft);
 }
 .search-results strong {
   font-size: 16px;
@@ -897,7 +894,7 @@ kbd {
   margin-bottom: 12px;
 }
 .diagram-button {
-  margin-bottom: 16px;
+  margin-bottom: 0;
   font-size: 14px;
 }
 .diagram-dialog {
@@ -977,15 +974,18 @@ kbd {
 }
 .learning-context {
   margin: 16px 0 24px;
-  padding: 16px 20px;
-  background: var(--fb-accent-subtle);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 10px 10px 0;
+  padding: 0;
+  color: var(--muted);
   font-size: 14px;
   display: grid;
   gap: 8px;
   line-height: 1.7;
   overflow-wrap: anywhere;
+}
+.learning-context > a {
+  display: flex;
+  align-items: center;
+  min-height: var(--fb-control);
 }
 .learning-context small,
 .learning-next small {
@@ -1018,18 +1018,19 @@ kbd {
   display: grid;
   align-content: start;
   gap: 8px;
-  padding: 20px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--fb-radius-card);
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
   color: var(--text);
   font-size: 16px;
   overflow-wrap: anywhere;
 }
 .learning-next > a:hover {
-  background: var(--fb-accent-subtle);
-  border-color: var(--accent);
+  color: var(--accent);
   text-decoration: none;
+}
+.learning-next > a:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 .learning-next span {
   font-size: 14px;
@@ -1056,11 +1057,8 @@ kbd {
   }
   .mobile-toc {
     display: block;
-    margin: 20px 0;
-    padding: 8px 16px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--fb-radius-control);
+    margin: 12px 0;
+    padding: 0;
     font-size: 14px;
     color: var(--muted);
   }
@@ -1086,9 +1084,6 @@ kbd {
   .layout main,
   .home-layout main {
     padding: 28px 24px 64px;
-  }
-  .learning-start {
-    padding: 24px;
   }
   .header-github {
     font-size: 13px;
@@ -1194,9 +1189,6 @@ kbd {
   .home-intro {
     padding-bottom: 24px;
   }
-  .learning-start {
-    padding: 24px 20px;
-  }
   .topics {
     grid-template-columns: 1fr;
   }
@@ -1234,11 +1226,4 @@ kbd {
   .learning-next {
     grid-template-columns: 1fr;
   }
-  .learning-context {
-    padding: 12px 16px;
-  }
-}
-
-.learning-start :focus-visible {
-  outline-color: var(--fb-brand-label);
 }
