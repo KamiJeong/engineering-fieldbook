@@ -2,6 +2,8 @@
 
 ## 2026-09-09
 
+- **Update**: [AWS 학습 경로](knowledge/ko/cloud/index.md)의 추천 순서를 실제 문서 링크가 있는 순서 목록으로 정리하고 영어를 동기화했다. Network → Identity → Compute → Data → Protection 순서와 기존 문서 경로·분류는 유지한다.
+
 - **Update**: [개념 24쌍](knowledge/ko/index.md)을 101 이해 → 201 가정 예제 적용 → 301 조건별 판단 순서로 편집하고 선수 지식·학습 목표·질문 해설을 추가했다. [용어집 6쌍](glossary/ko/index.md)은 정의·예제·혼동 방지를 보강했다. 원본 경로·concept_id·분류와 기존 출처를 유지하고 README·목차·작성/번역 정책·템플릿에 학습자 중심 기준을 반영했다.
 - **Correction**: [연결 풀](knowledge/ko/data/aws-rds-connection-pooling.md)의 250/450 계산을 직접 DB 연결 가정으로 명시했다. [IAM Policy](knowledge/ko/security/aws-iam-policy.md)는 permissions boundary의 identity-based 범위를 명확히 했고, [AZ](glossary/ko/availability-zone.md)는 이름 매핑의 적용 조건을 보강했다. CIDR·AZ ID·Lambda VPC에 직접 근거를 추가하고 WAF의 현재 공식 명칭을 보완했다.
 - **Verification**: 영어 49개 원본(34개 지식 단위·15개 목차)과 사이트 영어 운영 안내를 대응 한국어와 전수 의미 대조했다. RPO의 13:45 포함 경계를 명시하고 과거 실험의 영어 후속 계획에 누락된 사람의 번역 검토 시간 조건을 정정했다. 34쌍의 지문은 의미 대조 후 기록했다. 사람의 검토를 주장하지 않는다.

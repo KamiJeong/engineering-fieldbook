@@ -371,3 +371,32 @@ test("language homes and legacy bookmarks are emitted without duplicating origin
   expect(sitemap).toContain("/repo/en/knowledge/a/");
   expect(sitemap).not.toContain("/docs/");
 });
+
+test("reading order follows explicit original index links across domains and rejects duplicate or excluded steps", async () => {
+  const root = await fixture({
+    "knowledge/ko/cloud/index.md":
+      "# Cloud\n## 학습 순서\n1. Network: [B][b] → [A](a.md)\n\n[b]: ../data/b.md\n\n## Related\n[C](c.md)",
+    "knowledge/ko/cloud/a.md": "# A",
+    "knowledge/ko/cloud/c.md": "# C",
+    "knowledge/ko/data/b.md": "# B",
+  });
+  let result = await collect(root);
+  expect(result.learningPaths[0].steps.map((s) => s.title)).toEqual(["B", "A"]);
+  expect(result.learningPaths[0].id).toBe("knowledge/cloud/index.md");
+  await writeFile(
+    path.join(root, "knowledge/ko/cloud/index.md"),
+    "# Cloud\n## 학습 순서\n1. [A](a.md) → [A](a.md) → [Secret](secret.md)",
+  );
+  await writeFile(
+    path.join(root, "knowledge/ko/cloud/secret.md"),
+    "---\nprivate: true\n---\n# Secret",
+  );
+  result = await collect(root);
+  expect(result.report.errors.map((e) => e.code)).toContain(
+    "DUPLICATE_LEARNING_STEP",
+  );
+  expect(result.report.errors.map((e) => e.code)).toContain(
+    "INVALID_LEARNING_STEP",
+  );
+  expect(result.learningPaths[0].steps.map((s) => s.title)).toEqual(["A"]);
+});

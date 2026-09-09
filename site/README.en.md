@@ -80,3 +80,11 @@ Previous `/docs/<source-without-md>/` bookmarks receive static noindex article p
 The persistent All collections link opens the existing root index, preserving discovery of decisions, experiments, checklists, runbooks and policies. English screens explicitly label this map as Korean.
 
 GitHub Pages returns one shared `404.html` for missing paths. With JavaScript, the error screen derives its language from the requested URL and updates labels, home links and search while retaining HTTP404 and the URL. Without JavaScript, Pages cannot select a locale-specific404: the shared page provides Korean text plus an explicit English message and English-home link. Normal localized document HTML is unaffected.
+
+## Global navigation and learning paths
+
+The sidebar preserves topic order from each language's Knowledge index and reads documents from each domain index. It expands the current document's domain and stores disclosure state and scroll position in sessionStorage per base and language. Basic navigation works when storage is blocked. The glossary and All collections link provide access to other document types.
+
+Learning paths are parsed from ordered-list links under `## Reading order` (Korean `## 학습 순서`) in original indexes. Link order defines the sequence independently of the topic catalog. Duplicate, missing, excluded, or other-language steps are validation errors. Add paths through this convention without copying document lists into React. Keep Korean and English sequences equivalent.
+
+The selected path travels in `?path=` through member documents, translations, and previous/next links. Direct entry or an invalid path shows a chooser. Position indicates reading order, not completion. Canonical URLs and sitemaps remain query-free. Without JavaScript, the global tree and original ordered list remain readable; query-based selection and previous/next controls become available after hydration.

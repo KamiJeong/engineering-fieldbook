@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PageData, SearchEntry } from "./model";
+import { Sidebar } from "./Sidebar";
+import { Learning } from "./Learning";
+import { pathHref } from "./navigation";
 import { search } from "./search";
 const languageHome = (base: string, language: string) =>
   `${base}${language === "ko" ? "" : `${encodeURIComponent(language)}/`}`;
@@ -96,7 +99,38 @@ export function App({ data }: { data: PageData }) {
     [language, setLanguage] = useState(locale);
   const [index, setIndex] = useState<SearchEntry[] | null>(null),
     [searchError, setSearchError] = useState(false);
-  const sidebar = useRef<HTMLDetailsElement>(null);
+  const [pathId, setPathId] = useState<string>();
+  const activePath = data.learningPaths.find(
+    (p) =>
+      p.id === pathId &&
+      p.language === locale &&
+      (p.url === doc?.url || p.steps.some((s) => s.url === doc?.url)),
+  );
+  useEffect(() => {
+    setPathId(new URLSearchParams(location.search).get("path") || undefined);
+  }, []);
+  // Preserve a selected path for original article links without changing source HTML.
+  useEffect(() => {
+    const element = article.current;
+    if (!element || !activePath) return;
+    const changed: { link: HTMLAnchorElement; href: string }[] = [];
+    for (const link of element.querySelectorAll<HTMLAnchorElement>("a[href]")) {
+      const target = new URL(link.href);
+      if (
+        target.origin !== location.origin ||
+        !target.pathname.startsWith(data.base)
+      )
+        continue;
+      const next = pathHref(target.pathname, activePath);
+      if (next !== target.pathname) {
+        changed.push({ link, href: link.getAttribute("href")! });
+        link.href = next + target.hash;
+      }
+    }
+    return () => {
+      for (const { link, href } of changed) link.setAttribute("href", href);
+    };
+  }, [activePath, data.base]);
   const dialog = useRef<HTMLDialogElement>(null),
     input = useRef<HTMLInputElement>(null),
     trigger = useRef<HTMLButtonElement>(null),
@@ -104,8 +138,6 @@ export function App({ data }: { data: PageData }) {
   const url = (source: string) =>
     data.entries.find((e) => e.source === source)?.url || home;
   useEffect(() => {
-    if (matchMedia("(max-width: 640px)").matches && sidebar.current)
-      sidebar.current.open = false;
     let saved: string | null = null;
     try {
       saved = localStorage.getItem("fieldbook-theme");
@@ -241,34 +273,6 @@ export function App({ data }: { data: PageData }) {
     }
   }
   const results = index ? search(index, query, language) : [];
-  const directory = doc?.source.split("/").slice(0, -1).join("/");
-  const scope = !doc
-    ? `knowledge/${locale}/index.md`
-    : doc && data.navigation[doc.source]
-      ? doc.source
-      : directory
-        ? `${directory}/index.md`
-        : "index.md";
-  const scopeTitle = data.entries.find(
-    (entry) => entry.source === scope,
-  )?.title;
-  const globalLinks = new Set([
-    home,
-    url("index.md"),
-    url(`knowledge/${locale}/index.md`),
-    url(`glossary/${locale}/index.md`),
-  ]);
-  const nav = (
-    data.navigation[scope] ||
-    data.navigation[`knowledge/${locale}/index.md`] ||
-    []
-  ).filter(
-    (item) =>
-      !globalLinks.has(item.url) &&
-      data.entries.some(
-        (entry) => entry.url === item.url && entry.language === locale,
-      ),
-  );
   const recent = data.entries
     .filter((e) => e.modified && e.language === locale && e.conceptId)
     .sort(
@@ -335,7 +339,14 @@ export function App({ data }: { data: PageData }) {
               return target ? (
                 <a
                   key={language}
-                  href={target}
+                  href={pathHref(
+                    target,
+                    activePath &&
+                      data.learningPaths.find(
+                        (p) =>
+                          p.id === activePath.id && p.language === language,
+                      ),
+                  )}
                   lang={language}
                   aria-current={language === locale ? "page" : undefined}
                 >
@@ -351,55 +362,7 @@ export function App({ data }: { data: PageData }) {
         </div>
       </header>
       <div className={`layout ${!doc ? "home-layout" : ""}`}>
-        <aside className="sidebar">
-          <details ref={sidebar} open>
-            <summary>{t.nav}</summary>
-            <nav aria-label={t.nav}>
-              <a
-                href={home}
-                aria-current={!doc && !data.notFound ? "page" : undefined}
-              >
-                {t.home}
-              </a>
-              <a href={url(`knowledge/${locale}/index.md`)}>
-                {ui === "ko" ? "전체 지식" : "All knowledge"}
-              </a>
-              <a href={url(`glossary/${locale}/index.md`)}>{t.glossary}</a>
-              <a
-                className="fieldbook-map"
-                href={url("index.md")}
-                aria-current={doc?.source === "index.md" ? "page" : undefined}
-              >
-                {ui === "ko" ? "전체 문서 지도" : "All collections"}
-                {locale !== "ko" && (
-                  <small className="language-note">한국어</small>
-                )}
-              </a>
-              <p className="nav-section">
-                {doc
-                  ? ui === "ko"
-                    ? "같은 주제의 문서"
-                    : "In this section"
-                  : t.topics}
-              </p>
-              {nav.map((item, i) => (
-                <div key={`${item.url}-${i}`}>
-                  {item.section &&
-                    item.section !== scopeTitle &&
-                    (i === 0 || nav[i - 1].section !== item.section) && (
-                      <p className="nav-section">{item.section}</p>
-                    )}
-                  <a
-                    href={item.url}
-                    aria-current={item.url === doc?.url ? "page" : undefined}
-                  >
-                    {item.title}
-                  </a>
-                </div>
-              ))}
-            </nav>
-          </details>
-        </aside>
+        <Sidebar data={data} locale={locale} activePath={activePath} />
         <main id="content" tabIndex={-1}>
           {data.notFound ? (
             <section className="not-found">
@@ -429,6 +392,7 @@ export function App({ data }: { data: PageData }) {
                 ))}
                 <span> / {doc.title}</span>
               </nav>
+              <Learning data={data} locale={locale} active={activePath} />
               <div className="doc-meta">
                 <span>{languageName(doc.language)}</span>
                 <span>
@@ -490,6 +454,12 @@ export function App({ data }: { data: PageData }) {
                 className="prose"
                 lang={doc.language}
                 dangerouslySetInnerHTML={articleHtml}
+              />
+              <Learning
+                data={data}
+                locale={locale}
+                active={activePath}
+                footer
               />
               {!!doc.tags.length && (
                 <div className="tags">

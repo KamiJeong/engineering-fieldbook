@@ -32,6 +32,14 @@ export interface NavItem {
   url: string;
   section: string;
 }
+export interface LearningPath {
+  id: string;
+  source: string;
+  title: string;
+  language: string;
+  url: string;
+  steps: NavItem[];
+}
 export interface PageData {
   language: string;
   base: string;
@@ -41,6 +49,7 @@ export interface PageData {
   document?: Document;
   entries: Entry[];
   navigation: Record<string, NavItem[]>;
+  learningPaths: LearningPath[];
   languages: string[];
   notFound?: boolean;
 }
