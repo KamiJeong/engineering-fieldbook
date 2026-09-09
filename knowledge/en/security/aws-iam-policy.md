@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'IAM policies: explicit permissions and effective-access evaluation'
-description: Review all applicable permission boundaries rather than a single policy’s Allow.
+description: Read policy actions, resources, and conditions, and explain why both permitted and denied requests
+  need checking.
 concept_id: aws-iam-policy
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -31,9 +34,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-iam-policy
-  source_fingerprint: sha256:311acb7d7c025240fd3409a268fe50de005681b8fb2868f5234727703876e864
-  target_fingerprint: sha256:83cf136a214feb9b91fb1fb49b2b903d62e2b480c5dd434bd12ad01c513ad29d
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:aaa7fddda63ecc0a10519389af8a138d1c1bb0165dc2e7fdbe3dd2aa53802c5a
+  target_fingerprint: sha256:cdee67f1c63584b7bcaff76c120861d873d844a191e1722bd1021b450211f9fd
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -41,17 +44,37 @@ translation:
 
 ## Summary
 
-Review all applicable permission boundaries rather than a single policy’s Allow.
+IAM policies express permissions applied to requests. Start by identifying who requests which action on which resource. An Allow in one policy can still be constrained by other applicable limits or an explicit Deny.[^iam-policy][^iam-evaluation]
 
-## External facts
+## Learning objectives
 
-- Most IAM policies are JSON. Distinguish identity-based and resource-based policies. Key elements include Effect, Action, Resource, and Condition; Principal usage depends on policy type.[^iam-policy]
+Read policy actions, resources, and conditions, and explain why both permitted and denied requests need checking.
 
-- An applicable explicit Deny overrides an Allow. Evaluate identity/resource policy relationships and cross-account access in context.[^iam-evaluation]
+## Prerequisites
 
-- Limiting policies such as permission boundaries and SCPs do not themselves grant action permissions.[^iam-policy]
+Read [IAM users](aws-iam-user.md) and [IAM roles](aws-iam-role.md). A principal is the requesting identity; an ARN names an AWS resource. JSON represents structured data as fields and values.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+Most IAM policies use JSON. Distinguish identity-based policies attached to users or roles from resource-based policies attached to resources. Effect specifies allow or deny, Action the operation, Resource the target, and Condition the applicability criteria. Principal identifies the requester where the policy type uses it.[^iam-policy]
+
+An applicable explicit Deny overrides an Allow. Evaluate identity/resource policy relationships and cross-account access in context.[^iam-evaluation]
+
+A permissions boundary limits what identity-based policies can grant to a user or role. Do not generalize that limit to every resource-based grant. An SCP (Service Control Policy) limits permissions in organizational accounts. These limiting policies do not grant action permissions themselves.[^iam-policy]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose an application should read objects under an S3 prefix. List bucket listing and object reading as separate actions. Check the required APIs and resource ARN scopes, then test requests that should succeed and those that should be denied.
+
+This is not a complete deployable policy. On AccessDenied, collect the actual caller, action, resource, conditions, and applicable policies before broadening permissions.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Constrain resources, actions, and conditions to the task; document reasons for wildcards.
 
@@ -59,19 +82,21 @@ Review all applicable permission boundaries rather than a single policy’s Allo
 
 - Test requests that must be denied as well as those that must succeed.
 
-## Design example
-
-Design example: reading objects under an S3 prefix has different permission requirements from listing the bucket. Enumerate resource ARN scopes and APIs separately; this is not a deployable complete policy.
-
-## Operational checks
+### Operational checks
 
 - [ ] Do the policy identity and target resource match the actual request?
 - [ ] Have trust, resource, organization, and KMS key policies been checked where applicable?
 - [ ] Are list, read, write, and delete permissions distinguished?
 
+## Check your understanding
+
+**Question:** Does adding a permissions boundary or SCP grant the required action permissions?
+
+**Explanation:** These policies limit maximum permissions and do not grant actions themselves. Evaluate granting policies together with applicable restrictions.[^iam-policy]
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

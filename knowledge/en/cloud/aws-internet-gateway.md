@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'Internet gateways: a target for VPC internet routing'
-description: Understand IGW attachment, routing, addressing, and traffic permissions together.
+description: Explain why IGW attachment, routing, addressing, and traffic permissions each matter.
 concept_id: aws-internet-gateway
 language: en
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-03-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-03-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -30,9 +32,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-internet-gateway
-  source_fingerprint: sha256:ca944361eb4dd54ae763a9a80bd0dffdb4a18195b34b2116b38537178d9a8834
-  target_fingerprint: sha256:227d3bf78f9a78f30a9ab6a556bff1ed912aaf225b120f580eab438eca3f22a1
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:a4dd08081ddc4b04ac774f1b992401eeeec236c6b0169b6fdd8e880b87e04eee
+  target_fingerprint: sha256:84b752a4420bca5af75101685ffcc95179dcee67d8ad3baeeebe3479cb8c44bd
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -40,17 +42,37 @@ translation:
 
 ## Summary
 
-Understand IGW attachment, routing, addressing, and traffic permissions together.
+An internet gateway (IGW) connects a VPC with the internet. Attach it to the VPC and use it as a route target. Internet connectivity depends on addressing and traffic permissions as well as the gateway.[^igw]
 
-## External facts
+## Learning objectives
 
-- An internet gateway attaches to a VPC and supports IPv4 and IPv6 internet communication.[^igw]
+Explain why IGW attachment, routing, addressing, and traffic permissions each matter.
 
-- Direct connectivity requires an IGW route and a resource public IPv4 or IPv6 address. For IPv4, the IGW participates in public/private address mapping.[^igw]
+## Prerequisites
 
-- A direct route to the IGW is central to the conventional public/private subnet distinction.[^subnets]
+Read [subnets](aws-subnets.md) and [route tables](aws-route-table.md). Ingress means incoming traffic; egress means outgoing traffic.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+An internet gateway attaches to a VPC and supports IPv4 and IPv6 internet communication.[^igw]
+
+Direct connectivity requires an IGW route and a resource public IPv4 or IPv6 address. For IPv4, the IGW participates in public/private address mapping.[^igw]
+
+A direct route to the IGW is central to the conventional public/private subnet distinction.[^subnets]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose an EC2 instance has a public IPv4 address but cannot reach the internet. First check that the IGW is attached to its VPC. Then find the IGW route in the table applied to the instance’s subnet.
+
+Without that route, a public address alone does not complete the direct path. After checking addressing and routing, inspect security groups, the subnet network ACL, and the application.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Review IGW attachment separately from routing changes that make a subnet public.
 
@@ -58,19 +80,21 @@ Understand IGW attachment, routing, addressing, and traffic permissions together
 
 - Trace failures through addressing, routes, SG/NACL rules, and the application.
 
-## Design example
-
-A public IPv4 address without an IGW route in the associated table does not complete a direct internet path. Check addressing and routing before changing security groups.
-
-## Operational checks
+### Operational checks
 
 - [ ] Is the IGW attached to the correct VPC?
 - [ ] Do the resource address and actual subnet route support the required communication?
 - [ ] Is unnecessary external ingress prevented?
 
+## Check your understanding
+
+**Question:** Does attaching an IGW to a VPC expose all its servers to the internet?
+
+**Explanation:** Subnet routes, resource addresses, and traffic permissions must also be checked. Attachment alone does not satisfy all the conditions.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

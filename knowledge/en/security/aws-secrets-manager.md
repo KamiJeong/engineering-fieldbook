@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'Secrets Manager: retrieval, rotation, and consumer refresh'
-description: Manage safe consumer updates as well as secret storage.
+description: Distinguish storage, rotation, and consumer refresh, and check new-value adoption by running applications.
 concept_id: aws-secrets-manager
 language: en
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -34,9 +36,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-secrets-manager
-  source_fingerprint: sha256:aaa6644379a4309944b2266533c4557016984ab4caede2fe9d4c5af54092e3e4
-  target_fingerprint: sha256:8d32f6817d585244065bae25694b5249cf302976d2a8a3da8da076ee1a0a1077
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:98aaa1ab7ed6835f76228817ab5793bf9bc5ef00bec65d1a07977910eaff9109
+  target_fingerprint: sha256:45016028fbec550e33598995c910820db14c42d6a6545bc3510affe40a7468fc
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -44,17 +46,37 @@ translation:
 
 ## Summary
 
-Manage safe consumer updates as well as secret storage.
+Hard-coding DB passwords or API keys makes changes and access management harder. Secrets Manager helps store, retrieve, and rotate these values. After changing a secret, verify that the real application consumes the new value.[^secrets][^secret-rotation]
 
-## External facts
+## Learning objectives
 
-- Secrets Manager supports storing, retrieving, and rotating database credentials, API keys, and other secrets. Prefer roles where suitable for AWS workload credentials.[^secrets]
+Distinguish storage, rotation, and consumer refresh, and check new-value adoption by running applications.
 
-- Rotation updates both the stored secret and credentials in the target database or service. Supported methods, including managed and Lambda-based rotation, depend on the target.[^secret-rotation]
+## Prerequisites
 
-- Rotating a secret injected into ECS environment variables does not automatically refresh running containers. Consumers need an update such as launching new tasks.[^ecs-secret]
+Read [IAM roles](aws-iam-role.md) and [ECS](../cloud/aws-ecs.md). Rotation updates credentials in both the stored secret and the target service.[^secret-rotation]
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+Secrets Manager supports storing, retrieving, and rotating database credentials, API keys, and other secrets. Prefer roles where suitable for AWS workload credentials.[^secrets]
+
+Rotation updates both the stored secret and credentials in the target database or service. Supported methods, including managed and Lambda-based rotation, depend on the target.[^secret-rotation]
+
+Rotating a secret injected into ECS environment variables does not automatically refresh running containers. Consumers need an update such as launching new tasks.[^ecs-secret]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose an ECS task receives its DB password through an environment variable. Rotation does not automatically change that variable in an existing task. Reconnecting with the old value can fail authentication.
+
+Check value rollout, such as launching a new task, refreshing existing connection pools, and executing a real query. Avoid printing secret values in logs to inspect them.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Specify runtime retrieval, caching, or startup injection and design for refresh failures.
 
@@ -62,19 +84,21 @@ Manage safe consumer updates as well as secret storage.
 
 - Include target-service authentication and real application requests in rotation-success checks.
 
-## Design example
-
-After DB-password rotation, an existing task can fail to reconnect using its old environment variable. Review secret rollout, pool refresh, and a real query as one procedure.
-
-## Operational checks
+### Operational checks
 
 - [ ] Who can read each secret?
 - [ ] When do caches and running processes consume updated values?
 - [ ] Which values and states guide recovery after a rotation failure?
 
+## Check your understanding
+
+**Question:** Is rotation verification complete once Secrets Manager stores the new value?
+
+**Explanation:** Check target-service authentication and consumer adoption too. Successful storage does not establish that the running application works.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

@@ -1,8 +1,7 @@
 ---
 type: Decision
 title: 'ADR-0001: File-based bilingual knowledge architecture'
-description: The initial decision for storing, navigating, translating, and maintaining
-  the personal Fieldbook.
+description: The initial decision for storing, navigating, translating, and maintaining the personal Fieldbook.
 concept_id: adr-0001-file-based-bilingual-knowledge
 language: en
 status: stable
@@ -26,7 +25,7 @@ translation:
   source_concept_id: adr-0001-file-based-bilingual-knowledge
   source_fingerprint: sha256:343c624094bf4c84bc4df43ea34d27710a9046ae953816856ab83af2d4a41d7d
   target_fingerprint: sha256:16d8b62e0ee6eee902d6bacdbd81d8abbb3a45f564da3156d4ce613d5033bcb7
-  synced_at: '2026-09-08T04:30:37+00:00'
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 

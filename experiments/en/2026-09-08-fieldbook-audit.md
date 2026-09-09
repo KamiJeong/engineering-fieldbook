@@ -1,14 +1,13 @@
 ---
 type: Experiment
 title: Fieldbook audit change-detection and recovery experiment
-description: Observes detection, verification separation, recovery, and read-only
-  behavior using isolated file mutations.
+description: Observes detection, verification separation, recovery, and read-only behavior using isolated file mutations.
 concept_id: experiment-2026-09-08-fieldbook-audit
 language: en
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T04:30:37+00:00'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T04:30:37+00:00'
@@ -25,8 +24,8 @@ translation:
   source_language: ko
   source_concept_id: experiment-2026-09-08-fieldbook-audit
   source_fingerprint: sha256:a380e8bc6f721e3cf8a310dc9533d7d3225c7212db115ecdc52c50257dc0d668
-  target_fingerprint: sha256:8adc2e7bcb2989b89a5bacf6ade5e9058a206f2e161af3a1a29894411b29888b
-  synced_at: '2026-09-08T04:30:37+00:00'
+  target_fingerprint: sha256:004c2029e15c6037a2965d1d98dbfcb96a49fdd3f950182284998cbbb746d6d1
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -87,7 +86,7 @@ Hash agreement, verification recency, and semantic agreement are different signa
 
 ## Next Experiment
 
-When refreshing a real technical entry, measure the work required to compare changed sources and review translation meaning. That measurement was not performed here.
+When refreshing a real technical entry, measure the time required to compare changed sources and for a human to review translation meaning. That measurement was not performed here.
 
 [^result]: [Original execution evidence](../evidence/2026-09-08-fieldbook-audit/result.json)
 

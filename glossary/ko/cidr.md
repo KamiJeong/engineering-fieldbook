@@ -9,11 +9,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-09-08T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-09-09T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -23,33 +25,36 @@ sources:
 - id: vpc-cidr
   resource: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html
   title: VPC CIDR blocks
+- id: cidr-rfc
+  resource: https://www.rfc-editor.org/rfc/rfc4632.html
+  title: 'RFC 4632, section 3.1: Basic Concept and Prefix Notation'
 ---
 
 # CIDR: IP 주소 범위와 prefix
 
 ## 요약
 
-Classless Inter-Domain Routing 표기로 네트워크 주소 범위를 표현한다.
+CIDR(Classless Inter-Domain Routing)는 IP 주소 범위를 주소와 접두사 길이(prefix length)로 표현하는 방식입니다. 예를 들어 `10.40.1.0/24`에서 `/24`는 앞의 24비트를 네트워크 부분으로 사용한다는 뜻입니다.[^cidr-rfc]
 
 ## 외부 사실
 
-- CIDR는 주소와 prefix 길이로 범위를 나타낸다. AWS VPC와 Subnet의 IP 범위 설정에 사용한다.[^vpc-cidr]
-
-## 적용과 혼동 방지
-
-- 주소 범위 계획과 인터넷 접근 설정을 구분한다. 연결할 네트워크들의 범위가 중복되는지 먼저 비교한다.
+IPv4 주소는 32비트입니다. `/24` 범위에는 나머지 8비트로 표현할 수 있는 256개 주소가 있습니다. 이는 실제 서비스에 할당 가능한 주소 수와는 다릅니다. AWS VPC와 서브넷의 주소 범위도 CIDR로 설정합니다.[^cidr-rfc][^vpc-cidr]
 
 ## 설계 예시
 
-10.40.0.0/16 안에 10.40.1.0/24를 배치할 수 있다. 이는 주소 범위 예시이며 그대로 사용할 운영 주소 할당은 아니다.
+`10.40.0.0/16` 안에는 `10.40.1.0/24`를 배치할 수 있습니다. 같은 IPv4에서 `/24`는 `/16`보다 더 작은 범위입니다. 이 예제는 포함 관계를 설명하며 운영 주소 할당을 제안하지 않습니다.
+
+## 적용과 혼동 방지
+
+주소 범위를 정하는 작업과 인터넷 통신을 허용하는 작업은 다릅니다. 다른 VPC나 사내 네트워크와 연결할 계획이라면 주소 중복과 확장 여유를 먼저 확인합니다.
 
 ## 운영 확인
 
-- [ ] 확장·다른 VPC·온프레미스 연결을 고려한 주소 공간이 있는가?
+- [ ] 연결할 네트워크와 주소 범위가 겹치지 않는지, 확장할 여유가 있는지 확인했나요?
 
 ## 근거와 한계
 
-2026-09-08에 아래 공식 출처와 기술적 주장을 Agent가 대조했다. 권고는 적용 조건을 따져야 하는 설계 판단이며, 예시는 AWS 실행·개인 실험 결과가 아니다.
+여기서는 IPv4 접두사 표기와 범위 포함 관계를 설명합니다. AWS의 실제 할당 가능 주소와 서비스별 제한은 대상 구성에서 확인합니다.
 
 ## 관련 지식
 
@@ -62,3 +67,4 @@ Classless Inter-Domain Routing 표기로 네트워크 주소 범위를 표현한
 ## 출처
 
 [^vpc-cidr]: [VPC CIDR blocks](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html)
+[^cidr-rfc]: [RFC 4632, section 3.1: Basic Concept and Prefix Notation](https://www.rfc-editor.org/rfc/rfc4632.html)

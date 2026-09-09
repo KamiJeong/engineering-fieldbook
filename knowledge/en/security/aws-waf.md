@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'AWS WAF: web request inspection and false-positive control'
-description: Inspect HTTP requests reaching protected resources and roll out rules progressively.
+description: Separate observation from blocking and explain criteria for checking a new rule’s false positives.
 concept_id: aws-waf
 language: en
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -31,9 +33,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-waf
-  source_fingerprint: sha256:0a790710ac8952b8572ae68ef6b2f533e7e054081265189e490e16ccaac2ceac
-  target_fingerprint: sha256:d0d912429381d52309c7168ce1c0d89c98817eecc71c3bda348a9efa709bc6a4
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:a1381c2236cbe2f4b08e090e8e45a2bb1035d5f8f37c5a0334e83e187b043b66
+  target_fingerprint: sha256:9bc51d41d4afbaf11678dc598b51c6f6e5b795327a92fc17e2ef01497f7c387c
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -41,17 +43,37 @@ translation:
 
 ## Summary
 
-Inspect HTTP requests reaching protected resources and roll out rules progressively.
+A web application receives both legitimate traffic and requests it should block. AWS WAF inspects HTTP and HTTPS requests for supported resources. Check false positives that block legitimate requests as well as attack detection.[^waf][^waf-testing]
 
-## External facts
+## Learning objectives
 
-- WAF inspects HTTP/HTTPS requests for supported resources such as CloudFront, ALB, and API Gateway REST APIs; it is not attached uniformly to every network resource.[^waf]
+Separate observation from blocking and explain criteria for checking a new rule’s false positives.
 
-- A web ACL groups rules and default behavior. Actions include Allow, Block, and Count for observation.[^waf]
+## Prerequisites
 
-- AWS recommends testing changes and observing production traffic in Count mode before enforcement.[^waf-testing]
+Understand how an HTTP request reaches a web application. [Security groups](../cloud/aws-security-group.md) allow network traffic; distinguish them from WAF request inspection.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+WAF inspects HTTP/HTTPS requests for supported resources such as CloudFront, ALB, and API Gateway REST APIs; it is not attached uniformly to every network resource.[^waf]
+
+A web ACL groups rules and default behavior. Current documentation also calls it a protection pack (web ACL). Actions include Allow, Block, and Count for observation.[^waf]
+
+AWS recommends testing changes and observing production traffic in Count mode before enforcement.[^waf-testing]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose you want to introduce a rule. Test it in a testing environment first, then observe matches in Count mode on production traffic. Check whether legitimate login, upload, and webhook requests match and why.
+
+After review, apply Block selectively and observe errors and support reports. Define rollback rules and decision criteria in advance.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Check critical login, upload, and webhook requests for false positives, including with managed rules.
 
@@ -59,19 +81,21 @@ Inspect HTTP requests reaching protected resources and roll out rules progressiv
 
 - Do not treat WAF as a replacement for application authentication, authorization, input validation, or security groups.
 
-## Design example
-
-Observe a new rule in Count mode, then review legitimate requests and match reasons. Apply Block selectively after review, monitoring errors and support reports.
-
-## Operational checks
+### Operational checks
 
 - [ ] Is the web ACL associated with the intended resource and scope?
 - [ ] Are blocks, counts, and effects on legitimate traffic observed per rule?
 - [ ] Are rollback rules and decision metrics defined for urgent false-positive response?
 
+## Check your understanding
+
+**Question:** Can you skip legitimate-request testing for a managed rule?
+
+**Explanation:** Application requests can still match it. Test managed rules and observe them in Count mode before enforcing them.[^waf-testing]
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

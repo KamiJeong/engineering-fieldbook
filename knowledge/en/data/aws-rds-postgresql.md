@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'RDS for PostgreSQL: responsibility boundaries for a managed database'
-description: Separate managed PostgreSQL infrastructure from application data-design responsibilities.
+description: Separate RDS management capabilities from DB operating responsibilities retained by the application
+  team.
 concept_id: aws-rds-postgresql
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-01-06T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-01-07T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -33,9 +36,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-rds-postgresql
-  source_fingerprint: sha256:1f80e736c65c06b96f9ec4effca8330cf059a9843928edc6a65e06d1da5027bf
-  target_fingerprint: sha256:a69906d7ecd1906a851fb68db18965db601193a055b04e98bf9705391eff3f63
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:4e6754dcb5eca7a7c27feaa6f33ac1acbc4eacc804caeb46a64664d640a67811
+  target_fingerprint: sha256:0d1a616da6e660a308e156f7b6b5f13ef3c5b59339fdfeb7693f4fba3b1ea90a
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -43,17 +46,37 @@ translation:
 
 ## Summary
 
-Separate managed PostgreSQL infrastructure from application data-design responsibilities.
+Operating PostgreSQL involves both server management and data design. Amazon RDS for PostgreSQL provides managed DB instances, backups, and related capabilities. You still design and check application tables, queries, and access patterns.[^postgres]
 
-## External facts
+## Learning objectives
 
-- RDS provides PostgreSQL instances, backups, point-in-time recovery, and Multi-AZ options. Supported engine versions are maintained separately.[^postgres]
+Separate RDS management capabilities from DB operating responsibilities retained by the application team.
 
-- RDS does not provide DB host access and restricts some system operations and privileges. Do not assume the same host control as self-managed PostgreSQL.[^postgres]
+## Prerequisites
 
-- Multi-AZ DB instances and Multi-AZ DB clusters are different deployment types. RDS Multi-AZ clusters are also distinct from Aurora clusters.[^multi-instance][^multi-cluster]
+Understand storing data in tables and reading or changing it with SQL queries. See [security groups](../cloud/aws-security-group.md) for networking and [connection pooling](aws-rds-connection-pooling.md) for connection counts.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+RDS provides PostgreSQL instances, backups, point-in-time recovery, and Multi-AZ options. Supported engine versions are maintained separately.[^postgres]
+
+RDS does not provide DB host access and restricts some system operations and privileges. Do not assume the same host control as self-managed PostgreSQL.[^postgres]
+
+Multi-AZ DB instances and Multi-AZ DB clusters are different deployment types. RDS Multi-AZ clusters are also distinct from Aurora clusters.[^multi-instance][^multi-cluster]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose API responses become slow. Separate query execution time, lock waits for other work, pool waits, and storage delays. Establish where time is spent before resizing the instance based only on CPU and memory.
+
+The required result is an observation supporting a cause. A managed DB does not establish that queries and connection settings are already optimized.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Check required extensions, privileges, engine versions, and upgrade paths first.
 
@@ -61,19 +84,21 @@ Separate managed PostgreSQL infrastructure from application data-design responsi
 
 - Explicitly choose retention, availability, capacity, and access policies rather than relying on defaults.
 
-## Design example
-
-When API latency rises, distinguish query, lock, pool, and storage delays before deciding to resize the instance. Record the evidence for the change.
-
-## Operational checks
+### Operational checks
 
 - [ ] Are slow queries, lock waits, and connections observed alongside CPU, memory, and storage?
 - [ ] Are network permissions, DB login privileges, and TLS verification checked separately?
 - [ ] Is there a plan to test upgrades and recovery with representative data?
 
+## Check your understanding
+
+**Question:** Can you access the DB server directly to change its operating system when using RDS?
+
+**Explanation:** RDS does not provide DB host access. Check required extensions, privileges, and versions within the managed service’s supported scope.[^postgres]
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

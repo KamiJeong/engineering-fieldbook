@@ -1,8 +1,8 @@
 ---
 type: Runbook
 title: Responding to Fieldbook audit failures
-description: A procedure for classifying local Fieldbook check failures, repairing
-  their causes, and validating recovery.
+description: A procedure for classifying local Fieldbook check failures, repairing their causes, and validating
+  recovery.
 concept_id: fieldbook-audit-failure
 language: en
 status: stable
@@ -32,7 +32,7 @@ translation:
   source_concept_id: fieldbook-audit-failure
   source_fingerprint: sha256:fad281eb0f06b11290f0f748c37dd10ac7e119e4353c9a389721215291913fdd
   target_fingerprint: sha256:e2b42100be929925f97345a6d92c70639b2e910c530a136874187311f2fd45ca
-  synced_at: '2026-09-08T04:30:37+00:00'
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 

@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'IAM roles: trust policies and temporary session permissions'
-description: Separate who can assume a role from what the resulting session can do.
+description: Distinguish trust-policy and permission-policy questions, and select the relevant ECS application or
+  execution role.
 concept_id: aws-iam-role
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -31,9 +34,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-iam-role
-  source_fingerprint: sha256:115fad24c39925efea2f41c0491ff844d39a971e1d14429903263f389fa9b699
-  target_fingerprint: sha256:7b88c7deb41e4eb6909bc790f96568ccb3e538e83988448795b233251a991900
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:6f59cc20f5554ab869aca6bc1267a814b607c4e7dcde9774608b4bc002009507
+  target_fingerprint: sha256:63be69e6bfa6a881a5e2a6aaeffb05e5d25c89bf5e4f3d473de9c2337b99c9a6
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -41,17 +44,37 @@ translation:
 
 ## Summary
 
-Separate who can assume a role from what the resulting session can do.
+An application can receive AWS permissions without being given a long-term access key directly. An IAM role is an identity you assume to obtain temporary session credentials. Read who can assume it separately from what actions the session can perform.[^iam-role]
 
-## External facts
+## Learning objectives
 
-- A role is an identity that provides temporary session credentials when assumed rather than ordinary long-term passwords or access keys.[^iam-role]
+Distinguish trust-policy and permission-policy questions, and select the relevant ECS application or execution role.
 
-- A trust policy defines principals and conditions for assuming a role; permission policies define session actions. Relevant evaluation rules still determine effective access.[^iam-role]
+## Prerequisites
 
-- For ECS, the application task role and task execution role have distinct purposes.[^ecs-roles]
+Review authentication versus permissions in [IAM users](aws-iam-user.md). Assuming a role means taking on that role. The ECS example uses a [task](../cloud/aws-ecs.md) as its execution unit.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+A role is an identity that provides temporary session credentials when assumed rather than ordinary long-term passwords or access keys.[^iam-role]
+
+A trust policy defines principals and conditions for assuming a role; permission policies define session actions. Relevant evaluation rules still determine effective access.[^iam-role]
+
+For ECS, the application task role and task execution role have distinct purposes.[^ecs-roles]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose a running ECS application cannot read an S3 object. Inspect the application task role and permissions for the target object. If an image cannot be pulled before startup, inspect the task execution role and registry access instead.
+
+Similar-looking permission errors can involve different callers. Identify the failed action and caller before reviewing the policy to avoid granting unnecessarily broad access.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Separate service, deployment, and application roles by purpose and avoid overly broad trust.
 
@@ -59,19 +82,21 @@ Separate who can assume a role from what the resulting session can do.
 
 - Review automatic credential refresh and error handling for expiry or permission changes.
 
-## Design example
-
-For an ECS application reading S3, inspect task-role permissions. For an image-pull failure, distinguish execution-role and registry access before expanding that policy.
-
-## Operational checks
+### Operational checks
 
 - [ ] Can the role session behind a request be identified?
 - [ ] Have trust scope and required AWS actions been reviewed separately?
 - [ ] Does deployment avoid passing unnecessarily broad permissions to the application runtime?
 
+## Check your understanding
+
+**Question:** Does allowing role assumption in a trust policy also allow every AWS action?
+
+**Explanation:** A trust policy concerns who can assume the role. Check session actions against permission policies and the other applicable evaluation rules.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

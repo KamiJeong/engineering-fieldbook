@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'AWS Fargate: managed capacity for ECS'
-description: Reduce host management while explicitly designing task resources, networking, and permissions.
+description: Separate server management handled by Fargate from the resources, networking, and permissions you configure.
 concept_id: aws-fargate
 language: en
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-01-06T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-01-07T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -33,9 +35,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-fargate
-  source_fingerprint: sha256:18daf9f746343fc2b869ca11af0f4de955fdd3bbdb80f8bb5a05b7b50f2b382c
-  target_fingerprint: sha256:1c245ac168ec510a1d29eb347590d7d03f4aa2959de5c04557de58787fdf702c
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:10ad6e5f568798a62c7358724706bc1a4ce9985aa0c4c1770838b5c368d727f8
+  target_fingerprint: sha256:ef0c24e4d66732b848518bf53254b1474f98efae3d20baa866908668319038f2
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -43,17 +45,37 @@ translation:
 
 ## Summary
 
-Reduce host management while explicitly designing task resources, networking, and permissions.
+Using AWS Fargate with ECS reduces the work of managing the server fleet that runs containers. You specify task CPU, memory, networking, and permissions. Less server management still leaves application connectivity and data management to address.[^fargate]
 
-## External facts
+## Learning objectives
 
-- This entry covers Fargate with ECS: specify task CPU, memory, and execution settings without provisioning a server fleet.[^fargate]
+Separate server management handled by Fargate from the resources, networking, and permissions you configure.
 
-- Fargate tasks use awsvpc networking. Configure the task ENI addressing, subnet, and security groups together.[^fargate-tasks][^fargate-network]
+## Prerequisites
 
-- Image pulls, logging, and secret access also need connectivity. Review NAT or the required service endpoints for private subnets.[^fargate-network]
+Review [ECS tasks and services](aws-ecs.md), [subnets](aws-subnets.md), and [IAM roles](../security/aws-iam-role.md). An ENI is the virtual network interface used to connect a task to the network.[^fargate-network]
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+This entry covers Fargate with ECS: specify task CPU, memory, and execution settings without provisioning a server fleet.[^fargate]
+
+Fargate tasks use awsvpc networking. Configure the task ENI addressing, subnet, and security groups together.[^fargate-tasks][^fargate-network]
+
+Image pulls, logging, and secret access also need connectivity. Review NAT or the required service endpoints for private subnets.[^fargate-network]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose a task in a private subnet fails to start. Check the path to its image registry, then the execution role permission to retrieve the image. Check connectivity and permissions for logs and secrets separately.
+
+Connect each observation to the failing stage. Treating a failed image pull as an application-code error sends diagnosis in the wrong direction.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Consider it for reducing host operations, but verify required runtime features and resource combinations.
 
@@ -61,19 +83,21 @@ Reduce host management while explicitly designing task resources, networking, an
 
 - Include NAT, logs, and load balancing alongside task sizing and count in cost reviews.
 
-## Design example
-
-A private task startup failure can involve registry access, execution permissions, DNS, or egress rather than application code. Investigate each boundary separately.
-
-## Operational checks
+### Operational checks
 
 - [ ] Are paths and permissions valid for images, logs, and Secrets Manager separately?
 - [ ] How are in-flight requests handled during task replacement?
 - [ ] Has application concurrency been measured against resource limits?
 
+## Check your understanding
+
+**Question:** Why can a task fail to reach another service even when you do not manage its server?
+
+**Explanation:** Task addressing, subnets, network paths, and execution or application permissions still require separate configuration.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

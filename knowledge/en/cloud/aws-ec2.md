@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'Amazon EC2: virtual servers and operational responsibility'
-description: A compute option for direct control over the OS and instance configuration.
+description: Distinguish instances, AMIs, and instance types, and explain what to check when replacing a server.
 concept_id: aws-ec2
 language: en
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-01-06T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-01-07T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -30,9 +32,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-ec2
-  source_fingerprint: sha256:2d5ef4c1334c131506b3b522076167aecf94df2f21242c74d203ba7b9f7734c1
-  target_fingerprint: sha256:6a69520afeea49280929b5f28b74f14a7cbf858f0b5531fae20685abdebdc35f
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:fa1f965b526d8dfa2ec3cd3efcde395ae8243220b720fdedb6e8dc8a36f4eab2
+  target_fingerprint: sha256:3014e89fe1645f970aae409d08570eaee78993e7eeb6f0e76db3753ebe56d248
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -40,17 +42,37 @@ translation:
 
 ## Summary
 
-A compute option for direct control over the OS and instance configuration.
+A web application needs a server on which to run. Amazon EC2 runs virtual servers in AWS; each server is called an instance. Choosing its operating system and resources also means understanding what you must manage.[^ec2][^shared]
 
-## External facts
+## Learning objectives
 
-- An EC2 instance is a virtual server. An AMI supplies its starting image; the instance type determines compute, memory, and networking resources.[^ec2]
+Distinguish instances, AMIs, and instance types, and explain what to check when replacing a server.
 
-- EBS provides persistent volumes; instance store provides temporary storage. Data retention depends on storage type and deletion settings.[^ec2]
+## Prerequisites
 
-- For self-managed EC2, the customer owns guest OS patching, installed applications, and access configuration.[^shared]
+Understand how an operating system (OS) runs programs on a computer. Read [VPC](aws-vpc.md) and [security groups](aws-security-group.md) alongside this entry if network access configuration is unfamiliar.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+An EC2 instance is a virtual server. An AMI (Amazon Machine Image) supplies a starting image containing the operating system and required software. The instance type determines CPU, memory, networking, and other resources.[^ec2]
+
+EBS provides persistent volumes; instance store provides temporary storage. Data retention depends on storage type and deletion settings.[^ec2]
+
+For self-managed EC2, the customer owns guest OS patching, installed applications, and access configuration.[^shared]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose one of two API servers is being replaced. First establish the request volume the remaining server must handle. Then measure response times and errors at that volume, and check the procedure for restoring configuration and data on the new server.
+
+The criterion is whether the service can sustain the required load and recover during replacement. Server count alone does not answer that question. Record actual measurements separately.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Document why host-level control is required; if containers suffice, compare the operating burden with ECS/Fargate.
 
@@ -58,19 +80,21 @@ A compute option for direct control over the OS and instance configuration.
 
 - Include volumes, snapshots, public addressing, transfer, and operating effort in cost comparisons.
 
-## Design example
-
-Even with two API servers, test capacity while one is replaced. Server count alone does not demonstrate recovery.
-
-## Operational checks
+### Operational checks
 
 - [ ] Can the service and data be restored after replacing an instance?
 - [ ] Are patch ownership, maintenance windows, and application health checks defined?
 - [ ] Are memory, disk, and network bottlenecks monitored alongside CPU?
 
+## Check your understanding
+
+**Question:** Does having two running servers establish that the service will work normally during replacement?
+
+**Explanation:** Check remaining capacity, application health, data restoration, and connection cutover. A count of two does not establish those conditions.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

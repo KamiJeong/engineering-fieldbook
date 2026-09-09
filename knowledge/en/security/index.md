@@ -6,12 +6,12 @@ Scope and suggested learning order: Identity → Cloud Security → Software Sup
 
 Distinguish identities with IAM User / Role, then read policy evaluation. Continue through KMS → Secrets Manager → WAF to distinguish keys, secrets, and web requests.
 
-- [IAM users: exceptional use of long-term credentials](aws-iam-user.md) — Distinguish IAM users from root and roles, managing long-term credentials only where required.
-- [IAM roles: trust policies and temporary session permissions](aws-iam-role.md) — Separate who can assume a role from what the resulting session can do.
-- [IAM policies: explicit permissions and effective-access evaluation](aws-iam-policy.md) — Review all applicable permission boundaries rather than a single policy’s Allow.
-- [AWS KMS: encryption keys and decryption permissions](aws-kms.md) — Design encryption together with key access, retention, and deletion responsibilities.
-- [Secrets Manager: retrieval, rotation, and consumer refresh](aws-secrets-manager.md) — Manage safe consumer updates as well as secret storage.
-- [AWS WAF: web request inspection and false-positive control](aws-waf.md) — Inspect HTTP requests reaching protected resources and roll out rules progressively.
+- [IAM users: exceptional use of long-term credentials](aws-iam-user.md) — Distinguish root, IAM users, and roles, and explain conditions for long-term credential exceptions.
+- [IAM roles: trust policies and temporary session permissions](aws-iam-role.md) — Distinguish trust-policy and permission-policy questions, and select the relevant ECS application or execution role.
+- [IAM policies: explicit permissions and effective-access evaluation](aws-iam-policy.md) — Read policy actions, resources, and conditions, and explain why both permitted and denied requests need checking.
+- [AWS KMS: encryption keys and decryption permissions](aws-kms.md) — Separate key administration from data-decryption permissions and explain recovery implications of rotation and deletion.
+- [Secrets Manager: retrieval, rotation, and consumer refresh](aws-secrets-manager.md) — Distinguish storage, rotation, and consumer refresh, and check new-value adoption by running applications.
+- [AWS WAF: web request inspection and false-positive control](aws-waf.md) — Separate observation from blocking and explain criteria for checking a new rule’s false positives.
 
 Use the [complete AWS learning path](../cloud/index.md) to connect these entries with Network, Compute, and Storage.
 

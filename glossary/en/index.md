@@ -1,6 +1,6 @@
 # Glossary · en
 
-Start with identity terminology. Search existing IDs, abbreviations, and aliases before adding a term.
+Use definitions and short examples when a term is unfamiliar. Start networking with CIDR and Availability Zones, and compare RPO with RTO when learning recovery planning.
 
 - [OIDC](oidc.md) — OpenID Connect.
 

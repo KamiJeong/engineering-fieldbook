@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'IAM Policy: 명시적 허용과 유효 권한 평가'
-description: 한 정책의 Allow 대신 요청에 적용되는 모든 권한 경계를 검토한다.
+description: 정책의 작업·리소스·조건을 읽고, 허용과 거부 요청을 각각 확인할 이유를 설명합니다.
 concept_id: aws-iam-policy
 language: ko
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -33,37 +35,59 @@ sources:
 
 ## 요약
 
-한 정책의 Allow 대신 요청에 적용되는 모든 권한 경계를 검토한다.
+IAM 정책은 요청에 어떤 권한을 적용할지 표현합니다. 읽을 때는 누가 어떤 리소스에 어떤 작업을 요청하는지부터 정리합니다. 정책 하나에 Allow가 있어도 함께 적용되는 제한과 명시적 Deny에 따라 실제 결과가 달라질 수 있습니다.[^iam-policy][^iam-evaluation]
 
-## 외부 사실
+## 학습 목표
 
-- 대부분의 IAM 정책은 JSON이며 identity 기반과 resource 기반 정책 등을 구분한다. 주요 요소는 Effect·Action·Resource·Condition이고 Principal은 정책 종류에 따라 사용한다.[^iam-policy]
+정책의 작업·리소스·조건을 읽고, 허용과 거부 요청을 각각 확인할 이유를 설명합니다.
 
-- 적용 가능한 명시적 Deny는 Allow보다 우선한다. 같은 계정의 identity/resource 정책 관계와 cross-account 권한은 문맥에 맞게 평가한다.[^iam-evaluation]
+## 선수 지식
 
-- Permissions boundary·SCP 같은 제한 정책 자체가 작업 권한을 부여하는 것은 아니다.[^iam-policy]
+[IAM User](aws-iam-user.md)와 [IAM Role](aws-iam-role.md)을 읽습니다. Principal은 요청 주체이고, ARN은 AWS 리소스를 식별하는 이름입니다. JSON은 필드와 값으로 구조화한 데이터 표기입니다.
 
-## 선택 기준과 권고
+## 101 · 개념 이해
 
-- 리소스·작업·조건을 업무에 맞춰 좁히고 wildcard의 이유를 기록한다.
+### 외부 사실
 
-- AccessDenied를 해결할 때 모든 권한을 주기 전에 실제 principal·action·resource·context를 수집한다.
+대부분의 IAM 정책은 JSON으로 표현합니다. 사용자·역할에 연결하는 자격 증명 기반(identity-based) 정책과 리소스에 연결하는 리소스 기반(resource-based) 정책 등을 구분합니다. Effect는 허용·거부, Action은 작업, Resource는 대상, Condition은 적용 조건입니다. Principal은 정책 종류에 따라 요청 주체를 지정할 때 사용합니다.[^iam-policy]
 
-- 허용해야 할 요청뿐 아니라 거부해야 할 요청도 검증한다.
+적용 가능한 명시적 Deny는 Allow보다 우선합니다. 같은 계정의 identity/resource 정책 관계와 cross-account 권한은 문맥에 맞게 평가합니다.[^iam-evaluation]
 
-## 설계 예시
+Permissions boundary는 자격 증명 기반 정책이 사용자·역할에 부여할 수 있는 권한의 상한입니다. 리소스 기반 정책의 허용까지 같은 방식으로 제한한다고 일반화하지 않습니다. SCP(Service Control Policy)는 조직의 계정에 적용하는 권한 제한 정책입니다. 이 제한 정책 자체가 작업 권한을 부여하는 것은 아닙니다.[^iam-policy]
 
-설계 예: 특정 S3 prefix의 객체 읽기는 bucket 목록 조회와 다른 권한 요구다. 리소스 ARN 범위와 필요한 API를 각각 나열하며 이 문장을 배포 가능한 완성 정책으로 취급하지 않는다.
+## 201 · 예제에 적용하기
 
-## 운영 확인
+### 설계 예시
 
-- [ ] 정책을 읽는 identity와 대상 resource가 실제 요청과 일치하는가?
-- [ ] Trust·resource policy·조직 정책·KMS key policy를 필요한 범위에서 확인했는가?
-- [ ] List·Read·Write·Delete 권한을 구분했는가?
+S3의 특정 prefix 아래 객체 읽기를 허용하려는 상황을 가정합니다. 먼저 버킷 목록 조회와 객체 읽기를 서로 다른 작업으로 적습니다. 각 작업에 필요한 API와 리소스 ARN 범위를 확인한 뒤, 허용할 요청과 거부할 요청을 나누어 검증합니다.
+
+이 문장은 배포 가능한 완성 정책이 아닙니다. AccessDenied가 발생하면 권한을 넓히기 전에 실제 요청 주체·작업·리소스·조건과 적용 정책을 수집합니다.
+
+## 301 · 조건에 따라 판단하기
+
+### 선택 기준과 권고
+
+- 리소스·작업·조건을 업무에 맞춰 좁히고 wildcard의 이유를 기록합니다.
+
+- AccessDenied를 해결할 때 모든 권한을 주기 전에 실제 principal·action·resource·context를 수집합니다.
+
+- 허용해야 할 요청뿐 아니라 거부해야 할 요청도 검증합니다.
+
+### 운영 확인
+
+- [ ] 정책을 읽는 identity와 대상 resource가 실제 요청과 일치하나요?
+- [ ] Trust·resource policy·조직 정책·KMS key policy를 필요한 범위에서 확인했나요?
+- [ ] List·Read·Write·Delete 권한을 구분했나요?
+
+## 이해 확인
+
+**질문:** Permissions boundary나 SCP만 추가하면 필요한 작업 권한도 생길까요?
+
+**해설:** 이 정책들은 권한의 상한을 제한하며 자체적으로 작업 권한을 부여하지 않습니다. 허용 정책과 적용되는 제한을 함께 평가해야 합니다.[^iam-policy]
 
 ## 근거와 한계
 
-2026-09-08에 아래 공식 출처와 기술적 주장을 Agent가 대조했다. 권고는 적용 조건을 따져야 하는 설계 판단이며, 예시는 AWS 실행·개인 실험 결과가 아니다. 실제 적용 전 대상 리전·엔진·실행 모드의 지원 범위와 필요한 할당량·가격을 다시 확인한다.
+예제는 개념 설명과 설계 연습이며 AWS에서 실행한 결과가 아닙니다. 권고를 적용할 때는 대상 리전·엔진·실행 모드의 지원 범위, 할당량과 가격을 확인합니다. 출처 대조 범위와 번역 검토는 [문서 변경 이력](../../../log.md)에 기록합니다.
 
 ## 관련 지식
 

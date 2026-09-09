@@ -87,8 +87,8 @@ export async function writePages(
       description =
         data.document?.description ||
         (data.language === "ko"
-          ? "기술 개념, 선택 근거, 실험과 운영 경험을 연결하는 지식공유소."
-          : "Explore technical concepts, decisions, evidence, and operational experience.");
+          ? "기본 개념을 이해하고 예제로 적용하며 기술 선택의 근거를 배우는 지식공유소."
+          : "Understand the fundamentals, apply examples, and learn how to justify technical choices.");
     const html = `<!doctype html><html lang="${escape(data.language)}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} · Fieldbook</title><meta name="description" content="${escape(description)}">${data.notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${escape(config.origin + url)}">`}${Object.entries(
       data.document?.translations ||
         Object.fromEntries(

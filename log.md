@@ -1,5 +1,14 @@
 # Fieldbook knowledge change log
 
+## 2026-09-09
+
+- **Update**: [개념 24쌍](knowledge/ko/index.md)을 101 이해 → 201 가정 예제 적용 → 301 조건별 판단 순서로 편집하고 선수 지식·학습 목표·질문 해설을 추가했다. [용어집 6쌍](glossary/ko/index.md)은 정의·예제·혼동 방지를 보강했다. 원본 경로·concept_id·분류와 기존 출처를 유지하고 README·목차·작성/번역 정책·템플릿에 학습자 중심 기준을 반영했다.
+- **Correction**: [연결 풀](knowledge/ko/data/aws-rds-connection-pooling.md)의 250/450 계산을 직접 DB 연결 가정으로 명시했다. [IAM Policy](knowledge/ko/security/aws-iam-policy.md)는 permissions boundary의 identity-based 범위를 명확히 했고, [AZ](glossary/ko/availability-zone.md)는 이름 매핑의 적용 조건을 보강했다. CIDR·AZ ID·Lambda VPC에 직접 근거를 추가하고 WAF의 현재 공식 명칭을 보완했다.
+- **Verification**: 영어 49개 원본(34개 지식 단위·15개 목차)과 사이트 영어 운영 안내를 대응 한국어와 전수 의미 대조했다. RPO의 13:45 포함 경계를 명시하고 과거 실험의 영어 후속 계획에 누락된 사람의 번역 검토 시간 조건을 정정했다. 34쌍의 지문은 의미 대조 후 기록했다. 사람의 검토를 주장하지 않는다.
+- **Verification**: 지식 출처 55개와 고정 OKF·React Router·Vite·GitHub Pages 공식 자료를 해당 주장 범위에서 대조했다. 현재 개념·용어·체크리스트 31쌍에 언어별 검증 사건과 기존 review_days에 따른 기한을 기록했다. Runbook 운영 검증 시각·기한과 ADR/실험 원본 관측은 보존했다. [대상별 결과와 출처 대응표](policies/learning-review-2026-09-09.md)에 검토 범위·제약을 기록했다.
+
+- **Verification**: 학습 문서 반영 후 `bun run verify`가 통과했다. 문서 Audit 127개·문제 0건, 공개 문서 116개·기존 정책 제외 11개·자산 2개·변환 오류 0건을 확인했다. lint·typecheck, Bun 단위 테스트 17개, Playwright 주요 흐름 18개가 통과했고 119개 HTML과 이전 주소 안내 116개를 생성했다. 하위 경로 정적 서버의 직접 접근·404·JavaScript 없는 학습 본문·검색·언어 전환과 375/768/1440px 라이트·다크 검사를 포함한다. `python3 -m unittest discover -s skills/refresh-fieldbook/scripts -p 'test_*.py'`의 기존 회귀 테스트 18개와 `git diff --check`도 통과했다. 이 결과는 문서·사이트 검증이며 AWS 리소스 실행 검증이 아니다.
+
 ## 2026-09-08
 
 - **Verification**: AWS 추가 후 전체 126개 Markdown의 Audit에서 문제 0건, 한·영 34개 pair의 SYNCED를 확인했다. 요청한 AWS 항목 23/23의 양쪽 문서·출처 대응·Index 연결을 확인했고 18개 회귀 테스트가 통과했다. 새 출처 51개 모두 HTTP 200으로 응답했으며 별도 문서로 잘못 redirect되지 않았다. 자동 Audit의 EXTERNAL_UNCHECKED 표시는 그대로 유지하며, 외부 접속과 기술 내용 대조는 별도 검증으로 기록한다.

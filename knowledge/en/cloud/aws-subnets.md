@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'Public and private subnets: a routing distinction'
-description: Inspect direct internet-gateway routing rather than relying on subnet names.
+description: Distinguish public and private subnets by routing, and trace internet-bound and VPC-local paths in
+  an IPv4 example.
 concept_id: aws-subnets
 language: en
 tags:
@@ -10,13 +11,15 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:04:54Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
 - by: codex/gpt-6
   at: '2026-09-08T05:04:54Z'
-stale_after: '2027-03-07T05:04:54Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-03-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -35,9 +38,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-subnets
-  source_fingerprint: sha256:e36ba2809ced8e19cb79e7b38a311a6c74013aee0bdf1fda1f974e8acecc8303
-  target_fingerprint: sha256:5417696510d4bfb1e195bf79bf02f10834aae5e680ac318f1e026368b6b94887
-  synced_at: '2026-09-08T05:04:54Z'
+  source_fingerprint: sha256:2bed032e69baa64def9de0b4093772871e81e734ca1a104db837f34aa0841fa5
+  target_fingerprint: sha256:dd9788b17c26357c856b213ebaa7b721bcef69afe7bed76dc3bf7fead0aeeb11
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -45,29 +48,33 @@ translation:
 
 ## Summary
 
-Inspect direct internet-gateway routing rather than relying on subnet names.
+A subnet is a range of IP addresses within a VPC. Public and private subnets are distinguished by a direct route to an internet gateway, not by their names. This distinction helps explain communication for public-facing and internal tiers.[^subnets]
 
-## External facts
+## Learning objectives
 
-- A public subnet has a direct route to an internet gateway; a private subnet does not.[^subnets]
+Distinguish public and private subnets by routing, and trace internet-bound and VPC-local paths in an IPv4 example.
 
-- Direct IPv4 internet access also needs a public IPv4/EIP and permitted traffic configuration. Neither the subnet name nor an address alone is sufficient.[^igw]
+## Prerequisites
 
-- Design private-subnet internet egress through an appropriate path such as NAT. Distinguish IPv6 routing and an egress-only internet gateway from IPv4 NAT.[^nat]
+Read [VPC](aws-vpc.md) and [CIDR](../../../glossary/en/cidr.md) first. Routing chooses a path by destination; egress means outbound traffic.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
 
-- Separate internet entry points, applications, and databases, then define required egress.
+### External facts
 
-- Private does not mean disconnected from the internet; an IGW route alone does not expose every instance.
+A public subnet has a direct route to an internet gateway; a private subnet does not.[^subnets]
 
-- Review subnets for the required tiers in each AZ to separate failure domains.
+Direct IPv4 internet access also needs a public IPv4/EIP and permitted traffic configuration. Neither the subnet name nor an address alone is sufficient.[^igw]
 
-## Design example
+Design private-subnet internet egress through an appropriate path such as NAT. Distinguish IPv6 routing and an egress-only internet gateway from IPv4 NAT.[^nat]
 
-IPv4 example: public 0.0.0.0/0 → IGW; private application 0.0.0.0/0 → NAT. VPC-local traffic uses a separate local route. Validate actual traffic permissions as well as this illustrative routing.
+## 201 · Apply the example
 
-This illustrates IPv4 routes with zonal public NAT. AZ redundancy, SG/NACL rules, and permissions are omitted; this is not an actual deployment diagram.
+### Design example
+
+Consider an IPv4 application accessing an external API and an internal DB. Assume the public subnet has a default route 0.0.0.0/0 → IGW and the private application has 0.0.0.0/0 → NAT. Traffic to the DB within the VPC uses a separate local route.
+
+Trace the external API and internal DB paths in the diagram. Check priority if more specific routes exist. Actual communication also requires security-group and network-ACL permissions and service configuration. The diagram illustrates IPv4 with zonal public NAT and omits AZ redundancy, SG/NACL rules, and permissions.
 
 ```mermaid
 flowchart LR
@@ -77,15 +84,31 @@ flowchart LR
     app -->|"VPC local route"| db["Private database subnet"]
 ```
 
-## Operational checks
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
+
+- Separate internet entry points, applications, and databases, then define required egress.
+
+- Private does not mean disconnected from the internet; an IGW route alone does not expose every instance.
+
+- Review subnets for the required tiers in each AZ to separate failure domains.
+
+### Operational checks
 
 - [ ] Have the associated route table and IPv4/IPv6 default routes been checked?
 - [ ] Which resources require image, package, or external API access?
 - [ ] Does the database avoid unnecessary public access paths?
 
+## Check your understanding
+
+**Question:** Is an application in a private subnet unable to use an external API?
+
+**Explanation:** Private means there is no direct IGW route. An outbound connection can be designed with a NAT path and the required permissions, as in this example. Review IPv6 separately.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

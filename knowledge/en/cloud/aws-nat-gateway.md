@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'NAT gateways: egress and availability modes'
-description: Distinguish connectivity types from zonal and regional availability modes.
+description: Distinguish connectivity types from availability modes and explain the application’s egress dependencies.
 concept_id: aws-nat-gateway
 language: en
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -31,9 +33,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-nat-gateway
-  source_fingerprint: sha256:20ca0b0b83dccb3cb62d5e7c923c49c95620bbe75caa46a00a48a6c1d667225e
-  target_fingerprint: sha256:c04fb911054bed1790859d4b290409de2472d5da7e3d0ea2f006fb260e9ce92f
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:1b6652744bea10f14b3017eaea8c3d393d6939d41c31e51845b9c0da335ba0d0
+  target_fingerprint: sha256:af06c5dcbbf76b36fc0c54ede04f0e518fa5739f0ad5fca52b9bf7545ae3f483
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -41,17 +43,37 @@ translation:
 
 ## Summary
 
-Distinguish connectivity types from zonal and regional availability modes.
+An application in a private network may need to call an external API. NAT translates addresses during communication. AWS NAT Gateway distinguishes public connectivity for internet access from private connectivity for private networks, separately from zonal and regional availability modes.[^nat][^regional-nat]
 
-## External facts
+## Learning objectives
 
-- Public NAT enables private resources’ IPv4 internet connections. Zonal public NAT uses a public subnet, EIP, and IGW path. Private NAT connects private networks and cannot provide internet egress through an IGW.[^nat]
+Distinguish connectivity types from availability modes and explain the application’s egress dependencies.
 
-- Regional NAT is also available. It requires no hosting public subnet; automatic mode expands to workload AZs, while manual mode leaves AZ management to the user.[^regional-nat]
+## Prerequisites
 
-- Regional NAT does not support private NAT. Public/private connectivity and zonal/regional availability are different classifications.[^regional-nat]
+Read [subnets](aws-subnets.md), [IGW](aws-internet-gateway.md), and [Availability Zones](../../../glossary/en/availability-zone.md). An EIP is a static public IPv4 address allocated in AWS.[^nat]
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+Public NAT enables private resources’ IPv4 internet connections. Zonal public NAT uses a public subnet, EIP, and IGW path. Private NAT connects private networks and cannot provide internet egress through an IGW.[^nat]
+
+Regional NAT is also available. It requires no hosting public subnet; automatic mode expands to workload AZs, while manual mode leaves AZ management to the user.[^regional-nat]
+
+Regional NAT does not support private NAT. Public/private connectivity and zonal/regional availability are different classifications.[^regional-nat]
+
+## 201 · Apply the example
+
+### Design example
+
+Follow application AZ-A → NAT-A → IGW in a zonal public NAT example. Check whether applications in other AZs also use NAT-A to identify paths that depend on AZ-A.
+
+When considering regional NAT, inspect its separate route table and address-management mode instead of copying this configuration. Responsibility for AZ expansion differs between automatic and manual modes; compare support and cost too.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - For zonal NAT, assess per-AZ egress and failure dependencies. For regional NAT, check support, address-management mode, and cost.
 
@@ -59,19 +81,21 @@ Distinguish connectivity types from zonal and regional availability modes.
 
 - Do not assume NAT fulfills every firewall requirement.
 
-## Design example
-
-Zonal example: application AZ-A → NAT-A → IGW. For regional NAT, review its separate route table and address-management mode rather than assuming a copy of the zonal design.
-
-## Operational checks
+### Operational checks
 
 - [ ] Are the NAT connectivity type and availability mode known?
 - [ ] Have actual egress paths and public source addresses been checked per AZ?
 - [ ] Are throughput, connection failures, processed data, and transfer costs observed?
 
+## Check your understanding
+
+**Question:** Does regional availability mean private NAT is also supported?
+
+**Explanation:** No. Regional is an availability mode; public and private describe connectivity. Regional NAT currently does not support private NAT.[^regional-nat]
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 
