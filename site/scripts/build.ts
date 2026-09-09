@@ -52,6 +52,7 @@ export async function writePages(
     branch: config.branch,
     entries: content.documents.map(entry),
     navigation: content.navigation,
+    learningPaths: content.learningPaths,
     languages: [
       ...new Set(["ko", "en", ...content.documents.map((d) => d.language)]),
     ],

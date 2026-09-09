@@ -12,11 +12,13 @@
 
 먼저 [CIDR](../../../glossary/ko/cidr.md)과 [가용 영역](../../../glossary/ko/availability-zone.md)을 읽고 아래 순서를 따라갑니다. 모든 문서를 처음부터 외울 필요는 없습니다.
 
-1. Network: VPC → Subnet → Route Table → Internet Gateway / NAT Gateway → Security Group.
-2. Identity: IAM User → IAM Role → IAM Policy.
-3. Compute: EC2 → ECS → Fargate → Lambda를 읽고 실행 책임을 비교한다.
-4. Data: RDS PostgreSQL → Connection Pool → Multi-AZ → Backup, S3 → Versioning → Lifecycle.
-5. Protection: KMS → Secrets Manager → WAF를 데이터·인증·요청 경계에 연결한다.
+## 학습 순서
+
+1. Network: [VPC](aws-vpc.md) → [Subnet](aws-subnets.md) → [Route Table](aws-route-table.md) → [Internet Gateway](aws-internet-gateway.md) → [NAT Gateway](aws-nat-gateway.md) → [Security Group](aws-security-group.md).
+2. Identity: [IAM User](../security/aws-iam-user.md) → [IAM Role](../security/aws-iam-role.md) → [IAM Policy](../security/aws-iam-policy.md).
+3. Compute: [EC2](aws-ec2.md) → [ECS](aws-ecs.md) → [Fargate](aws-fargate.md) → [Lambda](aws-lambda.md).
+4. Data: [RDS PostgreSQL](../data/aws-rds-postgresql.md) → [Connection Pool](../data/aws-rds-connection-pooling.md) → [Multi-AZ](../data/aws-rds-multi-az.md) → [Backup](../data/aws-rds-backup.md) → [S3](aws-s3.md) → [Versioning](aws-s3-versioning.md) → [Lifecycle](aws-s3-lifecycle.md).
+5. Protection: [KMS](../security/aws-kms.md) → [Secrets Manager](../security/aws-secrets-manager.md) → [WAF](../security/aws-waf.md).
 
 각 문서의 외부 사실, 조건부 권고, 운영 확인 항목을 구분해 읽는다. 실제 운영 결정과 측정 결과는 ADR과 Experiment에 남긴다.
 

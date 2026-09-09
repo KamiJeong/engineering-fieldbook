@@ -12,11 +12,13 @@ In 101, understand concepts and terms. In 201, follow the calculation or flow of
 
 Start with [CIDR](../../../glossary/en/cidr.md) and [Availability Zones](../../../glossary/en/availability-zone.md), then follow the sequence below. You do not need to memorize every entry first.
 
-1. Network: VPC → Subnets → Route Table → Internet Gateway / NAT Gateway → Security Group.
-2. Identity: IAM User → IAM Role → IAM Policy.
-3. Compute: EC2 → ECS → Fargate → Lambda, comparing execution responsibilities.
-4. Data: RDS PostgreSQL → Connection Pool → Multi-AZ → Backup; S3 → Versioning → Lifecycle.
-5. Protection: connect KMS → Secrets Manager → WAF to data, identity, and request boundaries.
+## Reading order
+
+1. Network: [VPC](aws-vpc.md) → [Subnet](aws-subnets.md) → [Route Table](aws-route-table.md) → [Internet Gateway](aws-internet-gateway.md) → [NAT Gateway](aws-nat-gateway.md) → [Security Group](aws-security-group.md).
+2. Identity: [IAM User](../security/aws-iam-user.md) → [IAM Role](../security/aws-iam-role.md) → [IAM Policy](../security/aws-iam-policy.md).
+3. Compute: [EC2](aws-ec2.md) → [ECS](aws-ecs.md) → [Fargate](aws-fargate.md) → [Lambda](aws-lambda.md).
+4. Data: [RDS PostgreSQL](../data/aws-rds-postgresql.md) → [Connection Pool](../data/aws-rds-connection-pooling.md) → [Multi-AZ](../data/aws-rds-multi-az.md) → [Backup](../data/aws-rds-backup.md) → [S3](aws-s3.md) → [Versioning](aws-s3-versioning.md) → [Lifecycle](aws-s3-lifecycle.md).
+5. Protection: [KMS](../security/aws-kms.md) → [Secrets Manager](../security/aws-secrets-manager.md) → [WAF](../security/aws-waf.md).
 
 Read external facts, conditional recommendations, and operational checks separately. Record actual operating decisions and measurements in ADRs and Experiments.
 

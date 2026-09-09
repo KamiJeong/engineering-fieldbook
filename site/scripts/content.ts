@@ -16,7 +16,7 @@ import GithubSlugger from "github-slugger";
 import type { Root, Definition } from "mdast";
 import type { Root as HtmlRoot } from "hast";
 import { documentUrl, sourceLanguage, encodePath, root, site } from "../config";
-import type { Document, Entry, NavItem } from "../src/model";
+import type { Document, Entry, NavItem, LearningPath } from "../src/model";
 type Meta = Record<string, unknown>;
 export interface Issue {
   code: string;
@@ -339,6 +339,7 @@ export async function collect(directory = root, config = site) {
     }
     report.errors.push({ code: "BROKEN_OR_UNAPPROVED_LINK", source, target });
   }
+  const learningPaths: LearningPath[] = [];
   const navigation: Record<string, NavItem[]> = {},
     indexed = new Set(["index.md", "README.md", "log.md"]);
   for (const [source, { tree, meta, doc }] of parsed) {
@@ -394,6 +395,65 @@ export async function collect(directory = root, config = site) {
         }
       });
       navigation[source] = nav;
+      // Opt-in ordered reading lists in original indexes; never infer pedagogy
+      // from the storage directory or ordinary related-document links.
+      const steps: NavItem[] = [];
+      let readingOrder = false;
+      for (const node of tree.children) {
+        if (node.type === "heading" && node.depth <= 2)
+          readingOrder =
+            node.depth === 2 &&
+            ["학습 순서", "Reading order"].includes(toString(node));
+        if (!readingOrder || node.type !== "list" || !node.ordered) continue;
+        for (const item of node.children) {
+          const section = toString(item).split(":")[0];
+          visit(item, (link) => {
+            const destination =
+              link.type === "link"
+                ? link.url
+                : link.type === "linkReference"
+                  ? definitions.get(link.identifier)?.url
+                  : undefined;
+            if (link.type !== "link" && link.type !== "linkReference") return;
+            if (!destination) {
+              report.errors.push({ code: "INVALID_LEARNING_STEP", source });
+              return;
+            }
+            const target = [...parsed.values()].find(
+              (p) => p.doc.url === destination.split(/[?#]/)[0],
+            )?.doc;
+            if (!target || target.language !== doc.language) {
+              report.errors.push({
+                code: "INVALID_LEARNING_STEP",
+                source,
+                target: destination,
+              });
+              return;
+            }
+            if (steps.some((s) => s.url === target.url)) {
+              report.errors.push({
+                code: "DUPLICATE_LEARNING_STEP",
+                source,
+                target: destination,
+              });
+              return;
+            }
+            steps.push({ title: target.title, url: target.url, section });
+          });
+        }
+      }
+      if (steps.length)
+        learningPaths.push({
+          id: source
+            .split("/")
+            .filter((p) => p !== doc.language)
+            .join("/"),
+          source,
+          title: doc.title,
+          language: doc.language,
+          url: doc.url,
+          steps,
+        });
     }
     const schema = {
       ...defaultSchema,
@@ -458,6 +518,7 @@ export async function collect(directory = root, config = site) {
   return {
     documents: [...parsed.values()].map((p) => p.doc),
     navigation,
+    learningPaths,
     report,
   };
 }
