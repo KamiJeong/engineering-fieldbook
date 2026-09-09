@@ -24,7 +24,7 @@ const labels = {
     alternative: "언어별 문서 목록",
     sources: "출처",
     view: "GitHub에서 보기",
-    edit: "수정 제안",
+    edit: "수정 제안 (GitHub Issue)",
     updated: "수정일",
     unknown: "확인되지 않음",
     empty: "검색 결과가 없습니다.",
@@ -61,7 +61,7 @@ const labels = {
     alternative: "Browse documents by language",
     sources: "Sources",
     view: "View on GitHub",
-    edit: "Suggest an edit",
+    edit: "Suggest an edit (GitHub Issue)",
     updated: "Modified",
     unknown: "Unknown",
     empty: "No matching documents.",
@@ -102,6 +102,22 @@ export function App({ data }: { data: PageData }) {
   const ui = locale === "ko" ? "ko" : "en";
   const t = labels[ui];
   const home = languageHome(data.base, locale);
+  const issueUrl = doc
+    ? `${data.repository}/issues/new?${new URLSearchParams({
+        title: `${ui === "ko" ? "[문서 수정]" : "[Documentation]"} ${doc.title}`,
+        body: [
+          `### ${ui === "ko" ? "대상 문서" : "Document"}`,
+          doc.title,
+          new URL(doc.url, data.origin).href,
+          `${ui === "ko" ? "원본" : "Source"}: ${doc.source}`,
+          "",
+          `### ${ui === "ko" ? "수정이 필요한 내용" : "What needs to change"}`,
+          "",
+          `### ${ui === "ko" ? "제안 내용과 근거" : "Suggested change and supporting references"}`,
+          "",
+        ].join("\n"),
+      })}`
+    : undefined;
   const [dark, setDark] = useState(false),
     [query, setQuery] = useState(""),
     [language, setLanguage] = useState(locale);
@@ -616,11 +632,7 @@ export function App({ data }: { data: PageData }) {
                   >
                     {t.view}
                   </a>
-                  <a
-                    href={`${data.repository}/edit/${encode(data.branch)}/${encode(doc.source)}`}
-                  >
-                    {t.edit}
-                  </a>
+                  <a href={issueUrl}>{t.edit}</a>
                 </div>
               </footer>
             </>
