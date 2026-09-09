@@ -9,11 +9,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-09-08T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-09-09T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -26,9 +28,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: rpo
-  source_fingerprint: sha256:4a2ad73334d3db4e4c459964bc547273e7bc71475129296a093c1237b9ade4ab
-  target_fingerprint: sha256:ee38214cf142f0036127d66bad2a94293f728e51981d926e03fbf2fd0af78484
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:93ff3e7d59ea3636ad5c3dcd8a154a222405f74e094c1b84eccd588c107c235e
+  target_fingerprint: sha256:903e1ba7d8afe2cc29dc57432e85c3c0b242541be5db2246f5caebe4eb82929d
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -36,19 +38,19 @@ translation:
 
 ## Summary
 
-An objective expressing tolerable data loss in time.
+RPO (Recovery Point Objective) expresses acceptable data loss in time. It concerns the gap between service interruption and the most recent point from which data can be recovered.[^dr]
 
 ## External facts
 
-- RPO sets the acceptable gap between the last recovery point and service interruption.[^dr]
-
-## Usage and distinctions
-
-- Distinguish backup retention from RPO and observe the actual recoverable point.
+RPO is the maximum acceptable gap defined by the organization’s business requirements. It differs from backup retention duration.[^dr]
 
 ## Design example
 
-Illustration: an outage at 14:00 with a 15-minute RPO needs a recovery point at 13:45 or later. This is a target example, not a measurement.
+Suppose an outage occurs at 14:00 with a 15-minute RPO. A recovery point at 13:45 or later is needed. If recovery is possible only up to 13:30, the 30-minute gap misses the objective. This explains a target; it is not a measurement.
+
+## Usage and distinctions
+
+Long retention does not establish that the latest recovery point is recent enough. Check the actual restorable time and whether restoration succeeds.
 
 ## Operational checks
 
@@ -56,7 +58,7 @@ Illustration: an outage at 14:00 with a 15-minute RPO needs a recovery point at 
 
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results.
+RPO is an objective, not an automatic service guarantee. Check actual loss and recoverability in the operating environment.
 
 ## Related knowledge
 

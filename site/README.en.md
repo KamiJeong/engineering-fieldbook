@@ -73,7 +73,7 @@ Korean uses the base URL without a language prefix, e.g. `/knowledge/cloud/aws-e
 
 The root home is Korean and `/en/` is English. Interface labels, navigation and the default search filter follow the page language. The header language links navigate to the same concept's translation. Missing translations are disabled with an explicit alternative language-home link; no translation body is generated. Korean-only change history is marked as Korean from English screens. Explicit cross-language links in original article bodies are preserved.
 
-The Notion-inspired interface uses neutral surfaces, a quiet sidebar, readable document typography and compact controls. Light/dark themes, mobile navigation, keyboard search and code/diagram tools remain available.
+The interface uses neutral backgrounds, a simple sidebar, and readable document typography. Light/dark themes, mobile navigation, keyboard search, and code/diagram tools are available.
 
 Previous `/docs/<source-without-md>/` bookmarks receive static noindex article pages generated from the same originals. Without JavaScript the original URL, query and anchor remain while the article stays readable. With JavaScript the browser moves to the canonical URL with query and anchor preserved. `site/dist/redirects.json` lists only public aliases. Search, canonical links and sitemap use the new routes exclusively.
 

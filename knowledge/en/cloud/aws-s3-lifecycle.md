@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'S3 Lifecycle: transition and expiration policies'
-description: Manage retention and cost for objects and historical versions through rules.
+description: Distinguish transition from expiration and assess effects on existing objects and noncurrent versions.
 concept_id: aws-s3-lifecycle
 language: en
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-01-06T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-01-07T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -30,9 +32,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-s3-lifecycle
-  source_fingerprint: sha256:9a2c0d9adc47809e641c568bc4929dec55d34f6fb4de24d9603ef8c4ad60bcd2
-  target_fingerprint: sha256:357c9d812c0107b02642fbad2b32f334a291962b152ff4396b8679f7651e4711
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:45bbb4a3749dc78621118d36871f0666e580446b3f43ceb5ea44989eaa47490e
+  target_fingerprint: sha256:0c38608f73071bf74d40c8c2267f71e887c3184462485b22f7b73ce288a01458
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -40,17 +42,37 @@ translation:
 
 ## Summary
 
-Manage retention and cost for objects and historical versions through rules.
+Rules can determine how long to retain accumulating objects and when to move them to another storage class. In S3 Lifecycle, transitions change storage class and expiration applies expiration handling. The outcome depends on version-retention state.[^lifecycle][^expiration]
 
-## External facts
+## Learning objectives
 
-- Lifecycle rules define storage-class transitions and expiration and also apply to existing objects.[^lifecycle]
+Distinguish transition from expiration and assess effects on existing objects and noncurrent versions.
 
-- Expiration of a current object in a versioning-enabled bucket generally creates a delete marker; deletion of older versions uses separate noncurrent-expiration rules.[^expiration]
+## Prerequisites
 
-- Transitions and minimum-storage-duration rules can affect costs. For general-purpose buckets, do not assume a bucket-policy deny prevents Lifecycle actions.[^lifecycle]
+Read [S3](aws-s3.md) and [Versioning](aws-s3-versioning.md). Storage classes differ in access characteristics and cost; a noncurrent version is a version other than the current one.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+Lifecycle rules define storage-class transitions and expiration and also apply to existing objects.[^lifecycle]
+
+Expiration of a current object in a versioning-enabled bucket generally creates a delete marker; deletion of older versions uses separate noncurrent-expiration rules.[^expiration]
+
+Transitions and minimum-storage-duration rules can affect costs. For general-purpose buckets, do not assume a bucket-policy deny prevents Lifecycle actions.[^lifecycle]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose logs move to another storage class after one period and expire later. First define the investigation retention period and acceptable retrieval delay. Then inspect the existing objects and noncurrent versions that match the rule.
+
+Check that the rule affects only intended targets while meeting retention needs. Choose periods from actual requirements rather than copying an example duration.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Choose transition timing after establishing access frequency, acceptable retrieval delay, and retention requirements.
 
@@ -58,19 +80,21 @@ Manage retention and cost for objects and historical versions through rules.
 
 - Review Versioning together with Lifecycle so cost reduction does not undermine deletion recovery.
 
-## Design example
-
-Design example: transition logs after one period and expire them later. Choose periods from investigation needs and retrieval frequency rather than copying arbitrary durations.
-
-## Operational checks
+### Operational checks
 
 - [ ] Are current versions, noncurrent versions, and delete markers handled distinctly?
 - [ ] Have retrieval delay and minimum-storage conditions been checked for target classes?
 - [ ] Were affected objects and recoverability checked before changing rules?
 
+## Check your understanding
+
+**Question:** Does adding a rule today leave previously stored objects unaffected?
+
+**Explanation:** Lifecycle rules also apply to existing objects. Check affected scope and recoverability before applying them.[^lifecycle]
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

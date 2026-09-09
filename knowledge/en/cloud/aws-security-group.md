@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'Security groups: resource traffic permissions'
-description: Permit resource ingress and egress separately from network routing.
+description: Separate reachability from traffic permission and explain how permissions from multiple security groups
+  combine.
 concept_id: aws-security-group
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-03-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-03-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -33,9 +36,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-security-group
-  source_fingerprint: sha256:4b2653ae442eae08080e288bd8a2580ea5c7b3cc2fc74cee841fe25d3ab67ddf
-  target_fingerprint: sha256:8e5af2bc8eebc51b983bbda7e68395fee2ec4342723d1f409f25c8e8ec360269
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:d60e8aa6ccf9c294f77c6d1dfb1741efc5a4ee7757efa98236838ac5cc891d82
+  target_fingerprint: sha256:7e7855030020082b87beb0919891d3b0cb09f6860026c8a2dba2295fb59c119b
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -43,17 +46,37 @@ translation:
 
 ## Summary
 
-Permit resource ingress and egress separately from network routing.
+A network path does not mean every connection should be allowed. A security group (SG) defines permitted traffic for associated resources. Rules specify the protocol, port, and source or destination.[^sg]
 
-## External facts
+## Learning objectives
 
-- A security group controls traffic for associated resources, using protocol, port, and source or destination rules.[^sg]
+Separate reachability from traffic permission and explain how permissions from multiple security groups combine.
 
-- Security groups provide allow rules only. Multiple groups aggregate permissions; a restrictive group does not cancel another group’s allow rule.[^sg-rules]
+## Prerequisites
 
-- Security groups track connection state and permit responses for ordinary allowed connections. Check connection-tracking behavior when changing rules for existing connections.[^sg-tracking]
+Read [subnets](aws-subnets.md) and [route tables](aws-route-table.md). A port identifies a service for communication on a server; this example uses TCP 5432 for the DB.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+A security group controls traffic for associated resources, using protocol, port, and source or destination rules.[^sg]
+
+Security groups provide allow rules only. Multiple groups aggregate permissions; a restrictive group does not cancel another group’s allow rule.[^sg-rules]
+
+Security groups track connection state and permit responses for ordinary allowed connections. Check connection-tracking behavior when changing rules for existing connections.[^sg-tracking]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose database ingress TCP 5432 allows the application security group as its source. First check the resources associated with both groups. Then check routing and whether the database is listening on that port.
+
+The reference does not grant DB login permissions. When connections fail, investigate network permissions separately from database authentication.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Consider separate application and database groups, allowing the required database port from the application group.
 
@@ -61,19 +84,21 @@ Permit resource ingress and egress separately from network routing.
 
 - Do not use security groups as substitutes for HTTP attack inspection or IAM permissions.
 
-## Design example
-
-Conceptual example: set the source of database ingress TCP 5432 to the application SG. This reference neither creates a network route nor grants database login permissions.
-
-## Operational checks
+### Operational checks
 
 - [ ] Do rule purposes match the resources actually associated?
 - [ ] Has the combined permission set across all groups been reviewed?
 - [ ] Have routes, network ACLs, and listening ports been checked alongside SG rules?
 
+## Check your understanding
+
+**Question:** Can adding a restrictive SG cancel permissions from a broadly permissive SG?
+
+**Explanation:** Permissions from multiple SGs are combined. Review the actual allowing rules; adding a restrictive group does not cancel another group’s allowance.[^sg-rules]
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

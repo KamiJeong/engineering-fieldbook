@@ -2,7 +2,7 @@
 
 Scope and suggested learning order: Architecture principles → API Design → Technical Decision Making.
 
-No detailed concepts yet. Add knowledge when learning or experiments create a concrete need.
+Detailed learning entries for this domain are not yet available. The outline describes intended scope. Read existing concepts in the [AWS learning path](../cloud/index.md) and [document verification](../testing/index.md).
 
 [Glossary](../../../glossary/en/index.md) · [Related domains](../index.md) · [Other language](../../ko/architecture/index.md)
 

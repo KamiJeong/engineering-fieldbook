@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'Amazon VPC: address space and connectivity boundaries'
-description: Design a logically isolated network within an AWS Region.
+description: Explain the relationship between VPCs, subnets, and Availability Zones, and separate address planning
+  from access control.
 concept_id: aws-vpc
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-03-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-03-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -36,9 +39,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-vpc
-  source_fingerprint: sha256:1ec3f629fe9465e62dd3c0ed7059cea8016d08a3db4d24b143ef07de4800292f
-  target_fingerprint: sha256:110c743e4b39fac5f25103b2328a3f016eca16a0e03c44162275943d780871cc
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:d4347a7bee4caa460c449b1a7ce836e64f16c0989ec690051f95dab9070f6ae8
+  target_fingerprint: sha256:41c0a32f7104a54fbfa1001150c5e68d96c50e8c8b6c7369cdea543e476f1c07
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -46,17 +49,37 @@ translation:
 
 ## Summary
 
-Design a logically isolated network within an AWS Region.
+Servers and databases need address ranges and paths to communicate. Amazon VPC provides a logically separate network within AWS. You divide it into subnets and configure routes for their purposes.[^vpc]
 
-## External facts
+## Learning objectives
 
-- A VPC is a logical network with configurable address ranges, subnets, routing, and connectivity.[^vpc]
+Explain the relationship between VPCs, subnets, and Availability Zones, and separate address planning from access control.
 
-- A VPC spans Availability Zones within one Region; a conventional subnet resides in one AZ.[^vpc-basics][^subnets]
+## Prerequisites
 
-- Plan VPC and subnet addressing with CIDR. Review address overlap with networks that must be connected.[^vpc-cidr]
+An IP address identifies a communication destination on a network. Start with [CIDR](../../../glossary/en/cidr.md) for address ranges and [Availability Zones](../../../glossary/en/availability-zone.md) for placement.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+A VPC is a logical network with configurable address ranges, subnets, routing, and connectivity.[^vpc]
+
+A VPC spans Availability Zones within one Region; a conventional subnet resides in one AZ.[^vpc-basics][^subnets]
+
+Plan VPC and subnet addressing with CIDR. Review address overlap with networks that must be connected.[^vpc-cidr]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose a VPC has the range 10.40.0.0/16. First divide the required address blocks by Availability Zone and assign purposes to application and DB subnets. Then check for overlap with connected networks and room for growth.
+
+The range is illustrative. Dividing address space does not finish traffic authorization; review routes and security groups separately.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Budget IP space for task ENIs, databases, and growth, not just current servers.
 
@@ -64,19 +87,21 @@ Design a logically isolated network within an AWS Region.
 
 - Choose environment, account, and Region separation based on required isolation and connectivity costs.
 
-## Design example
-
-Design example: divide 10.40.0.0/16 by AZ and separate application and database subnets. This is illustrative; select ranges after checking the organization’s existing networks.
-
-## Operational checks
+### Operational checks
 
 - [ ] Have overlap and address-space growth been reviewed?
 - [ ] Are DNS resolution and endpoint access paths documented?
 - [ ] Can each subnet be mapped to its AZ, route table, and purpose?
 
+## Check your understanding
+
+**Question:** Does creating a VPC automatically make every resource inside it safe?
+
+**Explanation:** Address-space separation and access control are different. Review routing, security groups, and IAM permissions separately.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

@@ -11,11 +11,13 @@ status: stable
 learning_state: backlog
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T03:00:05Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T03:00:05Z'
-stale_after: '2027-09-08T03:00:05Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-09-09T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -28,9 +30,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: oidc
-  source_fingerprint: sha256:e6a7d4c04dfad5bd2ea9a99037e1b0f5682b4b5c5b7749bf0fa93161890ba4c4
-  target_fingerprint: sha256:f0ac4137c7f458f827ad16e3d639be509fa8e1addab827b946e56b36c6c5b569
-  synced_at: '2026-09-08T03:00:05Z'
+  source_fingerprint: sha256:958ba2fcc0d51b69a09498bf3cef6e4b90784983d14342491544ad2b96767c91
+  target_fingerprint: sha256:bf388763402faff93af9ae3d9d407dabaebc61133f606ebf7725409bc91324d9
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -38,22 +40,28 @@ translation:
 
 ## Term and aliases
 
-OIDC stands for OpenID Connect.
+OIDC stands for OpenID Connect. It is useful when learning how an application uses an external service’s login result to establish who a user is.
 
 ## External facts: definition
 
-OpenID Connect 1.0 adds an authentication layer to OAuth 2.0. It lets a client establish an end user's identity based on authentication performed by an authorization server and receive claims about that user.[^oidc-core]
+OpenID Connect 1.0 adds an authentication layer to OAuth 2.0. A client can establish user identity from authentication performed by an authorization server and receive information about the user. A claim is a named value carrying such information.[^oidc-core]
 
-An ID Token is a JWT containing claims about the user's authentication.[^oidc-core]
+An ID Token contains claims about user authentication and is represented as a JSON Web Token (JWT).[^oidc-core]
+
+## Understand through an example
+
+Consider an application receiving a login result. Who issued the token (`iss`), which user it represents (`sub`), and which client it targets (`aud`) are different questions. The presence of fields alone does not complete validation; actual validation rules must be applied separately.[^oidc-core]
 
 ## Distinctions
 
-OIDC and OAuth 2.0 are distinct terms. This entry covers authentication and ID Tokens; it does not cover API authorization design or configuration for a particular provider.
+Authentication establishes identity; authorization determines allowed actions. Do not use OIDC and OAuth 2.0 interchangeably or extend an ID Token explanation into a complete API authorization design.
 
 ## Scope and verification
 
-Verification for this example covers the Introduction and ID Token definitions in Core 1.0. It does not test a service's token-validation implementation or production behavior. No personal experiment or architecture decision is recorded yet.
+The scope covers the Introduction and ID Token definitions and claims in Core 1.0. It does not test provider configuration, a token-validation implementation, or production behavior.
 
 [Security](../../knowledge/en/security/index.md) · [한국어](../ko/oidc.md)
 
-[^oidc-core]: [OpenID Connect Core 1.0, Introduction and ID Token](https://openid.net/specs/openid-connect-core-1_0.html)
+## Sources
+
+[^oidc-core]: [OpenID Connect Core 1.0 incorporating errata set 2](https://openid.net/specs/openid-connect-core-1_0.html)

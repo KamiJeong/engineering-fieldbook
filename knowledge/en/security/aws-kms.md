@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'AWS KMS: encryption keys and decryption permissions'
-description: Design encryption together with key access, retention, and deletion responsibilities.
+description: Separate key administration from data-decryption permissions and explain recovery implications of rotation
+  and deletion.
 concept_id: aws-kms
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -37,9 +40,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-kms
-  source_fingerprint: sha256:121db190c66a73c9fe9e8b190027fd1cb84d3ccf6ecf32528c5d62c685a81ce3
-  target_fingerprint: sha256:ce476ae9d8310161708a0d7977a297f6260869d463022a16f7a56e465da8fff3
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:87a193b2e5505709349dded825abf8f8ae530eef4ee3b6cca5006b0a879eee1d
+  target_fingerprint: sha256:0276eadbd3c06974a66f3fc5e4a77822842061b8e857d9fa2c6c4958c663d432
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -47,17 +50,37 @@ translation:
 
 ## Summary
 
-Design encryption together with key access, retention, and deletion responsibilities.
+Reading encrypted data requires the necessary key and permission to use it. AWS KMS creates and manages keys used for encryption and signing. Data-retention plans also need to retain usable keys and access permissions.[^kms][^kms-policy]
 
-## External facts
+## Learning objectives
 
-- KMS creates, manages, and uses keys for encryption and signing. Its purpose differs from storing application passwords in Secrets Manager.[^kms]
+Separate key administration from data-decryption permissions and explain recovery implications of rotation and deletion.
 
-- The key policy is central to key access. An IAM Allow alone may not enable use; check whether the key policy enables IAM delegation.[^kms-policy]
+## Prerequisites
 
-- Key-material rotation is not bulk re-encryption of existing data. Deleting a key can remove required decryption capability.[^kms-rotation][^kms-delete]
+Encryption transforms data into a protected form; decryption makes it readable again. See [IAM policies](aws-iam-policy.md) for access evaluation and [Secrets Manager](aws-secrets-manager.md) for password storage.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+KMS creates, manages, and uses keys for encryption and signing. Its purpose differs from storing application passwords in Secrets Manager.[^kms]
+
+The key policy is central to key access. An IAM Allow alone may not enable use; check whether the key policy enables IAM delegation.[^kms-policy]
+
+Key-material rotation is not bulk re-encryption of existing data. Deleting a key can remove required decryption capability.[^kms-rotation][^kms-delete]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose an encrypted backup snapshot is restored in another environment. After checking the data copy, check that the recovery environment can use the necessary key and that the actual caller is permitted to do so.
+
+A backup file alone does not complete recovery. Include the possibility of missing keys or permissions preventing decryption.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Separate key-administration ownership from data-decryption permissions.
 
@@ -65,19 +88,21 @@ Design encryption together with key access, retention, and deletion responsibili
 
 - Identify dependent data before key deletion; do not remove recovery capability solely to reduce cost.
 
-## Design example
-
-Retaining a backup snapshot is insufficient if its data cannot be decrypted with available keys and permissions. Include key access in recovery validation.
-
-## Operational checks
+### Operational checks
 
 - [ ] Do the service caller and key-using principal have the required permissions?
 - [ ] Can encrypted backups be decrypted in the recovery environment?
 - [ ] Are rotation, disabling, and deletion impacts understood separately?
 
+## Check your understanding
+
+**Question:** Does rotating a key re-encrypt all previously stored data?
+
+**Explanation:** Key-material rotation is not bulk re-encryption of existing data. Review rotation, disabling, and deletion as separate operations.[^kms-rotation]
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

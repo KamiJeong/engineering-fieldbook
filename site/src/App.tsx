@@ -32,7 +32,8 @@ const labels = {
     notFound: "문서를 찾을 수 없습니다",
     notFoundBody:
       "주소가 변경되었거나 게시 대상이 아닌 문서입니다. 홈이나 검색에서 찾아보세요.",
-    intro: "개념을 읽고, 선택의 근거와 운영 경험을 연결합니다.",
+    intro:
+      "기본 개념을 이해하고, 예제로 적용하며, 기술 선택의 근거를 배웁니다.",
     skip: "본문으로 이동",
     results: "검색 결과",
     translation: "문서 번역",
@@ -69,7 +70,7 @@ const labels = {
     notFoundBody:
       "The address may have changed or the document is not published. Try home or search.",
     intro:
-      "Connect technical concepts with decisions, evidence, and operational experience.",
+      "Understand the fundamentals, apply examples, and learn how to justify technical choices.",
     skip: "Skip to content",
     results: "Search results",
     translation: "Document translations",
@@ -568,7 +569,9 @@ export function App({ data }: { data: PageData }) {
           ) : (
             <>
               <p className="eyebrow">
-                {ui === "ko" ? "우리의 기술 지식" : "Our engineering knowledge"}
+                {ui === "ko"
+                  ? "개념부터 설계 판단까지"
+                  : "From concepts to design decisions"}
               </p>
               <h1 className="home-title">
                 {ui === "ko" ? "지식 공유소" : "Engineering Fieldbook"}

@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'Amazon ECS: orchestrating tasks and services'
-description: A service for defining, deploying, and maintaining container workloads.
+description: Distinguish task definitions, tasks, and services, and evaluate task count separately from deployment
+  success.
 concept_id: aws-ecs
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-01-06T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-01-07T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -30,9 +33,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aws-ecs
-  source_fingerprint: sha256:5bc8124ccfc1731e7287d1b774febbe34f72966f314d6d24db5bbc4f6c04d1cb
-  target_fingerprint: sha256:fe05271a5439cee700b55687e32148eb9ca283586f00e6be2507fdef0bca4de3
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:917fa63206b2edd692278b25ca121fa9110aad2297d75803226b0df8e2068346
+  target_fingerprint: sha256:ba4248112d0e2b762f7378e5254ed116ef6b496f256f13c1227737b206b9b269
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -40,17 +43,37 @@ translation:
 
 ## Summary
 
-A service for defining, deploying, and maintaining container workloads.
+A containerized application still needs decisions about where to run, how many copies to maintain, and how to replace them. Amazon ECS manages execution and deployment. A task definition describes what to run; a task is an execution unit created from that definition.[^ecs]
 
-## External facts
+## Learning objectives
 
-- ECS orchestrates containers. EC2 and Fargate are capacity choices; current options also include Managed Instances and external servers.[^ecs]
+Distinguish task definitions, tasks, and services, and evaluate task count separately from deployment success.
 
-- A task definition describes execution; a task is an execution unit. A service manages long-running tasks and deployment.[^ecs]
+## Prerequisites
 
-- Separate the task role for application AWS API calls from the task execution role for setup such as image pulls and configured logging or secret injection.[^ecs-roles]
+Start with a container image as a packaged application for deployment. Compare server responsibilities in [EC2](aws-ec2.md) and an alternative capacity choice in [Fargate](aws-fargate.md).
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+ECS orchestrates containers. EC2 and Fargate are capacity choices; current options also include Managed Instances and external servers.[^ecs]
+
+A task definition describes execution; a task is an execution unit. A service manages long-running tasks and deployment.[^ecs]
+
+Separate the task role for application AWS API calls from the task execution role for setup such as image pulls and configured logging or secret injection.[^ecs-roles]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose a service maintains two tasks for an API that continuously accepts requests. When a new task starts, first check that it is ready to receive requests. Then check actual traffic delivery and errors.
+
+A desired count of two is a starting configuration. Sustaining the required throughput during failures or deployment needs separate load testing.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Consider a service for a persistent API and a standalone task for work that finishes and exits.
 
@@ -58,19 +81,21 @@ A service for defining, deploying, and maintaining container workloads.
 
 - Review task scaling separately from underlying capacity scaling.
 
-## Design example
-
-A desired count of two tasks still requires capacity testing during failures and deployments; it is not an availability guarantee.
-
-## Operational checks
+### Operational checks
 
 - [ ] Are task-definition revisions and image identities traceable?
 - [ ] Can stop reasons, permissions, and health checks explain failed deployments?
 - [ ] Are application and execution permissions separated?
 
+## Check your understanding
+
+**Question:** What else should you inspect if a new task starts but user requests fail?
+
+**Explanation:** Inspect readiness and health checks, actual traffic, errors, and stop reasons. Task startup and successful user requests are different observations.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 

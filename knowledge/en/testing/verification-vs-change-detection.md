@@ -1,19 +1,20 @@
 ---
 type: Concept
 title: Separating change detection from knowledge verification
-description: Uses a Fieldbook experiment to distinguish fingerprints, freshness, and
-  semantic verification.
+description: Uses a Fieldbook experiment to distinguish fingerprints, freshness, and semantic verification.
 concept_id: verification-vs-change-detection
 language: en
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T04:30:37+00:00'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T04:30:37+00:00'
 - by: codex/gpt-6
   at: '2026-09-08T04:33:59+00:00'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -26,13 +27,13 @@ sources:
 - id: experiment
   resource: ../../../experiments/evidence/2026-09-08-fieldbook-audit/result.json
   title: Observed experiment results
-stale_after: '2027-01-06T04:33:59+00:00'
+stale_after: '2027-01-07T00:46:30+00:00'
 translation:
   source_language: ko
   source_concept_id: verification-vs-change-detection
-  source_fingerprint: sha256:88ec84200e1b0ccbb8b06f942ca4ae38cf67fed1ed28c902dfee44c76f6cb075
-  target_fingerprint: sha256:f29049045002b6b3c859815dc6880219ef292bae909151ca7a9bda4e7087973e
-  synced_at: '2026-09-08T04:30:37+00:00'
+  source_fingerprint: sha256:13dfde137d48495d78d28709015bc0e45f5826581f747b3bfee94398bb262fa3
+  target_fingerprint: sha256:386608666d49e5017df9b2217eb17fec96b393ac8d3c301cabaf0460e1d09409
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -40,28 +41,50 @@ translation:
 
 ## Summary
 
-Change detection identifies inputs that differ from a reviewed version. Knowledge verification checks whether a claim agrees with its evidence and applicability. Using the same completion criterion for both can make outdated facts or incorrect translations appear valid.
+A successful document check still leaves factual correctness and translation meaning to review. Change detection finds inputs that differ from the last reviewed version. Knowledge verification compares claims with evidence and applicability.
 
-## Facts confirmed from the implementation
+## Learning objectives
 
-Fieldbook uses a [content fingerprint](../../../glossary/en/content-fingerprint.md) to detect differences from the last reviewed version. Updating verification metadata without changing the body preserves the translation hash. `stale_after` identifies when review is due; it does not declare the content false.[^checker]
+Distinguish hash-based change detection from semantic verification and choose the next review action from a check result.
 
-## Direct experiment
+## Prerequisites
 
-In isolated fixtures, a Korean edit produced TRANSLATION_STALE and an independent English edit produced CONTENT_DIVERGED. Replacing the English body with unrelated content and resetting its target fingerprint produced SYNCED. This observation demonstrates the need for separate semantic review; it is not evidence of a hashing defect.[^experiment]
+Read [content fingerprints](../../../glossary/en/content-fingerprint.md) first. Here, a CLI is a tool run through terminal commands; a fixture is a set of test files prepared to establish test conditions.
 
-## Engineering Recommendation
+## 101 · Understand the concept
 
-- Use automated checks to find review candidates. Do not report SYNCED or exit 0 as completed technical verification.
-- Preserve the body and generated metadata during Verify-only work. Record the evidence and scope instead of merely extending dates.
-- Compare conditions, recommendation strength, and exceptions before recording new translation fingerprints.
-- Distinguish fixing the target problem from passing the full Audit. Other problems can remain after one repair.
+### Facts confirmed from the implementation
 
-These recommendations apply to this repository's checker and observed behavior. They make no broader claims about other systems' security or performance.
+Fieldbook compares a content fingerprint with its last reviewed fingerprint. Keeping the body and hash input fields unchanged while updating only verification metadata preserves the translation hash. `stale_after` identifies when to review again; passing that date does not declare the content false.[^checker]
+
+## 201 · Apply the example
+
+### Direct experiment
+
+These observations come from the local experiment recorded on 2026-09-08. Changing Korean in isolated test files produced TRANSLATION_STALE; changing English independently produced CONTENT_DIVERGED. Replacing English with unrelated content and resetting the target fingerprint produced SYNCED.[^experiment]
+
+Read this result as two questions. The check answers whether current inputs match the stored fingerprint. Establishing whether English conveys the Korean meaning requires reading both bodies. The experiment did not measure a hashing defect or a translation-quality score.
+
+## 301 · Make a conditional judgment
+
+### Engineering Recommendation
+
+- Use automated checks to locate review candidates. Do not report SYNCED or exit 0 as completed technical verification.
+- During Verify, when content remains correct, preserve the body and `generated`. Record inspected sources and scope instead of merely extending dates.
+- Compare assumptions, recommendation strength, and exceptions before recording new translation fingerprints.
+- Distinguish fixing one error from passing the whole Audit. Other findings can remain after the target error disappears.
+
+These recommendations apply to this repository’s checker and observations. They are not general conclusions about other systems’ security or performance.
+
+## Check your understanding
+
+**Question:** Is translation review complete if you reset fingerprints to obtain SYNCED without reading the English body?
+
+**Explanation:** Only the match between the fingerprint and current file has been checked. Read and compare both languages for claims, conditions, exceptions, and evidence separately.
 
 ## Evidence and Limits
 
-The experiment covered local files and CLI behavior. It did not measure model translation quality, changes to external source content, or recovery of a production service. Begin with a 120-day review period and re-review when the checker or policy changes.
+The original experiment covered local files and CLI behavior. It did not measure model translation quality, external URL content changes, or production-service recovery. The review interval is 120 days, with re-review when the checker or policy changes. Record subsequent review in the [document change log](../../../log.md) and preserve historical experiment results.
 
 ## Related Knowledge
 

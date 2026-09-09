@@ -6,3 +6,4 @@
 - [Metadata](metadata.md) — OKF v0.2 표준과 Fieldbook 확장.
 - [Maintenance](maintenance.md) — 작성, 출처, freshness, 검증과 변경 기록.
 - [Translation](translation.md) — 언어 대응, fingerprint와 의미 검토.
+- [학습 문체·번역·기술 출처 검토](learning-review-2026-09-09.md) — 2026-09-09의 대상별 대조와 검증 경계.

@@ -9,11 +9,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-03-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-03-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: low
@@ -23,12 +25,15 @@ sources:
 - id: az
   resource: https://docs.aws.amazon.com/global-infrastructure/latest/regions/aws-availability-zones.html
   title: AWS Availability Zones
+- id: az-ids
+  resource: https://docs.aws.amazon.com/global-infrastructure/latest/regions/az-ids.html
+  title: AZ IDs
 translation:
   source_language: ko
   source_concept_id: availability-zone
-  source_fingerprint: sha256:418a020ec70507deef71a2ba8e9cb3429f2a09f999fbabc94aa6f68926ac6a65
-  target_fingerprint: sha256:50afe8696204d18224d20fa39e4a97f8adc807c4b360ca110ecb3c01d807bbac
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:8ee2ce924a05873777d4f69e041892e52393529b3edb173eb24db1188115d7b9
+  target_fingerprint: sha256:0accba5d5f0990a4be9ede1e0d08990b1a72b3d48082f1229901fce2eb72b92c
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -36,21 +41,19 @@ translation:
 
 ## Summary
 
-A term for fault isolation and placement within an AWS Region.
+An Availability Zone (AZ) is a placement unit designed to isolate infrastructure failures within an AWS Region. Placing resources in multiple AZs supports designs that prepare for an AZ failure.[^az]
 
 ## External facts
 
-- An AZ is an infrastructure isolation unit within a Region. Placement across AZs provides a basis for fault isolation.[^az]
-
-- Use AZ IDs to identify the same physical AZ across accounts. Do not assume an AZ name alone establishes that identity.[^az]
-
-## Usage and distinctions
-
-- Verify multi-AZ placement and application recovery capability separately.
+Use an AZ ID to identify the same physical AZ across accounts. In some older Regions and accounts, a name such as `us-east-1a` can refer to different locations. This does not mean names are mapped differently in every Region.[^az-ids]
 
 ## Design example
 
-Two servers in one AZ do not establish resilience to an AZ failure merely by being two servers.
+Suppose two servers are in the same AZ. Both can be affected if that AZ becomes unavailable, so server count alone does not establish AZ resilience. Even with placement in different AZs, check remaining throughput and data paths.
+
+## Usage and distinctions
+
+Multi-AZ placement is a foundation for recovery design. Actual application failover and request handling need separate verification.
 
 ## Operational checks
 
@@ -58,7 +61,7 @@ Two servers in one AZ do not establish resilience to an AZ failure merely by bei
 
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results.
+This entry explains terminology and placement principles. It does not guarantee recovery success or time for a specific application.
 
 ## Related knowledge
 
@@ -71,3 +74,4 @@ An agent compared the technical claims with the official sources below on 2026-0
 ## Sources
 
 [^az]: [AWS Availability Zones](https://docs.aws.amazon.com/global-infrastructure/latest/regions/aws-availability-zones.html)
+[^az-ids]: [AZ IDs](https://docs.aws.amazon.com/global-infrastructure/latest/regions/az-ids.html)

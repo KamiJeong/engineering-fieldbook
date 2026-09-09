@@ -1,7 +1,8 @@
 ---
 type: Concept
 title: 'AWS Lambda: event-driven function execution'
-description: Design invocation-based execution together with concurrency, retries, and dependencies.
+description: Explain invocation time and state constraints, and define handling criteria for repeated delivery of
+  an event.
 concept_id: aws-lambda
 language: en
 tags:
@@ -10,11 +11,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2026-12-07T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2026-12-08T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -37,12 +40,15 @@ sources:
 - id: compute-guide
   resource: https://docs.aws.amazon.com/decision-guides/latest/decision-guides/fargate-or-lambda.html
   title: AWS Fargate or AWS Lambda?
+- id: lambda-vpc-access
+  resource: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html
+  title: Giving Lambda functions access to resources in an Amazon VPC
 translation:
   source_language: ko
   source_concept_id: aws-lambda
-  source_fingerprint: sha256:432053e9661a59a09108deaa52e10bc3bc670ecf612b88ea2d4dd7313ea890eb
-  target_fingerprint: sha256:2f0d61f8b03380d4b0e7626025bb4f0f48d367bece584267b35297b366eb8c7f
-  synced_at: '2026-09-08T05:01:30Z'
+  source_fingerprint: sha256:ce0990157870f96900d0034908661a25b0509d0a7794f459c73bb87cad9ab32f
+  target_fingerprint: sha256:c513aa6ab94f78aa2c440a337c1c39f7b3c012997dc807fd439fba8219d14953
+  synced_at: '2026-09-09T00:46:30+00:00'
   review_status: SYNCED
 ---
 
@@ -50,17 +56,37 @@ translation:
 
 ## Summary
 
-Design invocation-based execution together with concurrency, retries, and dependencies.
+An event-driven function can run code when something happens, such as a file upload. With AWS Lambda Functions, you write the function to invoke and let the service manage its execution environment. This entry covers conventional invocations; MicroVMs, Managed Instances, and long-running workflows are separate scopes.[^lambda][^compute-guide]
 
-## External facts
+## Learning objectives
 
-- This entry focuses on conventional Lambda Functions, distinguishing them from current alternatives such as MicroVMs and Managed Instances.[^lambda][^compute-guide]
+Explain invocation time and state constraints, and define handling criteria for repeated delivery of an event.
 
-- The current timeout limit for a conventional invocation is 900 seconds. Correctness must not depend on state surviving between invocations, even if environments are reused.[^lambda-limits][^lambda]
+## Prerequisites
 
-- Attaching a conventional VPC-connected function to a public subnet does not itself provide a public IP or internet access.[^lambda-vpc]
+Understand function invocation and external API requests. Review [connection pooling](../data/aws-rds-connection-pooling.md) for DB access and [subnets](aws-subnets.md) for private networking.
 
-## Selection criteria and recommendations
+## 101 · Understand the concept
+
+### External facts
+
+This entry focuses on conventional Lambda Functions, distinguishing them from current alternatives such as MicroVMs and Managed Instances.[^lambda][^compute-guide]
+
+The current timeout limit for a conventional invocation is 900 seconds. Correctness must not depend on state surviving between invocations, even if environments are reused.[^lambda-limits][^lambda]
+
+Attaching a conventional VPC-connected function to a public subnet does not itself provide a public IP or internet access.[^lambda-vpc][^lambda-vpc-access]
+
+## 201 · Apply the example
+
+### Design example
+
+Suppose a function processes an uploaded file. First check the conditions under which its upload event can be delivered again. Then consider using the event identifier and processing state to distinguish completed requests.
+
+The result to check is whether repeated execution avoids unwanted side effects. Safety when two invocations update state concurrently still needs verification against the actual store’s atomic update behavior.
+
+## 301 · Make a conditional judgment
+
+### Selection criteria and recommendations
 
 - Consider it for short event handling; compare execution models first for long-running processes or sessions.
 
@@ -68,19 +94,21 @@ Design invocation-based execution together with concurrency, retries, and depend
 
 - Set concurrency and queuing so function scaling does not overwhelm database connections or external API limits.
 
-## Design example
-
-Record upload-event identity and processing state to reason about duplicates. Validate transition atomicity for the actual data store.
-
-## Operational checks
+### Operational checks
 
 - [ ] Are timeouts, errors, throttling, concurrency, and dependency latency observed?
 - [ ] Have internal database and external API paths been tested separately?
 - [ ] Have duplicate side effects under retries been tested?
 
+## Check your understanding
+
+**Question:** Does one successful invocation finish retry testing?
+
+**Explanation:** Check repeated and concurrent processing of the same event, as well as retries after failure. One successful invocation does not demonstrate the absence of duplicate side effects.
+
 ## Evidence and limits
 
-An agent compared the technical claims with the official sources below on 2026-09-08. Recommendations are conditional design judgments; examples are not AWS execution or personal experiment results. Before implementation, recheck support for the target Region, engine, and execution mode, along with relevant quotas and prices.
+Examples explain concepts and support design exercises; they are not AWS execution results. Before applying recommendations, check support for the target Region, engine, and execution mode, along with quotas and prices. Source-comparison scope and translation review are recorded in the [document change log](../../../log.md).
 
 ## Related knowledge
 
@@ -98,3 +126,5 @@ An agent compared the technical claims with the official sources below on 2026-0
 [^lambda-vpc]: [Enable internet access for VPC-connected Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc-internet.html)
 [^lambda-practices]: [Best practices for working with AWS Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html)
 [^compute-guide]: [AWS Fargate or AWS Lambda?](https://docs.aws.amazon.com/decision-guides/latest/decision-guides/fargate-or-lambda.html)
+
+[^lambda-vpc-access]: [Giving Lambda functions access to resources in an Amazon VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html)

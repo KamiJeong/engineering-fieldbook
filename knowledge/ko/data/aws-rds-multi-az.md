@@ -1,7 +1,7 @@
 ---
 type: Concept
 title: 'RDS Multi-AZ: instance와 cluster 구분'
-description: 고가용성 배포 형태와 읽기 처리 가능 여부를 구분한다.
+description: 단일 standby 구성과 reader가 있는 cluster를 구분하고, 가용성과 읽기 확장을 따로 판단합니다.
 concept_id: aws-rds-multi-az
 language: ko
 tags:
@@ -10,11 +10,13 @@ tags:
 status: stable
 generated:
   by: codex/gpt-6
-  at: '2026-09-08T05:01:30Z'
+  at: '2026-09-09T00:46:30+00:00'
 verified:
 - by: codex/gpt-6
   at: '2026-09-08T05:01:30Z'
-stale_after: '2027-01-06T05:01:30Z'
+- by: codex/gpt-6
+  at: '2026-09-09T00:46:30+00:00'
+stale_after: '2027-01-07T00:46:30+00:00'
 freshness:
   mode: current
   volatility: medium
@@ -33,37 +35,59 @@ sources:
 
 ## 요약
 
-고가용성 배포 형태와 읽기 처리 가능 여부를 구분한다.
+DB 장애에 대비해 다른 가용 영역에 복제본을 두는 것이 RDS Multi-AZ 배포의 기본 생각입니다. 다만 DB instance와 DB cluster는 복제 구성과 읽기 처리 방식이 다릅니다. Multi-AZ라는 이름 뒤의 배포 유형까지 확인해야 합니다.[^multi-instance][^multi-cluster]
 
-## 외부 사실
+## 학습 목표
 
-- Multi-AZ DB instance는 다른 AZ에 동기 복제 standby 하나를 유지한다. 이 standby는 애플리케이션 읽기 트래픽을 처리하지 않는다.[^multi-instance]
+단일 standby 구성과 reader가 있는 cluster를 구분하고, 가용성과 읽기 확장을 따로 판단합니다.
 
-- Multi-AZ DB cluster는 같은 리전의 세 AZ에 writer 하나와 읽기 가능한 reader 둘을 두는 반동기 구성이다. 지원은 엔진·버전·리전에 따라 확인한다.[^multi-cluster]
+## 선수 지식
 
-- RDS Multi-AZ cluster는 Aurora와 다르다. 읽기 replica 지연도 관측 대상이다.[^multi-cluster]
+[RDS for PostgreSQL](aws-rds-postgresql.md)과 [가용 영역](../../../glossary/ko/availability-zone.md)을 읽습니다. Failover는 장애 때 다른 DB로 역할을 전환하는 것이고, standby는 전환을 위해 대기하는 복제본입니다.
 
-## 선택 기준과 권고
+## 101 · 개념 이해
 
-- 가용성 필요와 읽기 확장 필요를 구분해 구성 유형을 결정한다.
+### 외부 사실
 
-- Failover 중 끊긴 연결·실패한 트랜잭션·재시도 안전성을 애플리케이션 수준에서 검증한다.
+Multi-AZ DB instance는 다른 AZ에 동기 복제 standby 하나를 유지합니다. 이 standby는 애플리케이션 읽기 트래픽을 처리하지 않습니다.[^multi-instance]
 
-- 복제는 잘못된 데이터 변경도 전파할 수 있으므로 백업과 리전 재해복구를 별도 설계한다.
+Multi-AZ DB cluster는 같은 리전의 세 AZ에 writer 하나와 읽기 가능한 reader 둘을 두는 반동기 구성입니다. 지원은 엔진·버전·리전에 따라 확인합니다.[^multi-cluster]
 
-## 설계 예시
+RDS Multi-AZ cluster는 Aurora와 다릅니다. 읽기 replica 지연도 관측 대상입니다.[^multi-cluster]
 
-standby 하나를 가진 DB instance에 읽기 부하를 넘기려는 설계는 성립하지 않는다. Reader가 필요하면 해당 구성을 지원하는 cluster 또는 read replica를 별도 비교한다.
+## 201 · 예제에 적용하기
 
-## 운영 확인
+### 설계 예시
 
-- [ ] 문서·IaC에서 instance/cluster 유형이 명확한가?
-- [ ] writer/reader endpoint 사용과 읽기 최신성 요구가 일치하는가?
-- [ ] Failover 후 실제 사용자 요청의 회복 시간을 측정했는가?
+읽기 요청이 많아 대기 중인 DB로 부하를 보내려는 상황입니다. 먼저 배포 유형을 확인합니다. Single-standby Multi-AZ DB instance라면 standby가 애플리케이션 읽기를 처리하지 않으므로 그 계획을 적용할 수 없습니다.
+
+읽기 처리가 필요하면 지원되는 Multi-AZ DB cluster나 read replica를 비교합니다. 읽기 지연 허용과 장애 전환 뒤 사용자 요청의 회복도 별도로 검증합니다.
+
+## 301 · 조건에 따라 판단하기
+
+### 선택 기준과 권고
+
+- 가용성 필요와 읽기 확장 필요를 구분해 구성 유형을 결정합니다.
+
+- Failover 중 끊긴 연결·실패한 트랜잭션·재시도 안전성을 애플리케이션 수준에서 검증합니다.
+
+- 복제는 잘못된 데이터 변경도 전파할 수 있으므로 백업과 리전 재해복구를 별도 설계합니다.
+
+### 운영 확인
+
+- [ ] 문서·IaC에서 instance/cluster 유형이 명확한가요?
+- [ ] writer/reader endpoint 사용과 읽기 최신성 요구가 일치하나요?
+- [ ] Failover 후 실제 사용자 요청의 회복 시간을 측정했나요?
+
+## 이해 확인
+
+**질문:** Multi-AZ 복제가 있으면 잘못 변경한 데이터의 복구를 위한 백업은 필요 없을까요?
+
+**해설:** 잘못된 변경도 복제될 수 있습니다. 장애 전환과 과거 시점 복구는 다른 시나리오이므로 백업 복구를 별도로 설계합니다.
 
 ## 근거와 한계
 
-2026-09-08에 아래 공식 출처와 기술적 주장을 Agent가 대조했다. 권고는 적용 조건을 따져야 하는 설계 판단이며, 예시는 AWS 실행·개인 실험 결과가 아니다. 실제 적용 전 대상 리전·엔진·실행 모드의 지원 범위와 필요한 할당량·가격을 다시 확인한다.
+예제는 개념 설명과 설계 연습이며 AWS에서 실행한 결과가 아닙니다. 권고를 적용할 때는 대상 리전·엔진·실행 모드의 지원 범위, 할당량과 가격을 확인합니다. 출처 대조 범위와 번역 검토는 [문서 변경 이력](../../../log.md)에 기록합니다.
 
 ## 관련 지식
 
