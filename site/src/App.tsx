@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { PageData, SearchEntry } from "./model";
 import { Sidebar } from "./Sidebar";
 import { Learning } from "./Learning";
-import { pathHref } from "./navigation";
+import { pathHref, topicTree } from "./navigation";
 import { search } from "./search";
 const languageHome = (base: string, language: string) =>
   `${base}${language === "ko" ? "" : `${encodeURIComponent(language)}/`}`;
@@ -89,7 +89,15 @@ export function App({ data }: { data: PageData }) {
   const doc = data.document;
   // Keep React from replacing the sanitized article on unrelated UI updates.
   // Copy controls and rendered diagrams intentionally live inside this DOM.
-  const articleHtml = useMemo(() => ({ __html: doc?.html || "" }), [doc?.html]);
+  const articleParts = useMemo(() => {
+    const html = doc?.html || "";
+    // Keep the original heading markup, IDs and body; only insert UI after H1.
+    const end = html.indexOf("</h1>");
+    return {
+      title: { __html: end >= 0 ? html.slice(0, end + 5) : "" },
+      body: { __html: end >= 0 ? html.slice(end + 5) : html },
+    };
+  }, [doc?.html]);
   const [locale, setLocale] = useState(data.language);
   const ui = locale === "ko" ? "ko" : "en";
   const t = labels[ui];
@@ -131,6 +139,9 @@ export function App({ data }: { data: PageData }) {
       for (const { link, href } of changed) link.setAttribute("href", href);
     };
   }, [activePath, data.base]);
+  const diagramDialog = useRef<HTMLDialogElement>(null);
+  const diagramCanvas = useRef<HTMLDivElement>(null);
+  const diagramTrigger = useRef<HTMLButtonElement | null>(null);
   const dialog = useRef<HTMLDialogElement>(null),
     input = useRef<HTMLInputElement>(null),
     trigger = useRef<HTMLButtonElement>(null),
@@ -144,9 +155,10 @@ export function App({ data }: { data: PageData }) {
     } catch {
       /* Optional storage. */
     }
-    const value = saved
-      ? saved === "dark"
-      : matchMedia("(prefers-color-scheme: dark)").matches;
+    const value =
+      saved === "light" || saved === "dark"
+        ? saved === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
     setDark(value);
     document.documentElement.dataset.theme = value ? "dark" : "light";
   }, []);
@@ -206,6 +218,12 @@ export function App({ data }: { data: PageData }) {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
+        if (
+          document.querySelector(
+            '.sidebar-shell[aria-modal="true"], .diagram-dialog[open]',
+          )
+        )
+          return;
         trigger.current?.click();
       }
     };
@@ -242,10 +260,15 @@ export function App({ data }: { data: PageData }) {
         import("mermaid"),
         import("dompurify"),
       ]);
+      // Remove partial output from an earlier failed attempt before retrying.
+      article.current
+        ?.querySelectorAll("figure.diagram")
+        .forEach((f) => f.remove());
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: "strict",
         theme: dark ? "dark" : "default",
+        htmlLabels: false,
         flowchart: { htmlLabels: false },
         maxTextSize: 20000,
       });
@@ -259,18 +282,50 @@ export function App({ data }: { data: PageData }) {
         );
         const figure = document.createElement("figure");
         figure.className = "diagram";
+        figure.dataset.theme = dark ? "dark" : "light";
         figure.innerHTML = purify.sanitize(svg, {
           USE_PROFILES: { svg: true, svgFilters: true },
         });
+        const controls = document.createElement("div");
+        controls.className = "diagram-controls";
+        const zoom = document.createElement("button");
+        zoom.type = "button";
+        zoom.textContent = ui === "ko" ? "확대" : "Expand";
+        zoom.onclick = () => {
+          const svg = figure.querySelector("svg");
+          if (!svg || !diagramCanvas.current) return;
+          diagramCanvas.current.replaceChildren(svg.cloneNode(true));
+          diagramCanvas.current.dataset.theme = figure.dataset.theme;
+          diagramTrigger.current = zoom;
+          diagramDialog.current?.showModal();
+        };
+        const close = document.createElement("button");
+        close.type = "button";
+        close.textContent = ui === "ko" ? "다이어그램 닫기" : "Close diagram";
+        close.onclick = () => {
+          figure.remove();
+          // Keep the code and the render trigger available after closing.
+          button.hidden = false;
+          button.disabled = false;
+          button.focus();
+        };
+        controls.append(zoom, close);
+        figure.prepend(controls);
         code.closest("pre")?.after(figure);
       }
       button.hidden = true;
     } catch {
+      button.disabled = false;
       button.textContent =
         ui === "ko"
           ? "다이어그램 오류 — 코드 원문을 확인하세요"
           : "Diagram failed — source remains available";
     }
+  }
+  function closeDiagram() {
+    diagramDialog.current?.close();
+    diagramCanvas.current?.replaceChildren();
+    diagramTrigger.current?.focus();
   }
   const results = index ? search(index, query, language) : [];
   const recent = data.entries
@@ -282,6 +337,12 @@ export function App({ data }: { data: PageData }) {
     )
     .slice(0, 6);
   const topics = data.navigation[`knowledge/${locale}/index.md`] || [];
+  const topicCounts = new Map(
+    topicTree(data, locale).map(({ root, children }) => [
+      root.url,
+      children.length,
+    ]),
+  );
   const crumbs = doc
     ? doc.source
         .split("/")
@@ -320,14 +381,25 @@ export function App({ data }: { data: PageData }) {
         <div className="tools">
           <button
             ref={trigger}
+            className="search-trigger"
             onClick={() => void openSearch()}
             aria-label={t.placeholder}
           >
             {t.search}
             <kbd>Ctrl/⌘ K</kbd>
           </button>
-          <button onClick={theme} aria-label={t.theme} aria-pressed={dark}>
-            {dark ? "☀" : "☾"}
+          <button
+            className="theme-trigger"
+            onClick={theme}
+            aria-label={t.theme}
+            aria-pressed={dark}
+          >
+            <span className="theme-light" aria-hidden="true">
+              ☀
+            </span>
+            <span className="theme-dark" aria-hidden="true">
+              ☾
+            </span>
           </button>
           <nav className="language-switch" aria-label={t.translation}>
             {data.languages.map((language) => {
@@ -359,6 +431,9 @@ export function App({ data }: { data: PageData }) {
               );
             })}
           </nav>
+          <a className="header-github" href={data.repository}>
+            GitHub ↗
+          </a>
         </div>
       </header>
       <div className={`layout ${!doc ? "home-layout" : ""}`}>
@@ -382,30 +457,25 @@ export function App({ data }: { data: PageData }) {
             </section>
           ) : doc ? (
             <>
-              <nav className="breadcrumbs" aria-label="Breadcrumb">
+              <nav
+                className="breadcrumbs"
+                aria-label={ui === "ko" ? "현재 위치" : "Breadcrumb"}
+              >
                 <a href={home}>{t.home}</a>
                 {crumbs.map((b, i) => (
                   <span key={i}>
                     {" "}
-                    / {b.entry ? <a href={b.entry.url}>{b.part}</a> : b.part}
+                    /{" "}
+                    {b.entry ? (
+                      <a href={b.entry.url}>{b.entry.title}</a>
+                    ) : (
+                      b.part
+                    )}
                   </span>
                 ))}
                 <span> / {doc.title}</span>
               </nav>
               <Learning data={data} locale={locale} active={activePath} />
-              <div className="doc-meta">
-                <span>{languageName(doc.language)}</span>
-                <span>
-                  {t.updated}:{" "}
-                  {doc.modified ? (
-                    <time dateTime={doc.modified}>
-                      {doc.modified.slice(0, 10)}
-                    </time>
-                  ) : (
-                    t.unknown
-                  )}
-                </span>
-              </div>
               {data.languages.some(
                 (language) =>
                   language !== locale && !doc.translations[language],
@@ -429,32 +499,48 @@ export function App({ data }: { data: PageData }) {
                     ))}
                 </div>
               )}
-              {doc.mermaid && (
-                <button
-                  className="diagram-button"
-                  onClick={(e) => void diagrams(e)}
-                >
-                  {t.diagram}
-                </button>
-              )}
-              <details className="mobile-toc">
-                <summary>{t.toc}</summary>
-                <nav aria-label={t.toc}>
-                  {doc.toc
-                    .filter((h) => h.depth > 1)
-                    .map((h) => (
-                      <a key={h.id} href={`#${encodeURIComponent(h.id)}`}>
-                        {h.title}
-                      </a>
-                    ))}
-                </nav>
-              </details>
-              <article
-                ref={article}
-                className="prose"
-                lang={doc.language}
-                dangerouslySetInnerHTML={articleHtml}
-              />
+              <article ref={article} className="prose" lang={doc.language}>
+                <header className="doc-heading">
+                  <div dangerouslySetInnerHTML={articleParts.title} />
+                  <div className="doc-meta">
+                    <span>{languageName(doc.language)}</span>
+                    <span>
+                      {t.updated}:{" "}
+                      {doc.modified ? (
+                        <time dateTime={doc.modified}>
+                          {doc.modified.slice(0, 10)}
+                        </time>
+                      ) : (
+                        t.unknown
+                      )}
+                    </span>
+                  </div>
+                </header>
+                {doc.mermaid && (
+                  <button
+                    className="diagram-button"
+                    onClick={(e) => void diagrams(e)}
+                  >
+                    {t.diagram}
+                  </button>
+                )}
+                <details className="mobile-toc">
+                  <summary>{t.toc}</summary>
+                  <nav aria-label={t.toc}>
+                    {doc.toc
+                      .filter((h) => h.depth > 1)
+                      .map((h) => (
+                        <a key={h.id} href={`#${encodeURIComponent(h.id)}`}>
+                          {h.title}
+                        </a>
+                      ))}
+                  </nav>
+                </details>
+                <div
+                  className="article-body"
+                  dangerouslySetInnerHTML={articleParts.body}
+                />
+              </article>
               <Learning
                 data={data}
                 locale={locale}
@@ -479,6 +565,9 @@ export function App({ data }: { data: PageData }) {
                       ? "문서 정보와 출처"
                       : "Document information and sources"}
                   </summary>
+                  <p className="source-path">
+                    <code>{doc.source}</code>
+                  </p>
                   <p>
                     {[
                       doc.status,
@@ -521,7 +610,6 @@ export function App({ data }: { data: PageData }) {
                 </details>
               )}
               <footer className="doc-footer">
-                <code>{doc.source}</code>
                 <div>
                   <a
                     href={`${data.repository}/blob/${encode(data.branch)}/${encode(doc.source)}`}
@@ -538,26 +626,77 @@ export function App({ data }: { data: PageData }) {
             </>
           ) : (
             <>
-              <p className="eyebrow">
-                {ui === "ko"
-                  ? "개념부터 설계 판단까지"
-                  : "From concepts to design decisions"}
-              </p>
-              <h1 className="home-title">
-                {ui === "ko" ? "지식 공유소" : "Engineering Fieldbook"}
-              </h1>
-              <p className="intro">{t.intro}</p>
-              <div className="home-links">
-                <a href={url(`knowledge/${locale}/index.md`)}>{t.nav} →</a>
-                <span>
-                  {
-                    data.entries.filter((entry) => entry.language === locale)
-                      .length
-                  }{" "}
-                  {ui === "ko" ? "공개 문서" : "published documents"}
-                </span>
-              </div>
-              <section>
+              <section className="home-intro">
+                <p className="eyebrow">
+                  {ui === "ko"
+                    ? "개념부터 설계 판단까지"
+                    : "From concepts to design decisions"}
+                </p>
+                <h1 className="home-title">
+                  {ui === "ko" ? "지식 공유소" : "Engineering Fieldbook"}
+                </h1>
+                <p className="intro">{t.intro}</p>
+                <div className="home-links">
+                  <a
+                    className="primary-link"
+                    href={url(`knowledge/${locale}/index.md`)}
+                  >
+                    {t.nav} →
+                  </a>
+                  <span>
+                    {
+                      data.entries.filter((entry) => entry.language === locale)
+                        .length
+                    }{" "}
+                    {ui === "ko" ? "공개 문서" : "published documents"}
+                  </span>
+                </div>
+              </section>
+              {!!data.learningPaths.filter((p) => p.language === locale)
+                .length && (
+                <section
+                  className="learning-start"
+                  aria-labelledby="start-title"
+                >
+                  <p className="learning-stages">
+                    {ui === "ko"
+                      ? "101 이해 → 201 적용 → 301 판단"
+                      : "101 Understand → 201 Apply → 301 Evaluate"}
+                  </p>
+                  <h2 id="start-title">
+                    {ui === "ko"
+                      ? "학습 경로에서 시작하기"
+                      : "Start with a reading path"}
+                  </h2>
+                  <p>
+                    {ui === "ko"
+                      ? "연결된 개념을 원본 목차의 순서대로 읽어보세요."
+                      : "Follow connected concepts in the original index order."}
+                  </p>
+                  <div className="start-paths">
+                    {data.learningPaths
+                      .filter((p) => p.language === locale)
+                      .map((p) => (
+                        <div className="start-path" key={p.id}>
+                          <div>
+                            <strong>{p.title}</strong>
+                            <small>
+                              {p.steps.length}
+                              {ui === "ko"
+                                ? "개 문서 · 원본의 학습 순서"
+                                : " documents · original reading order"}
+                            </small>
+                          </div>
+                          <a href={pathHref(p.url, p)}>
+                            {ui === "ko" ? "경로 살펴보기" : "Explore the path"}{" "}
+                            →
+                          </a>
+                        </div>
+                      ))}
+                  </div>
+                </section>
+              )}
+              <section className="home-section">
                 <h2>{t.topics}</h2>
                 <div className="topics">
                   {topics
@@ -571,10 +710,16 @@ export function App({ data }: { data: PageData }) {
                     )
                     .map((item, i) => (
                       <a key={i} href={item.url}>
-                        <span className="page-icon" aria-hidden="true">
-                          ▤
+                        <span>
+                          <strong>{item.title}</strong>
+                          <small>
+                            {topicCounts.get(item.url)
+                              ? `${topicCounts.get(item.url)}${ui === "ko" ? "개 문서" : " documents"}`
+                              : ui === "ko"
+                                ? "상세 문서 준비 중"
+                                : "Detailed guides coming later"}
+                          </small>
                         </span>
-                        <strong>{item.title}</strong>
                         <span aria-hidden="true">→</span>
                       </a>
                     ))}
@@ -596,7 +741,13 @@ export function App({ data }: { data: PageData }) {
               </section>
               <section className="reading-links">
                 <a href={url(`glossary/${locale}/index.md`)}>{t.glossary} →</a>
-                <a href={url("log.md")}>{t.log} →</a>
+                <a href={url("log.md")}>
+                  {t.log}
+                  {locale !== "ko" && (
+                    <small className="language-note">한국어</small>
+                  )}{" "}
+                  →
+                </a>
               </section>
             </>
           )}
@@ -657,6 +808,14 @@ export function App({ data }: { data: PageData }) {
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t.placeholder}
               type="search"
+              onKeyDown={(e) => {
+                if (e.key === "ArrowDown") {
+                  e.preventDefault();
+                  dialog.current
+                    ?.querySelector<HTMLAnchorElement>(".search-results a")
+                    ?.focus();
+                }
+              }}
             />
           </label>
           <label className="search-filter">
@@ -673,7 +832,11 @@ export function App({ data }: { data: PageData }) {
               ))}
             </select>
           </label>
-          <p aria-live="polite">
+          <p
+            className="search-status"
+            data-error={searchError}
+            aria-live="polite"
+          >
             {searchError
               ? t.error
               : !index
@@ -685,7 +848,24 @@ export function App({ data }: { data: PageData }) {
           {searchError && (
             <button onClick={() => void openSearch()}>{t.search}</button>
           )}
-          <ul className="search-results">
+          <ul
+            className="search-results"
+            aria-label={t.results}
+            onKeyDown={(e) => {
+              if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+              const links = [
+                ...e.currentTarget.querySelectorAll<HTMLAnchorElement>("a"),
+              ];
+              const position = links.indexOf(
+                document.activeElement as HTMLAnchorElement,
+              );
+              if (position < 0) return;
+              e.preventDefault();
+              const next = position + (e.key === "ArrowDown" ? 1 : -1);
+              if (next < 0) input.current?.focus();
+              else links[Math.min(next, links.length - 1)]?.focus();
+            }}
+          >
             {results.map((e) => (
               <li key={e.url}>
                 <a href={e.url}>
@@ -700,6 +880,26 @@ export function App({ data }: { data: PageData }) {
           </ul>
           {index && query.trim() && !results.length && <p>{t.empty}</p>}
         </div>
+      </dialog>
+      <dialog
+        ref={diagramDialog}
+        className="diagram-dialog"
+        aria-labelledby="diagram-title"
+        onCancel={(e) => {
+          e.preventDefault();
+          closeDiagram();
+        }}
+        onClick={(e) => {
+          if (e.target === diagramDialog.current) closeDiagram();
+        }}
+      >
+        <div className="search-heading">
+          <h2 id="diagram-title">
+            {ui === "ko" ? "다이어그램 확대" : "Expanded diagram"}
+          </h2>
+          <button onClick={closeDiagram}>{t.close}</button>
+        </div>
+        <div ref={diagramCanvas} className="diagram-canvas" />
       </dialog>
     </>
   );

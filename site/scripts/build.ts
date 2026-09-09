@@ -105,7 +105,7 @@ export async function writePages(
       )
       .join(
         "",
-      )}${(client.css || []).map((css) => `<link rel="stylesheet" href="${config.base}${css}">`).join("")}<script>try{var t=localStorage.getItem('fieldbook-theme');document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch{}</script></head><body><div id="app">${render(data)}</div><script id="page-data" type="application/json">${json({ ...data, document: data.document ? { ...data.document, text: undefined } : undefined })}</script><script type="module" src="${config.base}${client.file}"></script></body></html>`;
+      )}${(client.css || []).map((css) => `<link rel="stylesheet" href="${config.base}${css}">`).join("")}<script>var t;try{t=localStorage.getItem('fieldbook-theme')}catch{}document.documentElement.dataset.theme=t==='light'||t==='dark'?t:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')</script></head><body><div id="app">${render(data)}</div><script id="page-data" type="application/json">${json({ ...data, document: data.document ? { ...data.document, text: undefined } : undefined })}</script><script type="module" src="${config.base}${client.file}"></script></body></html>`;
     const relative = decodeURIComponent(url.slice(config.base.length)),
       file = path.join(
         destination,

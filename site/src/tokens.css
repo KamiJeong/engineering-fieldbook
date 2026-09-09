@@ -1,0 +1,160 @@
+/* Kami palette adapted to native CSS; reference source is not a runtime asset. */
+:root {
+  --fb-primary-50: #f4f7fa;
+  --fb-primary-100: #e8eef4;
+  --fb-primary-200: #cfddea;
+  --fb-primary-300: #aac2d8;
+  --fb-primary-400: #7b9cb8;
+  --fb-primary-500: #4f7292;
+  --fb-primary-600: #3b5a74;
+  --fb-primary-700: #314b61;
+  --fb-primary-800: #25364a;
+  --fb-primary-900: #1a2633;
+  --fb-primary-950: #101923;
+  --fb-secondary-50: #fbf6ef;
+  --fb-secondary-100: #f6ead7;
+  --fb-secondary-200: #edd2ac;
+  --fb-secondary-300: #e2b77b;
+  --fb-secondary-400: #d39e5b;
+  --fb-secondary-500: #c58a45;
+  --fb-secondary-600: #a86f32;
+  --fb-secondary-700: #865627;
+  --fb-secondary-800: #66411f;
+  --fb-secondary-900: #463016;
+  --fb-secondary-950: #2d1e10;
+  --fb-accent-50: #eef8f7;
+  --fb-accent-100: #d7f0ed;
+  --fb-accent-200: #ade1db;
+  --fb-accent-300: #7accc3;
+  --fb-accent-400: #49b2a7;
+  --fb-accent-500: #2f948a;
+  --fb-accent-600: #25776f;
+  --fb-accent-700: #1e5e59;
+  --fb-accent-800: #1a4a47;
+  --fb-accent-900: #163a39;
+  --fb-accent-950: #0d2423;
+  --fb-neutral-50: #f8f9fb;
+  --fb-neutral-100: #eef1f5;
+  --fb-neutral-200: #dde2ea;
+  --fb-neutral-300: #c7cfdb;
+  --fb-neutral-400: #9da8b8;
+  --fb-neutral-500: #788498;
+  --fb-neutral-600: #5c687b;
+  --fb-neutral-700: #465162;
+  --fb-neutral-800: #2e3846;
+  --fb-neutral-900: #1a222c;
+  --fb-neutral-950: #0f151d;
+  --fb-white: #ffffff;
+  --fb-radius-control: 10px;
+  --fb-radius-card: 16px;
+  --fb-radius-panel: 24px;
+  --fb-reading: 46rem;
+  --fb-control: 44px;
+  --fb-motion-fast: 120ms;
+  --fb-motion-normal: 180ms;
+  --fb-motion-slow: 240ms;
+  --fb-brand-surface: var(--fb-primary-800);
+  --fb-brand-foreground: var(--fb-primary-50);
+  --fb-brand-label: var(--fb-secondary-300);
+  --fb-overlay: rgb(16 25 35 / 0.5);
+}
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --fb-background: var(--fb-neutral-50);
+  --fb-surface: var(--fb-white);
+  --fb-foreground: var(--fb-neutral-900);
+  --fb-muted: var(--fb-neutral-100);
+  --fb-muted-foreground: var(--fb-neutral-600);
+  --fb-border: var(--fb-neutral-200);
+  --fb-input: var(--fb-neutral-500);
+  --fb-primary: var(--fb-primary-800);
+  --fb-primary-foreground: var(--fb-primary-50);
+  --fb-secondary: var(--fb-secondary-500);
+  --fb-secondary-foreground: var(--fb-primary-950);
+  --fb-accent: var(--fb-accent-600);
+  --fb-accent-hover: var(--fb-accent-700);
+  --fb-accent-active: var(--fb-accent-800);
+  --fb-accent-foreground: var(--fb-white);
+  --fb-accent-subtle: var(--fb-accent-50);
+  --fb-ring: var(--fb-primary-500);
+  --fb-sidebar: var(--fb-primary-50);
+  --fb-sidebar-active: var(--fb-primary-100);
+  --fb-sidebar-active-foreground: var(--fb-primary-800);
+  --fb-disabled: var(--fb-neutral-100);
+  --fb-disabled-foreground: var(--fb-neutral-600);
+  --fb-warning: var(--fb-secondary-700);
+  --fb-warning-subtle: var(--fb-secondary-50);
+  --fb-error: #ae4650;
+  --fb-error-subtle: #faeef0;
+  --fb-code: var(--fb-primary-50);
+  --fb-code-text: var(--fb-neutral-900);
+  --fb-code-keyword: #a62642;
+  --fb-code-string: #174a73;
+  --fb-code-title: #6541a0;
+  --fb-code-variable: #80451f;
+  --fb-code-comment: var(--fb-neutral-600);
+  --fb-code-deletion: #faeef0;
+  --fb-code-addition: #ebf6ef;
+  --fb-code-addition-text: #246d4d;
+  --fb-shadow: 0 12px 32px rgb(16 25 35 / 0.12);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fb-background: var(--fb-primary-950);
+  --fb-surface: var(--fb-primary-900);
+  --fb-foreground: var(--fb-primary-50);
+  --fb-muted: var(--fb-primary-800);
+  --fb-muted-foreground: var(--fb-primary-300);
+  --fb-border: var(--fb-primary-700);
+  --fb-input: var(--fb-primary-400);
+  --fb-primary: var(--fb-primary-200);
+  --fb-primary-foreground: var(--fb-primary-950);
+  --fb-secondary: var(--fb-secondary-400);
+  --fb-secondary-foreground: var(--fb-primary-950);
+  --fb-accent: var(--fb-accent-300);
+  --fb-accent-hover: var(--fb-accent-200);
+  --fb-accent-active: var(--fb-accent-100);
+  --fb-accent-foreground: var(--fb-accent-950);
+  --fb-accent-subtle: var(--fb-accent-950);
+  --fb-ring: var(--fb-accent-300);
+  --fb-sidebar: var(--fb-primary-950);
+  --fb-sidebar-active: var(--fb-primary-800);
+  --fb-sidebar-active-foreground: var(--fb-primary-50);
+  --fb-disabled: var(--fb-primary-800);
+  --fb-disabled-foreground: var(--fb-primary-300);
+  --fb-warning: var(--fb-secondary-300);
+  --fb-warning-subtle: #3b2a17;
+  --fb-error: #f0a1aa;
+  --fb-error-subtle: #431f2a;
+  --fb-code: var(--fb-primary-800);
+  --fb-code-text: var(--fb-primary-50);
+  --fb-code-keyword: #f69aaf;
+  --fb-code-string: #a7d7ff;
+  --fb-code-title: #ccbcff;
+  --fb-code-variable: var(--fb-secondary-200);
+  --fb-code-comment: var(--fb-primary-300);
+  --fb-code-deletion: #431f2a;
+  --fb-code-addition: #17392d;
+  --fb-code-addition-text: #86cda9;
+  --fb-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+}
+/* Compatibility aliases keep existing text and surface roles distinct. */
+:root {
+  --bg: var(--fb-background);
+  --panel: var(--fb-surface);
+  --text: var(--fb-foreground);
+  --muted: var(--fb-muted-foreground);
+  --soft: var(--fb-muted);
+  --line: var(--fb-border);
+  --accent: var(--fb-accent);
+  --sidebar: var(--fb-sidebar);
+  --focus: var(--fb-ring);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --fb-motion-fast: 0ms;
+    --fb-motion-normal: 0ms;
+    --fb-motion-slow: 0ms;
+  }
+}

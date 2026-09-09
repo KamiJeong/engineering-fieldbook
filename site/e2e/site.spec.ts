@@ -123,41 +123,45 @@ test("Mermaid is lazy, diagram and code copy work", async ({
   expect(requests.some((r) => r.includes("mermaid.core"))).toBe(true);
 });
 for (const width of [375, 768, 1440])
-  for (const theme of ["light", "dark"] as const)
-    test(`responsive ${width} ${theme}`, async ({ page }) => {
-      await page.setViewportSize({ width, height: 1000 });
-      await page.addInitScript(
-        (value) => localStorage.setItem("fieldbook-theme", value),
-        theme,
-      );
-      const errors: string[] = [];
-      page.on("pageerror", (e) => errors.push(e.message));
-      await page.goto("./");
-      await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
-      await mkdir("site/.generated/screenshots", { recursive: true });
-      await page.screenshot({
-        path: `site/.generated/screenshots/home-${width}-${theme}.png`,
-        fullPage: true,
+  for (const locale of ["ko", "en"])
+    for (const theme of ["light", "dark"] as const)
+      test(`responsive ${width} ${locale} ${theme}`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 1000 });
+        await page.addInitScript(
+          (value) => localStorage.setItem("fieldbook-theme", value),
+          theme,
+        );
+        const errors: string[] = [];
+        page.on("pageerror", (e) => errors.push(e.message));
+        await page.goto(locale === "en" ? "en/" : "./");
+        await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+        const output = `site/.generated/screenshots/${site.base === "/" ? "root" : "project"}`;
+        await mkdir(output, { recursive: true });
+        await page.screenshot({
+          path: `${output}/home-${width}-${locale}-${theme}.png`,
+          fullPage: true,
+        });
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+        ).toBe(true);
+        await page.goto(
+          `${locale === "en" ? "en/" : ""}knowledge/cloud/aws-subnets/`,
+        );
+        await expect(page.locator("article h1")).toBeVisible();
+        await expect(page.locator(".copy-code").first()).toBeVisible();
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+        ).toBe(true);
+        await page.screenshot({
+          path: `${output}/document-${width}-${locale}-${theme}.png`,
+          fullPage: true,
+        });
+        expect(errors).toEqual([]);
       });
-      expect(
-        await page.evaluate(
-          () => document.documentElement.scrollWidth <= innerWidth,
-        ),
-      ).toBe(true);
-      await page.goto("knowledge/cloud/aws-subnets/");
-      await expect(page.locator("article h1")).toBeVisible();
-      await expect(page.locator(".copy-code").first()).toBeVisible();
-      expect(
-        await page.evaluate(
-          () => document.documentElement.scrollWidth <= innerWidth,
-        ),
-      ).toBe(true);
-      await page.screenshot({
-        path: `site/.generated/screenshots/document-${width}-${theme}.png`,
-        fullPage: true,
-      });
-      expect(errors).toEqual([]);
-    });
 
 test("dark syntax tokens in original YAML meet text contrast", async ({
   page,

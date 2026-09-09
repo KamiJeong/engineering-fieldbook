@@ -21,6 +21,7 @@ export function Sidebar({
   )?.root.source;
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [ready, setReady] = useState(false);
+  const [drawer, setDrawer] = useState(false);
   const container = useRef<HTMLDivElement>(null);
   const shell = useRef<HTMLDetailsElement>(null);
   const key = `fieldbook-nav:${data.base}:${locale}`;
@@ -51,6 +52,43 @@ export function Sidebar({
     }
     setReady(true);
   }, [key, activeRoot]);
+  useEffect(() => {
+    const media = matchMedia("(max-width: 640px)");
+    const resize = () => {
+      setDrawer(false);
+      if (shell.current) shell.current.open = !media.matches;
+    };
+    media.addEventListener("change", resize);
+    return () => media.removeEventListener("change", resize);
+  }, []);
+  useEffect(() => {
+    if (!drawer) return;
+    const outside = [
+      ...document.querySelectorAll<HTMLElement>(
+        ".site-header, main, .toc, .site-footer, .skip",
+      ),
+    ];
+    const previous = outside.map((node) => node.inert);
+    outside.forEach((node) => {
+      node.inert = true;
+    });
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    shell.current?.querySelector("summary")?.focus();
+    return () => {
+      outside.forEach((node, i) => {
+        node.inert = previous[i];
+      });
+      document.body.style.overflow = overflow;
+    };
+  }, [drawer]);
+  function closeDrawer() {
+    if (shell.current) {
+      shell.current.open = false;
+      setDrawer(false);
+      shell.current.querySelector("summary")?.focus();
+    }
+  }
   function save(next = open) {
     try {
       sessionStorage.setItem(
@@ -65,12 +103,45 @@ export function Sidebar({
     }
   }
   return (
-    <aside className="sidebar">
+    <aside className="sidebar" data-ready={ready}>
       <details
         ref={shell}
         open
         className="sidebar-shell"
+        role={drawer ? "dialog" : undefined}
+        aria-modal={drawer ? true : undefined}
+        aria-label={drawer ? (ko ? "문서 탐색" : "Documents") : undefined}
+        onClick={(e) => {
+          if (drawer && e.target === shell.current) closeDrawer();
+        }}
+        onKeyDown={(e) => {
+          if (!drawer) return;
+          if (e.key === "Escape") {
+            e.preventDefault();
+            closeDrawer();
+          } else if (e.key === "Tab") {
+            const controls = [
+              ...e.currentTarget.querySelectorAll<HTMLElement>(
+                "summary, a[href], button",
+              ),
+            ].filter((node) => node.checkVisibility());
+            const first = controls[0],
+              last = controls.at(-1);
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last?.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first?.focus();
+            }
+          }
+        }}
         onToggle={(event) => {
+          setDrawer(
+            ready &&
+              event.currentTarget.open &&
+              matchMedia("(max-width: 640px)").matches,
+          );
           if (!event.currentTarget.open) return;
           requestAnimationFrame(() => {
             const panel = container.current;
@@ -85,16 +156,34 @@ export function Sidebar({
           });
         }}
       >
-        <summary>{ko ? "문서 탐색" : "Documents"}</summary>
+        <summary
+          aria-controls="sidebar-navigation"
+          aria-label={
+            drawer ? (ko ? "문서 탐색 닫기" : "Close documents") : undefined
+          }
+        >
+          {ko ? "문서 탐색" : "Documents"}
+          <span className="drawer-close-mark" aria-hidden="true">
+            ×
+          </span>
+        </summary>
         <div
           ref={container}
+          id="sidebar-navigation"
           className="sidebar-scroll"
           onScroll={() => {
             if (ready) save();
           }}
         >
           <nav aria-label={ko ? "전체 문서 탐색" : "All documents"}>
-            <a href={home}>{ko ? "홈" : "Home"}</a>
+            <a
+              href={home}
+              aria-current={
+                !data.document && !data.notFound ? "page" : undefined
+              }
+            >
+              {ko ? "홈" : "Home"}
+            </a>
             <a
               href={
                 data.entries.find(
