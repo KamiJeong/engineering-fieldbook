@@ -10,7 +10,7 @@
 
 홈의 첫 문서 읽기는 원본 학습 순서의 첫 단계로 연결하며 선택한 경로를 유지합니다. 문서가 있는 분야를 먼저 보여주고 준비 중인 분야는 접어 둡니다. 분야별 문서 수와 학습 경로 전체 문서 수를 구분합니다. 모바일에서는 상위 경로를 접고, 목차의 높이를 제한하고 하위 절은 접어 둡니다. 목차에서 절을 선택하면 목차가 접히고 해당 제목으로 포커스가 이동합니다. 다이어그램은 각 코드 블록의 버튼으로 생성하며 결과로 이동하고, 닫으면 원래 버튼으로 돌아옵니다.
 
-브랜드명은 Engineering Fieldbook이며 헤더에는 F 심볼과 Fieldbook을 표시합니다. 한국어 홈 제목은 엔지니어링 필드북, 영어는 Engineering Fieldbook입니다. 홈의 브라우저 제목은 Engineering Fieldbook이고 개별 문서는 문서 제목 · Fieldbook 형식을 사용합니다.
+브랜드명은 Engineering Fieldbook이며 헤더에는 ‘열린 기록’ 심볼과 Fieldbook 워드마크를 표시합니다. 승인된 로고 이미지는 `src/assets/fieldbook-logo-light.webp`와 `fieldbook-logo-dark.webp`에서 가져오며 테마에 맞춰 표시합니다. 한국어 홈 제목은 엔지니어링 필드북, 영어는 Engineering Fieldbook입니다. 홈의 브라우저 제목은 Engineering Fieldbook이고 개별 문서는 문서 제목 · Fieldbook 형식을 사용합니다.
 
 ## 로컬 명령
 

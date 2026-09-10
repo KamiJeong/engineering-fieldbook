@@ -1,3 +1,5 @@
+import logoLight from "./assets/fieldbook-logo-light.webp";
+import logoDark from "./assets/fieldbook-logo-dark.webp";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PageData, SearchEntry } from "./model";
 import { Sidebar } from "./Sidebar";
@@ -348,10 +350,20 @@ export function App({ data }: { data: PageData }) {
           href={home}
           aria-label={`Engineering Fieldbook · ${t.home}`}
         >
-          <span className="brand-mark" aria-hidden="true">
-            F
-          </span>
-          <strong>Fieldbook</strong>
+          <img
+            className="brand-logo brand-logo-light"
+            src={logoLight}
+            alt=""
+            width="180"
+            height="40"
+          />
+          <img
+            className="brand-logo brand-logo-dark"
+            src={logoDark}
+            alt=""
+            width="180"
+            height="40"
+          />
         </a>
         <nav className="top-nav" aria-label={t.home}>
           <a href={url(`glossary/${locale}/index.md`)}>{t.glossary}</a>

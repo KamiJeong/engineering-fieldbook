@@ -6,7 +6,7 @@ On wide home screens, the introduction and reading paths sit side by side; small
 
 Read the first document links to the first step in the source reading order and preserves the selected path. Topics with documents appear first; upcoming topics are collapsed. Topic document counts are distinguished from the total reading path count. On mobile, parent breadcrumbs collapse and the table of contents has a bounded height with collapsed subsections. Selecting a section closes the contents and focuses its heading. Each diagram is rendered from a button in its code block; focus moves to the result and returns to the button when closed.
 
-The brand is Engineering Fieldbook, shown as the F monogram and Fieldbook in the header. The Korean home heading is 엔지니어링 필드북 and the English heading is Engineering Fieldbook. The home browser title is Engineering Fieldbook; document titles use Document title · Fieldbook.
+The brand is Engineering Fieldbook, shown as the Open Notes symbol and Fieldbook wordmark in the header. Approved logo images are imported from `src/assets/fieldbook-logo-light.webp` and `fieldbook-logo-dark.webp` and displayed for the current theme. The Korean home heading is 엔지니어링 필드북 and the English heading is Engineering Fieldbook. The home browser title is Engineering Fieldbook; document titles use Document title · Fieldbook.
 
 ## Commands
 
