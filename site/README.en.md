@@ -4,6 +4,8 @@ English companion to [the Korean guide](README.md). The existing Markdown/OKF fi
 
 On wide home screens, the introduction and reading paths sit side by side; smaller screens stack them in reading order. Topic descriptions and document counts come from existing public data. Korean article text favors breaks between words. The current document uses a background highlight, while the selected reading path uses link emphasis.
 
+Read the first document links to the first step in the source reading order and preserves the selected path. Topics with documents appear first; upcoming topics are collapsed. Topic document counts are distinguished from the total reading path count. On mobile, parent breadcrumbs collapse and the table of contents has a bounded height with collapsed subsections. Selecting a section closes the contents and focuses its heading. Each diagram is rendered from a button in its code block; focus moves to the result and returns to the button when closed.
+
 ## Commands
 
 From the repository root, use Bun **1.4.0**, Python 3.10+ with PyYAML, and Node **24.15.0** for Playwright's Node ESM loader only.

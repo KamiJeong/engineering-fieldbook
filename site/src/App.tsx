@@ -4,6 +4,9 @@ import { Sidebar } from "./Sidebar";
 import { Learning } from "./Learning";
 import { pathHref, topicTree } from "./navigation";
 import { search } from "./search";
+import { useDiagrams } from "./useDiagrams";
+import { MobileToc } from "./MobileToc";
+import { Breadcrumbs } from "./Breadcrumbs";
 const languageHome = (base: string, language: string) =>
   `${base}${language === "ko" ? "" : `${encodeURIComponent(language)}/`}`;
 const languageName = (language: string) =>
@@ -18,7 +21,7 @@ const labels = {
     glossary: "용어집",
     log: "문서 변경 이력",
     theme: "테마 변경",
-    topics: "주제별로 읽기",
+    topics: "지금 읽을 수 있는 분야",
     recent: "최근 변경 문서",
     missing: "번역 없음",
     alternative: "언어별 문서 목록",
@@ -44,7 +47,6 @@ const labels = {
     copy: "복사",
     copied: "복사됨",
     copyError: "복사 실패",
-    diagram: "다이어그램 보기",
   },
   en: {
     home: "Home",
@@ -55,7 +57,7 @@ const labels = {
     glossary: "Glossary",
     log: "Knowledge change log",
     theme: "Change theme",
-    topics: "Browse by topic",
+    topics: "Topics to read now",
     recent: "Recently changed",
     missing: "No translation",
     alternative: "Browse documents by language",
@@ -81,7 +83,6 @@ const labels = {
     copy: "Copy",
     copied: "Copied",
     copyError: "Copy failed",
-    diagram: "Show diagram",
   },
 };
 const encode = (s: string) => s.split("/").map(encodeURIComponent).join("/");
@@ -162,6 +163,14 @@ export function App({ data }: { data: PageData }) {
     input = useRef<HTMLInputElement>(null),
     trigger = useRef<HTMLButtonElement>(null),
     article = useRef<HTMLElement>(null);
+  useDiagrams({
+    article,
+    dialog: diagramDialog,
+    canvas: diagramCanvas,
+    zoomTrigger: diagramTrigger,
+    documentUrl: doc?.url,
+    language: ui,
+  });
   const url = (source: string) =>
     data.entries.find((e) => e.source === source)?.url || home;
   useEffect(() => {
@@ -268,76 +277,6 @@ export function App({ data }: { data: PageData }) {
     }
     return () => buttons.forEach((b) => b.remove());
   }, [doc?.url, t.copy, t.copied, t.copyError]);
-  async function diagrams(event: React.MouseEvent<HTMLButtonElement>) {
-    const button = event.currentTarget;
-    button.disabled = true;
-    try {
-      const [{ default: mermaid }, { default: purify }] = await Promise.all([
-        import("mermaid"),
-        import("dompurify"),
-      ]);
-      // Remove partial output from an earlier failed attempt before retrying.
-      article.current
-        ?.querySelectorAll("figure.diagram")
-        .forEach((f) => f.remove());
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: "strict",
-        theme: dark ? "dark" : "default",
-        htmlLabels: false,
-        flowchart: { htmlLabels: false },
-        maxTextSize: 20000,
-      });
-      let i = 0;
-      for (const code of article.current?.querySelectorAll(
-        "code.language-mermaid",
-      ) || []) {
-        const { svg } = await mermaid.render(
-          `fieldbook-diagram-${i++}`,
-          code.textContent || "",
-        );
-        const figure = document.createElement("figure");
-        figure.className = "diagram";
-        figure.dataset.theme = dark ? "dark" : "light";
-        figure.innerHTML = purify.sanitize(svg, {
-          USE_PROFILES: { svg: true, svgFilters: true },
-        });
-        const controls = document.createElement("div");
-        controls.className = "diagram-controls";
-        const zoom = document.createElement("button");
-        zoom.type = "button";
-        zoom.textContent = ui === "ko" ? "확대" : "Expand";
-        zoom.onclick = () => {
-          const svg = figure.querySelector("svg");
-          if (!svg || !diagramCanvas.current) return;
-          diagramCanvas.current.replaceChildren(svg.cloneNode(true));
-          diagramCanvas.current.dataset.theme = figure.dataset.theme;
-          diagramTrigger.current = zoom;
-          diagramDialog.current?.showModal();
-        };
-        const close = document.createElement("button");
-        close.type = "button";
-        close.textContent = ui === "ko" ? "다이어그램 닫기" : "Close diagram";
-        close.onclick = () => {
-          figure.remove();
-          // Keep the code and the render trigger available after closing.
-          button.hidden = false;
-          button.disabled = false;
-          button.focus();
-        };
-        controls.append(zoom, close);
-        figure.prepend(controls);
-        code.closest("pre")?.after(figure);
-      }
-      button.hidden = true;
-    } catch {
-      button.disabled = false;
-      button.textContent =
-        ui === "ko"
-          ? "다이어그램 오류 — 코드 원문을 확인하세요"
-          : "Diagram failed — source remains available";
-    }
-  }
   function closeDiagram() {
     diagramDialog.current?.close();
     diagramCanvas.current?.replaceChildren();
@@ -359,6 +298,29 @@ export function App({ data }: { data: PageData }) {
       children.length,
     ]),
   );
+  const homeTopics = topics.filter(
+    (n) =>
+      n.url.includes("/knowledge/") &&
+      data.entries.some(
+        (entry) => entry.url === n.url && entry.language === locale,
+      ),
+  );
+  const readyTopics = homeTopics.filter(
+    (n) => (topicCounts.get(n.url) || 0) > 0,
+  );
+  const plannedTopics = homeTopics.filter((n) => !topicCounts.get(n.url));
+  const categoryLabel = (category: string) =>
+    ({
+      knowledge: ui === "ko" ? "지식" : "Knowledge",
+      glossary: ui === "ko" ? "용어집" : "Glossary",
+      checklists: ui === "ko" ? "체크리스트" : "Checklists",
+      decisions: ui === "ko" ? "기술 결정" : "Decisions",
+      experiments: ui === "ko" ? "실험" : "Experiments",
+      failures: ui === "ko" ? "실패 기록" : "Failures",
+      lessons: ui === "ko" ? "교훈" : "Lessons",
+      runbooks: ui === "ko" ? "운영 절차" : "Runbooks",
+      policies: ui === "ko" ? "운영 정책" : "Policies",
+    })[category] || category;
   const crumbs = doc
     ? doc.source
         .split("/")
@@ -373,7 +335,9 @@ export function App({ data }: { data: PageData }) {
                 e.source === `${parts.slice(0, i + 1).join("/")}/index.md`),
           ),
         }))
-        .filter((crumb) => crumb.part !== locale)
+        .filter(
+          (crumb) => crumb.part !== locale && crumb.entry?.url !== doc.url,
+        )
     : [];
   return (
     <>
@@ -473,9 +437,9 @@ export function App({ data }: { data: PageData }) {
             </section>
           ) : doc ? (
             <>
-              <nav
-                className="breadcrumbs"
-                aria-label={ui === "ko" ? "현재 위치" : "Breadcrumb"}
+              <Breadcrumbs
+                label={ui === "ko" ? "현재 위치" : "Breadcrumb"}
+                parent={`${ui === "ko" ? "상위 영역" : "Parent topic"}: ${crumbs.filter((crumb) => crumb.entry).at(-1)?.entry?.title || t.home}`}
               >
                 <a href={home}>{t.home}</a>
                 {crumbs.map((b, i) => (
@@ -490,12 +454,11 @@ export function App({ data }: { data: PageData }) {
                   </span>
                 ))}
                 <span> / {doc.title}</span>
-              </nav>
+              </Breadcrumbs>
               <article ref={article} className="prose" lang={doc.language}>
                 <header className="doc-heading">
                   <div dangerouslySetInnerHTML={articleParts.title} />
                   <div className="doc-meta">
-                    <span>{languageName(doc.language)}</span>
                     <span>
                       {t.updated}:{" "}
                       {doc.modified ? (
@@ -507,8 +470,8 @@ export function App({ data }: { data: PageData }) {
                       )}
                     </span>
                   </div>
+                  <Learning data={data} locale={locale} active={activePath} />
                 </header>
-                <Learning data={data} locale={locale} active={activePath} />
                 {data.languages.some(
                   (language) =>
                     language !== locale && !doc.translations[language],
@@ -532,28 +495,7 @@ export function App({ data }: { data: PageData }) {
                       ))}
                   </div>
                 )}
-                <div className="doc-tools">
-                  {doc.mermaid && (
-                    <button
-                      className="diagram-button"
-                      onClick={(e) => void diagrams(e)}
-                    >
-                      {t.diagram}
-                    </button>
-                  )}
-                  <details className="mobile-toc">
-                    <summary>{t.toc}</summary>
-                    <nav aria-label={t.toc}>
-                      {doc.toc
-                        .filter((h) => h.depth > 1)
-                        .map((h) => (
-                          <a key={h.id} href={`#${encodeURIComponent(h.id)}`}>
-                            {h.title}
-                          </a>
-                        ))}
-                    </nav>
-                  </details>
-                </div>
+                <MobileToc headings={doc.toc} label={t.toc} language={ui} />
                 <div
                   className="article-body"
                   dangerouslySetInnerHTML={articleParts.body}
@@ -699,16 +641,31 @@ export function App({ data }: { data: PageData }) {
                               <small>
                                 {p.steps.length}
                                 {ui === "ko"
-                                  ? "개 문서 · 원본의 학습 순서"
-                                  : " documents · original reading order"}
+                                  ? "개 문서 · 학습 경로 전체"
+                                  : " documents across the reading path"}
                               </small>
                             </div>
-                            <a href={pathHref(p.url, p)}>
-                              {ui === "ko"
-                                ? "경로 살펴보기"
-                                : "Explore the path"}{" "}
-                              →
-                            </a>
+                            <div className="start-actions">
+                              {p.steps[0] && (
+                                <a
+                                  className="primary-link first-document"
+                                  href={pathHref(p.steps[0].url, p)}
+                                >
+                                  {ui === "ko"
+                                    ? "첫 문서 읽기"
+                                    : "Read the first document"}{" "}
+                                  →
+                                </a>
+                              )}
+                              <a
+                                className="path-guide"
+                                href={pathHref(p.url, p)}
+                              >
+                                {ui === "ko"
+                                  ? "경로·선수 지식 안내"
+                                  : "Path and prerequisites"}
+                              </a>
+                            </div>
                           </div>
                         ))}
                     </div>
@@ -718,37 +675,52 @@ export function App({ data }: { data: PageData }) {
               <section className="home-section">
                 <h2>{t.topics}</h2>
                 <div className="topics">
-                  {topics
-                    .filter(
-                      (n) =>
-                        n.url.includes("/knowledge/") &&
-                        data.entries.some(
-                          (entry) =>
-                            entry.url === n.url && entry.language === locale,
-                        ),
-                    )
-                    .map((item, i) => (
-                      <a key={i} href={item.url}>
-                        <span>
-                          <strong>{item.title}</strong>
-                          <span className="topic-description">
-                            {
-                              data.entries.find(
-                                (entry) => entry.url === item.url,
-                              )?.description
-                            }
-                          </span>
-                          <small>
-                            {topicCounts.get(item.url)
-                              ? `${topicCounts.get(item.url)}${ui === "ko" ? "개 문서" : " documents"}`
-                              : ui === "ko"
-                                ? "상세 문서 준비 중"
-                                : "Detailed guides coming later"}
-                          </small>
+                  {readyTopics.map((item, i) => (
+                    <a key={i} href={item.url}>
+                      <span>
+                        <strong>{item.title}</strong>
+                        <span className="topic-description">
+                          {data.entries
+                            .find((entry) => entry.url === item.url)
+                            ?.description.replace(
+                              /^(범위와 추천 학습 순서|Scope and suggested learning order):\s*/u,
+                              "",
+                            )}
                         </span>
-                      </a>
-                    ))}
+                        <small>
+                          {topicCounts.get(item.url)}
+                          {ui === "ko"
+                            ? "개 문서 · 이 분야"
+                            : " documents in this topic"}
+                        </small>
+                      </span>
+                    </a>
+                  ))}
                 </div>
+                {!!plannedTopics.length && (
+                  <details className="planned-topics">
+                    <summary>
+                      {ui === "ko" ? "준비 중인 분야" : "Upcoming topics"} (
+                      {plannedTopics.length})
+                    </summary>
+                    <p>
+                      {ui === "ko"
+                        ? "아래 분야는 상세 문서를 준비 중입니다."
+                        : "Detailed documents for these topics are still in preparation."}
+                    </p>
+                    <nav
+                      aria-label={
+                        ui === "ko" ? "준비 중인 분야" : "Upcoming topics"
+                      }
+                    >
+                      {plannedTopics.map((item) => (
+                        <a key={item.url} href={item.url}>
+                          {item.title}
+                        </a>
+                      ))}
+                    </nav>
+                  </details>
+                )}
               </section>
               <section className="recent">
                 <h2>{t.recent}</h2>
@@ -759,7 +731,7 @@ export function App({ data }: { data: PageData }) {
                     </time>
                     <span>
                       {e.title}
-                      <small>{e.category}</small>
+                      <small>{categoryLabel(e.category)}</small>
                     </span>
                   </a>
                 ))}
@@ -896,7 +868,7 @@ export function App({ data }: { data: PageData }) {
                 <a href={e.url}>
                   <strong>{e.title}</strong>
                   <small>
-                    {languageName(e.language)} · {e.category}
+                    {languageName(e.language)} · {categoryLabel(e.category)}
                   </small>
                   <p>{e.description}</p>
                 </a>

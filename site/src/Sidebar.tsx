@@ -227,7 +227,13 @@ export function Sidebar({
                   save(next);
                 }}
               >
-                <summary>{root.title}</summary>
+                <summary>
+                  {root.url.includes("/glossary/")
+                    ? ko
+                      ? "용어집"
+                      : "Glossary"
+                    : root.title}
+                </summary>
                 <div className="nav-children">
                   <a
                     href={pathHref(root.url, activePath)}

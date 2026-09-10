@@ -335,12 +335,17 @@ kbd {
 .breadcrumbs a {
   color: var(--muted);
 }
+.breadcrumbs summary {
+  display: none;
+  cursor: pointer;
+  padding: 10px 0;
+}
 .breadcrumbs span:last-child {
   color: var(--text);
 }
 .doc-heading {
-  padding-bottom: 20px;
-  margin-bottom: 16px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
   border-bottom: 1px solid var(--line);
 }
 .doc-meta {
@@ -350,6 +355,9 @@ kbd {
   font-size: 14px;
   color: var(--muted);
   line-height: 1.6;
+}
+.doc-heading .learning-context {
+  margin: 4px 0 0;
 }
 .translation-missing {
   margin: 16px 0;
@@ -703,7 +711,7 @@ kbd {
   border-top: 1px solid var(--line);
   padding-top: 16px;
 }
-.start-path > div {
+.start-path > div:not(.start-actions) {
   display: grid;
   gap: 6px;
 }
@@ -711,7 +719,7 @@ kbd {
   color: var(--muted);
   font-size: 14px;
 }
-.start-path a {
+.start-path .path-guide {
   display: inline-flex;
   align-items: center;
   padding: 10px 0;
@@ -720,6 +728,36 @@ kbd {
   font-size: 14px;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+.start-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.start-actions .primary-link {
+  font-size: 14px;
+}
+.planned-topics {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+}
+.planned-topics summary {
+  padding: 12px 0;
+  cursor: pointer;
+}
+.planned-topics nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 24px;
+}
+.planned-topics a {
+  display: flex;
+  align-items: center;
+  min-height: var(--fb-control);
+  line-height: 1.7;
 }
 .topics {
   display: grid;
@@ -913,8 +951,18 @@ kbd {
   margin-bottom: 12px;
 }
 .diagram-button {
-  margin-bottom: 0;
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 13px;
+  padding: 6px 12px;
+}
+.diagram-error {
+  display: block;
+  color: var(--fb-error);
   font-size: 14px;
+  line-height: 1.7;
+  margin: 8px 0;
 }
 .diagram-dialog {
   max-width: 1200px;
@@ -983,17 +1031,34 @@ kbd {
 .hljs-deletion {
   background: var(--fb-code-deletion);
 }
-.doc-tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 24px;
-}
 .mobile-toc {
   display: none;
 }
-.mobile-toc[open] {
-  flex-basis: 100%;
+.mobile-toc nav {
+  max-height: min(40dvh, 320px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+.mobile-toc .depth-3 {
+  padding-left: 20px;
+}
+.toc-subsections {
+  margin-left: 12px;
+}
+.toc-subsections summary {
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  min-height: var(--fb-control);
+  padding: 10px 8px;
+}
+.diagram figcaption {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 12px;
 }
 .mobile-toc a {
   display: block;
@@ -1185,6 +1250,15 @@ kbd {
   }
 }
 @media (max-width: 640px) {
+  .breadcrumbs summary {
+    display: list-item;
+  }
+  .breadcrumb-trail {
+    padding: 4px 0 12px;
+  }
+  .planned-topics nav {
+    grid-template-columns: 1fr;
+  }
   :root {
     --header-height: 104px;
   }
@@ -1275,7 +1349,7 @@ kbd {
     padding: 20px;
   }
   .breadcrumbs {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
   .learning-next {
     grid-template-columns: 1fr;
