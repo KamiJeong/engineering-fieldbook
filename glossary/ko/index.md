@@ -22,6 +22,10 @@
 
 - [추론 강도: Reasoning effort](reasoning-effort.md) — 모델의 추론 노력과 시간·사용량을 조절하는 설정.
 
+## Delivery
+
+- [Git: 파일의 변경 이력을 관리하는 도구](git.md) — 저장소·커밋·브랜치·병합과 GitHub/GitLab의 관계.
+
 ## Digital Marketing
 
 - [SEO: 검색 엔진 최적화](seo.md)

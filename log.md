@@ -2,6 +2,9 @@
 
 ## 2026-09-10
 
+- **Verification**: GitHub·GitLab 변경을 분리한 작업 폴더에서 `bun run verify`를 통과했다. 문서 167개 Audit 문제 0건, 공개 문서 156개·자산 4개·변환 오류 0건, 단위 테스트 18개·브라우저 테스트 41개를 확인했다. 모바일 도표의 흐름을 세로로 다듬고 새 3쌍의 375/1440px 도표·탐색·검색·번역·강조 표시·가로 넘침, Git 용어집의 표시·번역을 확인했다. 기존 미추적 `design-qa.md`의 메타데이터 경고는 보존하고 검증 복사본에서 제외했다.
+- **Creation**: [GitHub·GitLab 종합 비교](knowledge/ko/delivery/github-and-gitlab.md), [GitHub 입문](knowledge/ko/delivery/github-fundamentals.md), [GitLab 입문](knowledge/ko/delivery/gitlab-fundamentals.md)과 [Git 용어](glossary/ko/git.md)를 한·영으로 작성했다. Repository·README·Issue·PR/MR·Projects/Issue board·Wiki·Pages를 동아리 안내문 예제와 도표로 설명하고, Actions·CI/CD 상세 설정은 후속 범위로 남겼다. Delivery와 상위 목차·용어집을 연결하고 분야 준비 상태의 브라우저 기대값을 공개 7개·준비 중 3개로 맞췄다.
+- **Verification**: Git·GitHub·GitLab 공식 출처 22개의 개념·브라우저 편집·Issue/MR·Pages 게시와 접근 조건을 대조했다. GitLab의 현재 `Plan → Work items` 경로, GitHub Projects와 GitLab Project의 차이, 병합과 사이트 게시의 구분을 반영했다. 새 4쌍의 목표·선수 지식·토요일 오후 2시 예제·조건·그림·질문 해설과 목차의 한·영 의미를 대조해 Agent 검증과 SYNCED를 기록했다. 동아리 계정·저장소·Issue 생성이나 GitLab 게시를 실제 수행한 기록은 아니다.
 - **Verification**: Chat·Work·CLI 변경을 분리한 작업 폴더에서 `bun run verify`를 통과했다. 문서 159개 Audit 문제 0건, 공개 문서 148개·자산 4개·변환 오류 0건, 단위 테스트 18개·브라우저 테스트 41개를 확인했다. 새 4쌍의 375/1440px 도표·CLI 예시·분야 탐색·검색·번역·가로 넘침을 확인했다. 괄호 병기 용어의 강조 문법을 정리한 뒤 Audit·빌드·표시를 다시 확인했다. 기존 미추적 `design-qa.md`의 메타데이터 경고는 보존하고 검증 복사본에서 제외했다.
 - **Creation**: [Chat·Work·Codex CLI 종합 비교](knowledge/ko/ai-engineering/chatgpt-and-codex-workflows.md)와 각 환경의 상세 학습 문서 3쌍을 한·영으로 작성했다. 목적·자료·완료 기준으로 선택하고, 공방 FAQ 예제·요청문·도표·검토 기준으로 개발자와 비개발자의 활용을 설명한다. AI Engineering 양쪽 목차에서 모델·effort 선택과 작업 환경 선택을 구분했다.
 - **Verification**: OpenAI 공식 문서 9개의 기능·범위·실행 위치·권한·인증·파일·프로젝트·요청 작성·비대화형 실행 설명을 대조했다. 로컬 `codex --version` 0.154.0과 `codex --help`를 확인했다. 새 4쌍의 목표·선수 지식·명령·예제 수치·조건·그림·질문 해설을 의미 대조해 Agent 검증과 SYNCED를 기록했다. 제품 사용 예제의 설치·로그인·모델 실행·파일 생성·성능 비교를 수행한 기록은 아니다.

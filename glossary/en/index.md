@@ -22,6 +22,10 @@ Use definitions and short examples when a term is unfamiliar. Start networking w
 
 - [Reasoning effort](reasoning-effort.md) — A setting guiding reasoning work, time, and token usage.
 
+## Delivery
+
+- [Git: a tool for tracking file history](git.md) — Repositories, commits, branches, merges, and the relationship to GitHub/GitLab.
+
 ## Digital Marketing
 
 - [SEO: Search Engine Optimization](seo.md)
