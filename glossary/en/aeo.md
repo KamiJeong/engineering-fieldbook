@@ -7,17 +7,19 @@ language: en
 status: stable
 generated:
   by: codex/gpt-6-astra
-  at: '2026-09-10T15:23:01+09:00'
+  at: '2026-09-10T16:21:32+09:00'
 verified:
 - by: codex/gpt-6-astra
   at: '2026-09-10T15:23:01+09:00'
-stale_after: '2026-10-10T15:23:01+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:22:23+09:00'
+stale_after: '2026-10-10T16:22:23+09:00'
 freshness:
   mode: current
   volatility: high
   review_days: 30
-  reason: AI search terminology, participation controls, and reporting change frequently;
-    recheck original documentation monthly.
+  reason: AI search terminology, participation controls, and reporting change frequently; recheck original
+    documentation monthly.
 sources:
 - id: hubspot
   resource: https://blog.hubspot.com/marketing/answer-engine-optimization-best-practices
@@ -28,9 +30,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aeo
-  source_fingerprint: sha256:bd3995cfa01ce21464f636474f59ed2c6a9242814ddfcbde26efc3fd87c5c940
-  target_fingerprint: sha256:7d95268d13a0d3def63a3653dd6758916ef89641b8c7b8c249ad7afe5d88a2d5
-  synced_at: '2026-09-10T15:23:01+09:00'
+  source_fingerprint: sha256:d72d22671c6f2846650b9874adcd9c21d5b6463dfe9017a1a025a06f44c90e23
+  target_fingerprint: sha256:1d1769f31ff513a819ee35e8eb26432ef0ef04c667a5dcaf8422eb9a60505154
+  synced_at: '2026-09-10T16:21:32+09:00'
   review_status: SYNCED
 ---
 
@@ -54,7 +56,7 @@ AEO means more than adding questions and overlaps with GEO. A short answer or FA
 
 ## Related knowledge
 
-[Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [GEO](geo.md) · [Glossary](index.md) · [한국어](../ko/aeo.md)
+[AEO details: diagram and application](../../knowledge/en/digital-marketing/aeo-answer-content.md) · [Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [GEO](geo.md) · [Glossary](index.md) · [한국어](../ko/aeo.md)
 
 ## Sources
 

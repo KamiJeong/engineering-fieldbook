@@ -7,17 +7,19 @@ language: en
 status: stable
 generated:
   by: codex/gpt-6-astra
-  at: '2026-09-10T15:23:01+09:00'
+  at: '2026-09-10T16:21:32+09:00'
 verified:
 - by: codex/gpt-6-astra
   at: '2026-09-10T15:23:01+09:00'
-stale_after: '2026-10-10T15:23:01+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:22:23+09:00'
+stale_after: '2026-10-10T16:22:23+09:00'
 freshness:
   mode: current
   volatility: high
   review_days: 30
-  reason: AI search terminology, participation controls, and reporting change frequently;
-    recheck original documentation monthly.
+  reason: AI search terminology, participation controls, and reporting change frequently; recheck original
+    documentation monthly.
 sources:
 - id: geo-paper
   resource: https://arxiv.org/abs/2311.09735
@@ -28,9 +30,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: geo
-  source_fingerprint: sha256:2734a0985278ed7341b4c24804f884336bfb68b3e31db290970d1e689e04aea7
-  target_fingerprint: sha256:ae5f7e62aa212478242d03bfae3f5c51375d9b68ce8d16dec1a0adf61c0d3722
-  synced_at: '2026-09-10T15:23:01+09:00'
+  source_fingerprint: sha256:3349e8fa7ac3fba9450421855118d34942728258c9cb2494a8b5420be34f0844
+  target_fingerprint: sha256:83e173a0b3d56e1012f423b6b763c639e2116ea9f7359c026c55e6b242422985
+  synced_at: '2026-09-10T16:21:32+09:00'
   review_status: SYNCED
 ---
 
@@ -54,7 +56,7 @@ Here GEO does not mean geographic targeting or local search. It overlaps with AE
 
 ## Related knowledge
 
-[Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [AEO](aeo.md) · [Glossary](index.md) · [한국어](../ko/geo.md)
+[GEO details: diagram and application](../../knowledge/en/digital-marketing/geo-generative-discovery.md) · [Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [AEO](aeo.md) · [Glossary](index.md) · [한국어](../ko/geo.md)
 
 ## Sources
 

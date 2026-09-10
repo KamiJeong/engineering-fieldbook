@@ -7,11 +7,13 @@ language: ko
 status: stable
 generated:
   by: codex/gpt-6-astra
-  at: '2026-09-10T15:23:01+09:00'
+  at: '2026-09-10T16:21:32+09:00'
 verified:
 - by: codex/gpt-6-astra
   at: '2026-09-10T15:23:01+09:00'
-stale_after: '2026-10-10T15:23:01+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:22:23+09:00'
+stale_after: '2026-10-10T16:22:23+09:00'
 freshness:
   mode: current
   volatility: high
@@ -46,7 +48,7 @@ AEO는 질문 목록을 추가하는 일만을 뜻하지 않으며 GEO와 경계
 
 ## 관련 지식
 
-[SEO·GEO·AEO·AIO 비교](../../knowledge/ko/digital-marketing/search-and-ai-discovery.md) · [GEO](geo.md) · [용어집](index.md) · [English](../en/aeo.md)
+[AEO 상세: 그림과 적용 예제](../../knowledge/ko/digital-marketing/aeo-answer-content.md) · [SEO·GEO·AEO·AIO 비교](../../knowledge/ko/digital-marketing/search-and-ai-discovery.md) · [GEO](geo.md) · [용어집](index.md) · [English](../en/aeo.md)
 
 ## 출처
 

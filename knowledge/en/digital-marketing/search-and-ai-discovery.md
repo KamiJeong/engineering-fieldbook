@@ -1,24 +1,27 @@
 ---
 type: Concept
-title: 'Digital marketing: understanding SEO, GEO, AEO, and AIO'
-description: A non-developer introduction to SEO, GEO, AEO, and AIO with illustrations,
-  studio examples, practical steps, and measurement.
+title: 'SEO, GEO, AEO, and AIO: differences and practical judgment'
+description: Compare four overlapping perspectives, prioritize problems through a shared studio example,
+  and separate execution, exposure, and business outcomes.
 concept_id: search-and-ai-discovery
 language: en
 status: stable
 generated:
   by: codex/gpt-6-astra
-  at: '2026-09-10T15:23:01+09:00'
+  at: '2026-09-10T16:25:04+09:00'
 verified:
 - by: codex/gpt-6-astra
   at: '2026-09-10T15:23:01+09:00'
-stale_after: '2026-10-10T15:23:01+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:21:32+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:25:04+09:00'
+stale_after: '2026-10-10T16:25:04+09:00'
 freshness:
   mode: current
   volatility: high
   review_days: 30
-  reason: AI search terminology, participation controls, and reporting change frequently;
-    recheck original documentation monthly.
+  reason: Recheck terminology, participation controls, and reporting changes in official sources monthly.
 sources:
 - id: seo
   resource: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
@@ -26,12 +29,6 @@ sources:
 - id: google-ai
   resource: https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
   title: Google — Optimizing your website for generative AI features on Google Search
-- id: ai-features
-  resource: https://developers.google.com/search/docs/appearance/ai-features
-  title: Google — AI features and your website
-- id: snippets
-  resource: https://developers.google.com/search/docs/appearance/featured-snippets
-  title: Google — Featured snippets and your website
 - id: geo-paper
   resource: https://arxiv.org/abs/2311.09735
   title: 'Aggarwal et al. — GEO: Generative Engine Optimization, KDD 2024'
@@ -44,223 +41,161 @@ sources:
 - id: aio-alternate
   resource: https://www.brainlabsdigital.com/wp-content/uploads/2025/07/Navigating-AI-Search_Brainlabs_JUL2025.pdf
   title: Brainlabs — Navigating the New Era of AI Search, p. 4
-- id: ai-control
-  resource: https://support.google.com/webmasters/answer/16908024
-  title: Google — Search generative AI control
-- id: ai-report
-  resource: https://support.google.com/webmasters/answer/16984139
-  title: Google — Generative AI performance report
-- id: bing
-  resource: https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview
-  title: Bing — Introducing AI Performance in Bing Webmaster Tools
 translation:
   source_language: ko
   source_concept_id: search-and-ai-discovery
-  source_fingerprint: sha256:afb79f56f519ea7b95cf0980243a50331be90d5286d57a944b1b7d1ff154d0ad
-  target_fingerprint: sha256:8f53f548af2806bd58c47824eecdf7a059291a66e3a93c382971159589550087
-  synced_at: '2026-09-10T15:23:01+09:00'
+  source_fingerprint: sha256:bb29424b4d1093b53ba2227ea254171bccf595b2904357a3085a9bf3de819eff
+  target_fingerprint: sha256:2c32c01a1bc43d1ee3e5f7646957d5155fcc21a613d96fc85c01dff48057b2ed
+  synced_at: '2026-09-10T16:25:04+09:00'
   review_status: SYNCED
 ---
 
-# Digital marketing: understanding SEO, GEO, AEO, and AIO
+# SEO, GEO, AEO, and AIO: differences and practical judgment
 
 ## Summary
 
-Imagine running a small craft studio. One customer finds its website in search results; another asks an AI assistant to compare weekend pottery classes for beginners. Both need accurate information to decide whether to book. SEO, GEO, AEO, and AIO offer **perspectives on improving discovery and communication**.
+**Start by finding what customers lack when discovering and evaluating information, rather than launching four separate programs.** Read SEO through page discovery and understanding, AEO through answers to questions, and GEO through evidence for comparison and synthesis. First agree on what AIO means, then use it to define information operations across AI touchpoints.
 
-Digital marketing involves reaching customers and maintaining relationships online. This document focuses on discovery through search and AI. The four acronyms do not cover every aspect of advertising, email, social media, or the experience after purchase.
+This article combines the topics to explain **differences, relationships, priorities, and interpretation of results**. The independent articles below provide definitions and detailed examples. The scope is discovery through search and AI within digital marketing; these abbreviations do not cover all advertising, email, social media, or post-purchase experiences.
 
-The terms overlap rather than forming successive technology generations. Google treats generative search optimization as part of SEO, while HubSpot groups activities such as GEO under AEO. The distinctions below explain work rather than a shared certification standard.[^google-ai][^hubspot]
+| Independent article | Question it addresses |
+| --- | --- |
+| [SEO: making pages discoverable in search](seo-foundations.md) | Can customers and search engines find and understand the page? |
+| [AEO: creating content that answers customer questions](aeo-answer-content.md) | Can readers find the answer and conditions their question needs? |
+| [GEO: creating evidence for AI comparisons and synthesis](geo-generative-discovery.md) | Is there evidence for deciding whether the service fits among alternatives? |
+| [AIO: defining scope and managing information across AI touchpoints](aio-strategy.md) | Which AI touchpoints are targeted, and who maintains and checks information? |
 
 ## Learning goals
 
-- Explain each acronym and what customers encounter.
-- Distinguish AIO as AI Optimization from AI Overviews usage.
-- Identify missing service information without development knowledge.
-- Measure search visibility, AI citations, and actual inquiries or bookings separately.
+- Distinguish the terms while explaining their overlap.
+- Review the same content through four perspectives and reduce duplicate work.
+- Choose improvement order and owners based on customer problems.
+- Separate completed work, external exposure, and customer actions when evaluating results.
 
 ## Prerequisites
 
-Experience using search or an AI conversation is sufficient. **Content** means information such as text, photographs, and video. A **search query** is what someone types into search. A **citation** identifies material used as a source. A **conversion** is a predefined customer action such as booking, inquiring, or buying. A click is not the same as a conversion.
-
-For quick definitions, read [SEO](../../../glossary/en/seo.md), [GEO](../../../glossary/en/geo.md), [AEO](../../../glossary/en/aeo.md), and [AIO](../../../glossary/en/aio.md).
+Experience with search or AI conversations is enough. **Content** is information conveyed through text, photos, or video. A **conversion** is a predefined customer action such as booking, inquiry, or purchase. For quick definitions, use [SEO](../../../glossary/en/seo.md), [GEO](../../../glossary/en/geo.md), [AEO](../../../glossary/en/aeo.md), and [AIO](../../../glossary/en/aio.md).
 
 ## 101 · Understand the concepts
 
-### Start with a picture
+### What differs, and what overlaps?
 
-![Four perspectives on fictional Haru Studio: SEO helps people discover its class page; AEO answers questions about class duration; GEO supplies evidence for comparisons; AIO checks whether AI conveys the studio's information accurately.](../../assets/digital-marketing/discovery-map.en.png)
+![Four perspectives on fictional Haru Studio: SEO helps people discover the class page, AEO answers a class-duration question, GEO supplies evidence for comparing classes, and AIO checks whether AI conveys studio information accurately.](../../assets/digital-marketing/discovery-map.en.png)
 
-Figure 1. An original explanatory illustration, not a real search interface or measured result. The perspectives can be applied together.
+Figure 1. An original comparison illustration, not a real search interface or observed exposure result. The four perspectives can be applied together.
 
-| Term | Full name | Plain-language meaning | Result of interest |
-| --- | --- | --- | --- |
-| **SEO** | Search Engine Optimization | Help engines and people understand and find pages. | Discovery and visits from relevant searches |
-| **GEO** | Generative Engine Optimization | Improve how information can serve as evidence when AI synthesizes sources. | Mentions, citations, and accurate descriptions in generated answers |
-| **AEO** | Answer Engine Optimization | Organize information so it can answer users' questions. | Content and sources used in direct answers |
-| **AIO** | AI Optimization | Here, a broad perspective on discovery and brand communication through AI. | Consistent, accurate information across AI touchpoints |
+| Perspective | Name and central question | Information to examine | Result to check | What it cannot establish alone |
+| --- | --- | --- | --- | --- |
+| SEO | Search Engine Optimization · Can the page be found and understood? | Accessibility to engines, titles, content, links | Discovery and visits from relevant searches | Whether visitors will book |
+| AEO | Answer Engine Optimization · Does the content resolve the question? | Direct answer, reason, applicable conditions | Answer completeness and actual use in answers | External exposure merely because an FAQ was added |
+| GEO | Generative Engine Optimization · Is there evidence for comparison and synthesis? | Audience, costs, conditions, verifiable material | Mentions, citations, and accuracy in generative answers | Revenue impact from citation counts alone |
+| AIO | AI Optimization in this article · How is information managed across AI touchpoints? | Target services, reference facts, owners, change records | Factual agreement across touchpoints and agreed goals | Exact scope from the abbreviation alone |
 
-The definitions draw on Google for SEO, the original GEO paper, HubSpot's AEO usage, and FGS Global's use of AI Optimization. The practical focus is an explanatory reconstruction.[^seo][^geo-paper][^hubspot][^aio-usage]
+SEO draws on Google guidance, GEO on the original research, and AEO on HubSpot's usage. AIO uses FGS Global's AI Optimization terminology as the basis for this article's scope. The table's questions and practical results are an explanatory reconstruction.[^seo][^geo-paper][^hubspot][^aio-usage]
 
-### SEO: create an explanation people can find
+### These are not technology generations or exclusive channels
 
-SEO helps search users understand a site and why they might visit it. Think of **crawling** as reading pages and **indexing** as organizing information for retrieval. Publishing does not guarantee immediate discovery or first place.[^seo]
+Google describes generative AI search work as an extension of SEO. HubSpot groups activities such as GEO within a broad AEO category. The table therefore offers work perspectives, not a replacement sequence of SEO followed by AEO and then GEO.[^google-ai][^hubspot]
 
-**Hypothetical example:** “Beginner pottery workshop — Haru Studio” explains a service more clearly than “A special experience.” Include the audience, duration, price, location, and booking instructions. This illustrates a reader-oriented improvement, not a measured ranking gain.
+AEO overlaps with GEO when an answer contributes to a comparison. The same page can support ordinary search and AI answers. Dividing AEO into “Google only” and GEO into “chatbots only” is also unhelpful. Brainlabs additionally uses AIO for AI Overviews and AI Overview Optimization, so AIO cannot always be declared an official umbrella above the other three.[^aio-alternate]
 
-### AEO: answer the customer's question
+**Reading perspective:** Use SEO to check discovery fundamentals and AEO and GEO to review answers and evidence. Use AIO, as defined here, to organize targets and information operations. This relationship is a practical interpretation.
 
-AEO asks whether the material can answer a customer's question accurately. **Hypothetical example:** Follow “How long is the class?” with “The beginner class lasts two hours and includes materials and tools,” then explain exceptions.
+## 201 · Apply them to an example
 
-AEO is not limited to short answers. HubSpot uses it broadly to include generative AI responses. A traditional **featured snippet** prominently presents an extract, which differs from a newly synthesized answer drawing on multiple sources. Google's systems decide which pages become featured snippets.[^hubspot][^snippets]
+### Review one description through four perspectives
 
-### GEO: provide evidence for comparison and synthesis
+**Assumptions:** Fictional Haru Studio offers a two-hour Saturday pottery class for adult beginners. There are six places; KRW 50,000 per person includes materials and tools. Pieces are collected in person about four weeks later. All prices, conditions, and improvement scenarios below are educational examples.
 
-GEO addresses content visibility in generated responses. The original research evaluates visibility in engines synthesizing multiple sources. Results from a specific experiment cannot be interpreted as revenue growth for every business.[^geo-paper]
+**Starting point:** Assume the description says only “The best pottery experience for special memories,” and booking information shows a different price from the website.
 
-**Hypothetical example:** A customer asks for a comparison of weekend pottery classes suitable for beginners. “The best studio” provides little basis for comparison. Beginner eligibility, class size, total cost, technique, and collection timing help distinguish alternatives. Whether an AI system actually selects that page is a separate question.
-
-### AIO: agree on the acronym first
-
-FGS Global uses **AI Optimization**. Brainlabs' 2025 material uses AIO for **AI Overviews** and **AI Overview Optimization**. The same abbreviation can therefore refer to different scopes.[^aio-usage][^aio-alternate]
-
-Here, AIO means broadly checking how AI helps people discover and understand a brand. For example, reconcile conflicting studio names or class conditions across the website and booking information, then check how AI describes them. This is not a claim that the whole industry agrees on one taxonomy.
-
-**Google AI Overviews** names an AI summary feature in Google Search. When someone requests AIO work, specify whether it concerns brand information across AI services or Google AI Overviews. Using AI to write content is also different from having that content used as evidence in an AI answer.[^ai-features]
-
-### Why the perspectives overlap
-
-One class page can appear in search results, answer a question, and support a comparison. Read **SEO as the foundation, AEO and GEO as overlapping answer perspectives, and AIO as the broader review scope defined here**. Do not assign AEO exclusively to Google or GEO exclusively to one chatbot.[^google-ai][^hubspot]
-
-## 201 · Apply the concepts
-
-### Improve Haru Studio's information
-
-**Assumptions:** Haru Studio is fictional. Its beginner class runs for two hours on Saturdays, holds six people, costs KRW 50,000 per person including materials, and offers collection roughly four weeks later. All conditions and prices are for learning, not a real business or market quotation.
-
-**Before:** “The best pottery experience for special memories! Inquire now.”
-
-**An improved example:**
-
-> **Beginner pottery workshop — Haru Studio**
->
-> A two-hour Saturday class for adults trying pottery for the first time. Up to six people can participate. The KRW 50,000 fee includes materials and tool use.
->
-> **Can I take the piece home that day?** Firing is required, so collection is approximately four weeks later. We will confirm the actual date separately.
->
-> Check the schedule and cancellation terms before booking. Select an available date on the booking page.
-
-| Perspective | Change | Benefit to the reader |
+| Improvement | Connected perspectives | Why it helps across them |
 | --- | --- | --- |
-| SEO | Put the service and studio name in the title | Decide whether the page covers the service needed |
-| AEO | Answer the collection question with conditions | Understand the basics without another inquiry |
-| GEO | Provide audience, duration, capacity, total cost, and collection details | Compare classes using consistent criteria |
-| AIO | Cross-check facts across the website, booking information, and public profiles | Reduce contradictory descriptions across touchpoints |
+| The operator confirms price, audience, and pickup conditions. | AIO information operations → all perspectives | Avoid increasing the visibility of incorrect facts. |
+| Rename the page “Beginner pottery workshop — Haru Studio.” | SEO + AEO | Clarify the service and the audience question. |
+| Answer “Can I take it home the same day?” with in-person pickup in about four weeks. | AEO + GEO | Resolve a direct question and provide comparison conditions for travelers or gift buyers. |
+| Make audience, duration, capacity, and cost available in one description. | SEO + GEO | Let visitors understand the service and compare classes. |
+| Align website and booking information, then observe AI answers. | AIO + GEO | Check managed-source corrections separately from external answer accuracy. |
 
-**Expected result and interpretation:** The demonstrated improvement is specific, reviewable information, not a measured increase in ranking or citations. Before publication, finalize the address, cancellation terms, and booking link, and replace the example with real facts.
-
-### Five steps for non-developers
-
-This is a proposed workflow for a small business or team, not an official ranking formula.
-
-1. **Collect customer questions.** Find recurring questions about eligibility, total cost, duration, and cases where the service is unsuitable.
-2. **Verify facts.** Confirm prices, schedules, inclusions, and limits with the responsible person, and assign ownership for updates.
-3. **Make answers easy to find on one page.** Combine clear headings, short answers, necessary explanation, and photographs. Match information in images to the text.
-4. **Ask the website operator to check readability.** Verify crawling and indexing eligibility, mobile access to important content, and the booking path.
-5. **Record discovery and action separately.** Distinguish search visibility, what AI cites, and actual inquiries or bookings.
+**Expected result and interpretation:** One description becomes more specific and consistent. Completing that work is separate from increased search exposure, AI citations, or bookings. You do not need four copies of similar service information, one per abbreviation. Split documents when readers have different questions and reading purposes, as with these learning articles.
 
 ```mermaid
 flowchart TD
-    A[Real customer questions] --> B[Owner verifies facts and conditions]
-    B --> C[One readable source page]
-    C --> D[Discover the page in search]
-    C --> E[Answer questions directly]
-    C --> F[Support AI comparison and synthesis]
-    D --> G[Understanding and trust]
+    A[Customer decision] --> B[Confirm facts]
+    B --> C[Source information]
+    C --> D[SEO]
+    C --> E[AEO]
+    C --> F[GEO]
+    D --> G[Observe understanding and actions]
     E --> G
     F --> G
-    G --> H[Check inquiries or bookings]
+    G --> H[AIO: manage touchpoints]
+    H --> B
 ```
 
-Figure 2. An original workflow showing how several paths can use one source. It does not guarantee visibility or conversion.
+Figure 2. A proposed way to apply the perspectives together. Search, answers, and synthesis need not happen sequentially, and conversion is not guaranteed.
+
+### How can non-developers and developers collaborate?
+
+Operators and marketers can gather customer questions, confirm prices, audiences, and conditions, and improve explanations. Customer service staff can identify repeated inquiries and misunderstandings. Website operators or developers can check access and indexing settings and whether mobile content and booking paths work. For a small team, assigning **who confirms facts, who publishes them, and who observes results** makes work clearer than assigning an owner to each abbreviation.
 
 ## 301 · Make decisions under constraints
 
-### What should you improve first?
+### Locate the problem before allocating budget
 
-| Current problem | First action | People involved |
+| Current problem | First action and reason | Continue with |
 | --- | --- | --- |
-| The page does not clearly explain the service | Improve the title and core explanation | Operator and marketer |
-| The same inquiries recur | Add answers and exceptions | Customer support |
-| AI gives an old price or another business's information | Compare dates, names, and conditions in original and public information | Operator and content owner |
-| Engines cannot read the page | Check access, indexing, and publication settings | Website operator or developer |
-| Visits do not lead to bookings | Review suitability, price explanation, and booking steps | Marketing, sales, and operations |
+| The page cannot be read or found in search. | Check access, indexing, and titles. Unreadable information blocks the start of discovery. | [SEO](seo-foundations.md) |
+| Visitors repeat the same questions. | Check whether answers and conditions appear where needed. Existing information may still be hard to find or understand. | [AEO](aeo-answer-content.md) |
+| Distinguishing facts for comparison are unclear. | State audience, costs, and limitations as verifiable facts. Customers need criteria for fit. | [GEO](geo-generative-discovery.md) |
+| Channels show different prices or AI states outdated conditions. | Compare reference facts, owners, and dates. Separate source inconsistency from external answer errors. | [AIO](aio-strategy.md) |
+| Visits and explanations are sufficient but bookings are low. | Check service fit, price explanations, and booking steps. Exposure alone cannot explain the problem. | Operations and marketing review |
 
-These are proposed priorities. Define the customer problem before dividing a budget among four acronyms.
+This table proposes problem-based priorities. A small team can choose one description important to a customer decision, complete a cycle of **fact confirmation → explanation improvements → reading and booking checks → observation**, then expand the scope. There is no basis here for dividing budget equally among four abbreviations.
 
-### There is no guaranteed shortcut to visibility
+Google recommends useful content and SEO principles over tactics such as special AI files or fixed sentence lengths.[^google-ai] Evaluate proposals by the specific materials they will improve and what they will observe in which service, rather than a promise of guaranteed citations.
 
-Google applies existing SEO principles to generative search. It does not require special AI files, a fixed answer length, or dedicated structured data. **Structured data** adds machine-readable labels to information such as prices, products, and businesses. Match it to visible content rather than treating it as a visibility certificate.[^google-ai][^ai-features]
+### Think about results in three stages
 
-Avoid publishing the same question in many superficial variations or fabricating reviews and evidence. Google cautions against scaled content primarily intended to manipulate search or AI answers, and against seeking inauthentic mentions.[^google-ai]
-
-For Google AI features, check Search Console's **Search generative AI** inclusion setting as well as crawling and indexing requirements. This control is separate from AI training permission. This document explains the setting; it does not change any site's publication or blocking controls.[^ai-control]
-
-### What should you measure?
-
-A **mention** names a brand; a **citation** identifies a source; a **visit** brings someone to the website. None alone proves revenue or trust.
-
-| What to check | Example record | Interpretation limit |
+| Stage | Example checks | Interpretation |
 | --- | --- | --- |
-| Search discovery | Relevant queries, page impressions, clicks | High ranking does not guarantee bookings |
-| AI responses | Question, service, date, brand mention, source URL | One answer does not represent every user's experience |
-| Accuracy | Matching price, audience, inclusions, and restrictions | Frequent but incorrect mentions still require improvement |
-| Business results | Relevant inquiries, completed bookings, acquisition source | Consider advertising, seasonality, and price changes |
+| What we changed | Corrected conflicting prices, completed answers, resolved access problems | Execution results; they do not prove external selection. |
+| What we observed externally | Search impressions and clicks, AI mentions, citations, and accuracy | Observations by service, question, and date; not all customers' experience. |
+| What happened for customers | Relevant inquiries, completed bookings, changes in recurring questions | Business and experience outcomes; consider advertising, seasonality, and price changes too. |
 
-Google Search Console's **Generative AI performance report** provides impressions for AI Overviews and AI Mode. The checked documentation focuses on impressions; this is not a tool measuring citations and revenue across all AI services. If it is absent, check documented conditions such as insufficient data.[^ai-report]
+**Decision principle:** Optimization should extend beyond raising a score for each abbreviation. Check whether relevant customers encounter accurate information, assess fit, and take their next action. If exposure grows but conditions are wrong, improve accuracy first. If exposure stays flat but repetitive inquiries decline, evaluate that effect separately. Claims about actual effects need observations collected on a consistent basis.
 
-Bing Webmaster Tools' **AI Performance** reports source citations and URLs across supported Microsoft AI experiences. Citation counts do not indicate rank or importance within an answer. The products cover different populations, so do not simply add their figures.[^bing]
-
-**Hypothetical calculation:** Check ten fixed questions twice each. If five of the twenty answers mention the studio, the observed mention rate is `5 ÷ 20 = 25%`. This is a custom observation metric, not official market share. Count linked answers and accurate descriptions separately. Keep tools, language, questions, and dates comparable; record changed questions as a separate sample.
+Product reports and sample calculations are covered in [GEO](geo-generative-discovery.md); Google participation controls and their distinction from training permission are covered in [AIO](aio-strategy.md).
 
 ## Check your understanding
 
-**Question 1:** Does adding an FAQ guarantee AI citations?
+**Question 1:** Do the four perspectives require four service description pages?
 
-**Answer:** No. Questions and answers help readers, but engines decide selection and presentation. Check publication and actual citation separately.
+**Explanation:** No. The same facts and description can be reviewed through several perspectives. Separate documents can serve distinct reader purposes, but duplicate descriptions with different abbreviations are unnecessary.
 
-**Question 2:** Should you stop SEO when starting GEO?
+**Question 2:** If AI describes an old price, should you first write more GEO-oriented sentences?
 
-**Answer:** No. The same source can support multiple discovery paths, and Google says SEO principles remain relevant to generative search.
+**Explanation:** Compare the reference price and public information first. Separate correcting source inconsistencies from checking whether external answers change.
 
-**Question 3:** What should you clarify first in an AIO request?
+**Question 3:** If citations rise but bookings stay flat, can you immediately declare success or failure?
 
-**Answer:** Specify whether AIO means AI Optimization, Google AI Overviews, or optimization for that feature, then define the services and desired results.
+**Explanation:** Report citations as an observed result and bookings as a business outcome separately. Assess accuracy, visitor intent, booking steps, and other changes before judging causes.
 
-**Question 4:** Does a 25% AI mention rate mean one in four customers saw the studio?
+## Evidence and limitations
 
-**Answer:** No. The example reports observations from twenty predefined answers. Customer exposure, visits, and bookings are different measures.
+The comparison uses Google documentation, original GEO research, and HubSpot, FGS Global, and Brainlabs terminology checked on 2026-09-10. Company usage is not treated as an official standard across platforms. Classification tables, operating order, and responsibilities are practical interpretations informed by sources, not internal algorithm rules.
 
-## Evidence and limits
-
-This document draws on Google and Bing documentation, companies' own terminology, and the original GEO research, checked on 2026-09-10. FGS Global, Brainlabs, and HubSpot establish their own usage; their marketing claims are not treated as universal platform mechanics. Service-specific selection algorithms, visibility improvements, and actual studio search or booking outcomes were not verified.
-
-The illustrations, studio example, and calculation are original learning material. Boundaries between AEO and GEO, and the meaning of AIO, depend on context. For Google participation controls and impression reporting, the newer optimization guide and dedicated help pages take precedence over the older AI-features overview. Recheck features and measurement scope in 30 days or when official documentation changes.
+The studio, prices, improvement scenarios, and illustrations are fictional learning material. This article does not validate actual website or AI response performance. Check the individual topic sources for detailed conditions and changes in official features.
 
 ## Related knowledge
 
-[SEO](../../../glossary/en/seo.md) · [GEO](../../../glossary/en/geo.md) · [AEO](../../../glossary/en/aeo.md) · [AIO](../../../glossary/en/aio.md) · [Digital Marketing](index.md) · [한국어](../../ko/digital-marketing/search-and-ai-discovery.md)
+[SEO details](seo-foundations.md) · [AEO details](aeo-answer-content.md) · [GEO details](geo-generative-discovery.md) · [AIO details](aio-strategy.md) · [Digital Marketing](index.md) · [한국어](../../ko/digital-marketing/search-and-ai-discovery.md)
 
 ## Sources
 
 [^seo]: [Google — SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
 [^google-ai]: [Google — Optimizing your website for generative AI features on Google Search](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
-[^ai-features]: [Google — AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)
-[^snippets]: [Google — Featured snippets and your website](https://developers.google.com/search/docs/appearance/featured-snippets)
 [^geo-paper]: [Aggarwal et al. — GEO: Generative Engine Optimization, KDD 2024](https://arxiv.org/abs/2311.09735)
 [^hubspot]: [HubSpot — Answer engine optimization best practices](https://blog.hubspot.com/marketing/answer-engine-optimization-best-practices)
 [^aio-usage]: [FGS Global — Digital Insights, August 2025: AIO](https://fgsglobal.com/insights/newsletters/digital-insights/august-2025)
 [^aio-alternate]: [Brainlabs — Navigating the New Era of AI Search, p. 4](https://www.brainlabsdigital.com/wp-content/uploads/2025/07/Navigating-AI-Search_Brainlabs_JUL2025.pdf)
-[^ai-control]: [Google — Search generative AI control](https://support.google.com/webmasters/answer/16908024)
-[^ai-report]: [Google — Generative AI performance report](https://support.google.com/webmasters/answer/16984139)
-[^bing]: [Bing — Introducing AI Performance in Bing Webmaster Tools](https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview)

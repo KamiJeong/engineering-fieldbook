@@ -7,17 +7,19 @@ language: en
 status: stable
 generated:
   by: codex/gpt-6-astra
-  at: '2026-09-10T15:23:01+09:00'
+  at: '2026-09-10T16:21:32+09:00'
 verified:
 - by: codex/gpt-6-astra
   at: '2026-09-10T15:23:01+09:00'
-stale_after: '2026-10-10T15:23:01+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:22:23+09:00'
+stale_after: '2026-10-10T16:22:23+09:00'
 freshness:
   mode: current
   volatility: high
   review_days: 30
-  reason: AI search terminology, participation controls, and reporting change frequently;
-    recheck original documentation monthly.
+  reason: AI search terminology, participation controls, and reporting change frequently; recheck original
+    documentation monthly.
 sources:
 - id: seo
   resource: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
@@ -28,9 +30,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: seo
-  source_fingerprint: sha256:f30c0c08bc878f8173bcdc683915c7f9d74db5fdaf976c67ec1d693564873b6e
-  target_fingerprint: sha256:f0f3c709cb7f4b646343eea3d6b4f6b5213ce3920bc076b74df9d3dbc5c3cc78
-  synced_at: '2026-09-10T15:23:01+09:00'
+  source_fingerprint: sha256:499168c6945aa2c0ab8a2d04df292ee86f49185f6f9246e55af1c06bb09983c9
+  target_fingerprint: sha256:e3822e3e64717335ffa0539491c99f8ef26b1ab51db0f7a3471e0449bc3d2387
+  synced_at: '2026-09-10T16:21:32+09:00'
   review_status: SYNCED
 ---
 
@@ -54,7 +56,7 @@ SEO is not the same as buying search advertising. Optimization does not guarante
 
 ## Related knowledge
 
-[Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [Glossary](index.md) · [한국어](../ko/seo.md)
+[SEO details: diagram and application](../../knowledge/en/digital-marketing/seo-foundations.md) · [Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [Glossary](index.md) · [한국어](../ko/seo.md)
 
 ## Sources
 

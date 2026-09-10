@@ -7,11 +7,13 @@ language: ko
 status: stable
 generated:
   by: codex/gpt-6-astra
-  at: '2026-09-10T15:23:01+09:00'
+  at: '2026-09-10T16:21:32+09:00'
 verified:
 - by: codex/gpt-6-astra
   at: '2026-09-10T15:23:01+09:00'
-stale_after: '2026-10-10T15:23:01+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:22:23+09:00'
+stale_after: '2026-10-10T16:22:23+09:00'
 freshness:
   mode: current
   volatility: high
@@ -46,7 +48,7 @@ SEO는 Search Engine Optimization의 약어이며, 한국어로 검색 엔진 �
 
 ## 관련 지식
 
-[SEO·GEO·AEO·AIO 비교](../../knowledge/ko/digital-marketing/search-and-ai-discovery.md) · [용어집](index.md) · [English](../en/seo.md)
+[SEO 상세: 그림과 적용 예제](../../knowledge/ko/digital-marketing/seo-foundations.md) · [SEO·GEO·AEO·AIO 비교](../../knowledge/ko/digital-marketing/search-and-ai-discovery.md) · [용어집](index.md) · [English](../en/seo.md)
 
 ## 출처
 

@@ -1,24 +1,26 @@
 ---
 type: Glossary Term
 title: 'AIO: distinguishing AI Optimization from AI Overviews'
-description: Distinguishing AI Optimization activities from the AI Overviews feature
-  and ambiguous acronym usage.
+description: Distinguishing AI Optimization activities from the AI Overviews feature and ambiguous acronym
+  usage.
 concept_id: aio
 language: en
 status: stable
 generated:
   by: codex/gpt-6-astra
-  at: '2026-09-10T15:23:01+09:00'
+  at: '2026-09-10T16:21:32+09:00'
 verified:
 - by: codex/gpt-6-astra
   at: '2026-09-10T15:23:01+09:00'
-stale_after: '2026-10-10T15:23:01+09:00'
+- by: codex/gpt-6-astra
+  at: '2026-09-10T16:22:23+09:00'
+stale_after: '2026-10-10T16:22:23+09:00'
 freshness:
   mode: current
   volatility: high
   review_days: 30
-  reason: AI search terminology, participation controls, and reporting change frequently;
-    recheck original documentation monthly.
+  reason: AI search terminology, participation controls, and reporting change frequently; recheck original
+    documentation monthly.
 sources:
 - id: aio-usage
   resource: https://fgsglobal.com/insights/newsletters/digital-insights/august-2025
@@ -32,9 +34,9 @@ sources:
 translation:
   source_language: ko
   source_concept_id: aio
-  source_fingerprint: sha256:27ce91b690175bb8556b72d643d5f2ee7fee3aab2b0dbab873657e7a1ed0193a
-  target_fingerprint: sha256:28e768e2847a5a636de80eff38a4ea53390f3de3927a6d22ff8f1b1e2011d0fa
-  synced_at: '2026-09-10T15:23:01+09:00'
+  source_fingerprint: sha256:a4007ae151a870e0613de97ea487cf797ffcb5e117d3f63d4bc5b1dc6f333eb5
+  target_fingerprint: sha256:05ad602935536b66bfef45cc7e58d6693f0110b004894984621c1b75e50050ec
+  synced_at: '2026-09-10T16:21:32+09:00'
   review_status: SYNCED
 ---
 
@@ -58,7 +60,7 @@ Google AI Overviews is an AI summary feature in Search. Distinguish the product 
 
 ## Related knowledge
 
-[Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [Glossary](index.md) · [한국어](../ko/aio.md)
+[AIO details: diagram and application](../../knowledge/en/digital-marketing/aio-strategy.md) · [Compare SEO, GEO, AEO, and AIO](../../knowledge/en/digital-marketing/search-and-ai-discovery.md) · [Glossary](index.md) · [한국어](../ko/aio.md)
 
 ## Sources
 
