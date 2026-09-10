@@ -151,6 +151,9 @@ kbd {
   width: 216px;
   flex-shrink: 0;
 }
+.brand strong {
+  letter-spacing: -0.02em;
+}
 .brand:hover {
   text-decoration: none;
   color: var(--fb-primary);
@@ -160,9 +163,10 @@ kbd {
   place-items: center;
   background: var(--fb-brand-surface);
   color: var(--fb-brand-label);
-  border-radius: 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
   font:
-    bold 24px Georgia,
+    bold 23px/1 Georgia,
     serif;
   width: 32px;
   height: 36px;
@@ -1275,9 +1279,9 @@ kbd {
     font-size: 16px;
   }
   .brand-mark {
-    height: 30px;
+    height: 32px;
     width: 28px;
-    font-size: 22px;
+    font-size: 20px;
   }
   .tools {
     display: contents;

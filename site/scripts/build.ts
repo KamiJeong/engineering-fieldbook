@@ -88,9 +88,9 @@ export async function writePages(
       description =
         data.document?.description ||
         (data.language === "ko"
-          ? "기본 개념을 이해하고 예제로 적용하며 기술 선택의 근거를 배우는 지식공유소."
-          : "Understand the fundamentals, apply examples, and learn how to justify technical choices.");
-    const html = `<!doctype html><html lang="${escape(data.language)}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} · Fieldbook</title><meta name="description" content="${escape(description)}">${data.notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${escape(config.origin + url)}">`}${Object.entries(
+          ? "개념을 이해하고, 설계의 근거를 쌓습니다."
+          : "Understand concepts. Build the reasoning behind your designs.");
+    const html = `<!doctype html><html lang="${escape(data.language)}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(data.document || data.notFound ? `${title} · Fieldbook` : title)}</title><meta name="description" content="${escape(description)}">${data.notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${escape(config.origin + url)}">`}${Object.entries(
       data.document?.translations ||
         Object.fromEntries(
           common.languages.map((language) => [

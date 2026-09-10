@@ -38,8 +38,7 @@ const labels = {
     notFound: "문서를 찾을 수 없습니다",
     notFoundBody:
       "주소가 변경되었거나 게시 대상이 아닌 문서입니다. 홈이나 검색에서 찾아보세요.",
-    intro:
-      "기본 개념을 이해하고, 예제로 적용하며, 기술 선택의 근거를 배웁니다.",
+    intro: "개념을 이해하고, 설계의 근거를 쌓습니다.",
     skip: "본문으로 이동",
     results: "검색 결과",
     translation: "문서 번역",
@@ -74,8 +73,7 @@ const labels = {
     notFound: "Document not found",
     notFoundBody:
       "The address may have changed or the document is not published. Try home or search.",
-    intro:
-      "Understand the fundamentals, apply examples, and learn how to justify technical choices.",
+    intro: "Understand concepts. Build the reasoning behind your designs.",
     skip: "Skip to content",
     results: "Search results",
     translation: "Document translations",
@@ -345,7 +343,11 @@ export function App({ data }: { data: PageData }) {
         {t.skip}
       </a>
       <header className="site-header">
-        <a className="brand" href={home}>
+        <a
+          className="brand"
+          href={home}
+          aria-label={`Engineering Fieldbook · ${t.home}`}
+        >
           <span className="brand-mark" aria-hidden="true">
             F
           </span>
@@ -590,7 +592,9 @@ export function App({ data }: { data: PageData }) {
                       : "From concepts to design decisions"}
                   </p>
                   <h1 className="home-title">
-                    {ui === "ko" ? "지식 공유소" : "Engineering Fieldbook"}
+                    {ui === "ko"
+                      ? "엔지니어링 필드북"
+                      : "Engineering Fieldbook"}
                   </h1>
                   <p className="intro">{t.intro}</p>
                   <div className="home-links">
