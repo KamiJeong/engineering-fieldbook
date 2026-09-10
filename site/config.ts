@@ -24,6 +24,8 @@ export const site = {
   ],
   files: ["index.md", "README.md", "log.md"],
   assets: [
+    "knowledge/assets/digital-marketing/discovery-map.ko.png",
+    "knowledge/assets/digital-marketing/discovery-map.en.png",
     "experiments/evidence/2026-09-08-fieldbook-audit/result.json",
     "experiments/evidence/2026-09-08-fieldbook-audit/reproduce.py",
   ],

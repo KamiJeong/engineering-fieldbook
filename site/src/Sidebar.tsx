@@ -43,8 +43,12 @@ export function Sidebar({
           if (selected) {
             const box = selected.getBoundingClientRect(),
               parent = container.current.getBoundingClientRect();
-            if (box.top < parent.top || box.bottom > parent.bottom)
-              selected.scrollIntoView({ block: "nearest" });
+            // Scroll only the panel. scrollIntoView also changes the browser's
+            // sequential focus starting point, bypassing the page's skip link.
+            if (box.top < parent.top)
+              container.current.scrollTop += box.top - parent.top;
+            else if (box.bottom > parent.bottom)
+              container.current.scrollTop += box.bottom - parent.bottom;
           }
         });
     } catch {

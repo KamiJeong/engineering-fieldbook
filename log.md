@@ -2,6 +2,11 @@
 
 ## 2026-09-10
 
+- **Creation**: [디지털 마케팅](knowledge/ko/digital-marketing/search-and-ai-discovery.md)과 SEO·GEO·AEO·AIO 용어 4쌍을 한·영으로 작성했다. 비개발자용 공방 예제·비교 그림·운영 흐름·측정 계산을 추가하고 새 분야와 용어집 목차를 연결했다.
+- **Verification**: 공식 플랫폼 안내·용어 사용자의 원문·GEO 원 연구 11개 출처를 주장별로 대조했다. AIO의 다의성과 AEO/GEO의 중첩을 명시하고 Google의 최신 참여 설정·노출 보고서 안내를 반영했다. 새 5쌍의 목표·가정·예제·질문 해설과 그림 문구를 의미 대조한 뒤 Agent 검증 및 SYNCED를 기록했다. 공방과 계산은 가상이며 실제 검색·AI 노출·예약 성과를 검증한 기록은 아니다.
+
+- **Verification**: 디지털 마케팅 변경을 담은 별도 작업 폴더에서 `bun run verify`를 통과했다. 문서 143개 Audit 문제 0건, 공개 문서 132개·자산 4개·변환 오류 0건, 단위 테스트 18개·브라우저 테스트 41개를 확인했다. 한·영 375/1440px의 그림·도표·분야 탐색·번역·네 용어 검색도 확인했다.
+
 - **Creation**: [GPT-6 Astra](knowledge/ko/ai-engineering/gpt-6-astra.md)와 [추론 강도](glossary/ko/reasoning-effort.md)를 한·영으로 작성했다. 개발자·비개발자 사례, effort별 선택, Max/Ultra 구분, 이전 모델 비교와 API 이전 주의점을 공식 자료에 연결했다. AI 분야·용어집 목차를 동기화했다.
 - **Verification**: OpenAI 공식 6개 페이지의 지원 값·제품 범위·이전 기능·사양을 직접 대조하고 새 2쌍의 목표·가정·권고·예제·질문 해설을 의미 검토했다. Agent 검증으로 stable 및 SYNCED를 기록하고 30일 재검토 기한을 설정했다. 활용 예제는 가상이며 API 실행·계정 접근성·독립 성능 측정은 검증 범위에 포함하지 않는다.
 

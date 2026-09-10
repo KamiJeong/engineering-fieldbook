@@ -2,9 +2,10 @@
 
 Start with fundamentals, then application, decisions, and operations.
 
-Detailed concepts currently cover AI model usage, AWS, and document verification. Start with the AWS learning path under Cloud Infrastructure below: 101 understanding → 201 example application → 301 judgment. Other domain outlines describe intended scope and mark where detailed entries are not yet available.
+Detailed concepts currently cover AI model usage, digital marketing, AWS, and document verification. Start with the AWS learning path under Cloud Infrastructure below: 101 understanding → 201 example application → 301 judgment. Other domain outlines describe intended scope and mark where detailed entries are not yet available.
 
 - [AI Engineering](ai-engineering/index.md) — AI Native Development → Context Engineering → Agentic Development → RAG → LLM Evaluation.
+- [Digital Marketing](digital-marketing/index.md) — SEO → AEO, GEO, AIO → Customer discovery and measurement.
 - [Cloud Infrastructure](cloud/index.md) — Infrastructure fundamentals → AWS Infrastructure → Cloud Cost / FinOps.
 - [Security](security/index.md) — Identity → Cloud Security → Software Supply Chain Security.
 - [Delivery](delivery/index.md) — GitHub → CI/CD → Deployment strategy.

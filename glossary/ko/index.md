@@ -21,3 +21,10 @@
 ## AI
 
 - [추론 강도: Reasoning effort](reasoning-effort.md) — 모델의 추론 노력과 시간·사용량을 조절하는 설정.
+
+## Digital Marketing
+
+- [SEO: 검색 엔진 최적화](seo.md)
+- [GEO: 생성형 엔진 최적화](geo.md)
+- [AEO: 답변 엔진 최적화](aeo.md)
+- [AIO: AI Optimization과 AI Overviews의 구분](aio.md)

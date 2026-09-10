@@ -21,3 +21,10 @@ Use definitions and short examples when a term is unfamiliar. Start networking w
 ## AI
 
 - [Reasoning effort](reasoning-effort.md) — A setting guiding reasoning work, time, and token usage.
+
+## Digital Marketing
+
+- [SEO: Search Engine Optimization](seo.md)
+- [GEO: Generative Engine Optimization](geo.md)
+- [AEO: Answer Engine Optimization](aeo.md)
+- [AIO: distinguishing AI Optimization from AI Overviews](aio.md)
