@@ -135,7 +135,7 @@ for (const width of [375, 768, 1440])
         page.on("pageerror", (e) => errors.push(e.message));
         await page.goto(locale === "en" ? "en/" : "./");
         await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
-        const output = `site/.generated/screenshots/${site.base === "/" ? "root" : "project"}`;
+        const output = `artifacts/ui-review/verification/${site.base === "/" ? "root" : "project"}`;
         await mkdir(output, { recursive: true });
         await page.screenshot({
           path: `${output}/home-${width}-${locale}-${theme}.png`,

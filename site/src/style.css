@@ -311,8 +311,9 @@ kbd {
 }
 .sidebar .active-path {
   font-weight: 650;
-  background: var(--fb-sidebar-active);
-  color: var(--fb-sidebar-active-foreground);
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 .drawer-close-mark {
   display: none;
@@ -338,8 +339,8 @@ kbd {
   color: var(--text);
 }
 .doc-heading {
-  padding-bottom: 24px;
-  margin-bottom: 28px;
+  padding-bottom: 20px;
+  margin-bottom: 16px;
   border-bottom: 1px solid var(--line);
 }
 .doc-meta {
@@ -365,6 +366,11 @@ kbd {
 .prose {
   font-size: 16px;
   line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.prose:lang(ko),
+.home-layout:lang(ko) {
+  word-break: keep-all;
   overflow-wrap: anywhere;
 }
 .prose h1 {
@@ -597,9 +603,16 @@ kbd {
   max-width: 1120px;
   padding: 48px 64px 80px;
 }
-.home-intro {
-  padding: 0 0 32px;
+.home-opening {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+  padding-bottom: 36px;
   border-bottom: 1px solid var(--line);
+}
+.home-intro {
+  min-width: 0;
 }
 .eyebrow {
   display: inline-flex;
@@ -618,7 +631,7 @@ kbd {
   background: var(--fb-secondary);
 }
 .home-title {
-  font-size: clamp(32px, 3vw, 44px);
+  font-size: clamp(32px, 3vw, 48px);
   font-weight: 750;
   margin: 16px 0;
   line-height: 1.2;
@@ -632,7 +645,7 @@ kbd {
 .home-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px 24px;
+  gap: 12px 20px;
   align-items: center;
   font-size: 14px;
   margin: 24px 0 0;
@@ -665,7 +678,9 @@ kbd {
   margin-top: 32px;
 }
 .learning-start {
-  margin: 32px 0;
+  margin: 0;
+  padding-left: 32px;
+  border-left: 1px solid var(--line);
 }
 .learning-start > p {
   color: var(--muted);
@@ -708,14 +723,15 @@ kbd {
 }
 .topics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
 }
 .topics > a {
   display: flex;
   gap: 12px;
   align-items: baseline;
-  padding: 12px 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
   color: var(--text);
   font-size: 14px;
   min-height: 80px;
@@ -730,7 +746,14 @@ kbd {
 }
 .topics strong {
   font-weight: 600;
+  font-size: 16px;
   display: block;
+}
+.topic-description {
+  display: block;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 8px;
 }
 .topics small {
   display: block;
@@ -738,10 +761,6 @@ kbd {
   font-size: 12px;
   line-height: 1.6;
   margin-top: 4px;
-}
-.topics > a > span:last-child {
-  margin-left: auto;
-  color: var(--accent);
 }
 .recent {
   margin-top: 40px;
@@ -964,8 +983,17 @@ kbd {
 .hljs-deletion {
   background: var(--fb-code-deletion);
 }
+.doc-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 24px;
+}
 .mobile-toc {
   display: none;
+}
+.mobile-toc[open] {
+  flex-basis: 100%;
 }
 .mobile-toc a {
   display: block;
@@ -973,19 +1001,29 @@ kbd {
   font-size: 14px;
 }
 .learning-context {
-  margin: 16px 0 24px;
+  margin: 8px 0 12px;
   padding: 0;
   color: var(--muted);
   font-size: 14px;
-  display: grid;
-  gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
-.learning-context > a {
+.learning-context > div,
+.learning-picker,
+.learning-context > details[open] {
+  flex-basis: 100%;
+}
+.learning-context > a,
+.learning-picker > a {
   display: flex;
   align-items: center;
   min-height: var(--fb-control);
+}
+.learning-picker > small {
+  display: block;
 }
 .learning-context small,
 .learning-next small {
@@ -1038,6 +1076,16 @@ kbd {
   color: var(--muted);
 }
 @media (max-width: 1200px) {
+  .home-opening {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-bottom: 28px;
+  }
+  .learning-start {
+    padding: 24px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
   .top-nav {
     display: none;
   }
@@ -1057,7 +1105,7 @@ kbd {
   }
   .mobile-toc {
     display: block;
-    margin: 12px 0;
+    margin: 0;
     padding: 0;
     font-size: 14px;
     color: var(--muted);
@@ -1078,59 +1126,12 @@ kbd {
   .tools .search-trigger {
     gap: 16px;
   }
-  .topics {
-    grid-template-columns: 1fr;
-  }
   .layout main,
   .home-layout main {
     padding: 28px 24px 64px;
   }
   .header-github {
     font-size: 13px;
-  }
-}
-@media (max-width: 640px) {
-  :root {
-    --header-height: 120px;
-  }
-  .site-header {
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 10px 16px;
-    min-height: 112px;
-  }
-  .brand {
-    width: 100%;
-    font-size: 16px;
-  }
-  .brand-mark {
-    height: 30px;
-    width: 28px;
-    font-size: 22px;
-  }
-  .tools {
-    width: 100%;
-    margin: 0;
-    gap: 6px;
-    justify-content: space-between;
-    font-size: 13px;
-  }
-  .tools .search-trigger {
-    gap: 0;
-    padding: 8px 12px;
-  }
-  .tools kbd {
-    display: none;
-  }
-  .language-switch a,
-  .language-switch > span {
-    padding: 8px 6px;
-  }
-  .theme-trigger {
-    padding: 6px;
-  }
-  .header-github {
-    padding: 12px 0;
   }
   .layout,
   .home-layout {
@@ -1179,15 +1180,68 @@ kbd {
     padding: 8px 20px 24px;
     background: var(--sidebar);
   }
+  .site-footer {
+    padding-left: 24px;
+  }
+}
+@media (max-width: 640px) {
+  :root {
+    --header-height: 104px;
+  }
+  .site-header {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 0 12px;
+    padding: 8px 16px;
+    min-height: var(--header-height);
+  }
+  .brand {
+    grid-column: 1 / 3;
+    width: auto;
+    font-size: 16px;
+  }
+  .brand-mark {
+    height: 30px;
+    width: 28px;
+    font-size: 22px;
+  }
+  .tools {
+    display: contents;
+    font-size: 13px;
+  }
+  .tools .search-trigger {
+    grid-column: 3;
+    grid-row: 1;
+    gap: 0;
+    padding: 8px 12px;
+  }
+  .tools kbd {
+    display: none;
+  }
+  .language-switch a,
+  .language-switch > span {
+    padding: 8px 6px;
+  }
+  .theme-trigger {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 6px;
+  }
+  .language-switch {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .header-github {
+    grid-column: 3;
+    grid-row: 2;
+    padding: 12px 0;
+  }
   .layout main,
   .home-layout main {
     padding: 24px 20px 48px;
   }
   .home-title {
     font-size: 32px;
-  }
-  .home-intro {
-    padding-bottom: 24px;
   }
   .topics {
     grid-template-columns: 1fr;

@@ -2,6 +2,8 @@
 
 English companion to [the Korean guide](README.md). The existing Markdown/OKF files remain the only content source. This is an ordinary Git repository, not a separate GitHub Wiki repository.
 
+On wide home screens, the introduction and reading paths sit side by side; smaller screens stack them in reading order. Topic descriptions and document counts come from existing public data. Korean article text favors breaks between words. The current document uses a background highlight, while the selected reading path uses link emphasis.
+
 ## Commands
 
 From the repository root, use Bun **1.4.0**, Python 3.10+ with PyYAML, and Node **24.15.0** for Playwright's Node ESM loader only.
@@ -63,7 +65,7 @@ The Pages workflow validates PRs and all main changes, including document-only c
 
 `bun run verify` runs the existing audit and site checks. The audit's external URL list does not verify external technical facts or translation semantics. Follow the existing refresh workflow when content ages; never extend verification dates automatically.
 
-Chromium tests use a static server without SPA fallback, check all public documents/local links/anchors, no-JavaScript article reading, search, translation, 404, code copying and Mermaid. Light/dark screenshots at 375, 768 and 1440 pixels are generated under site/.generated/screenshots. Safari/Firefox, the real Pages domain and remote Actions remain separate checks.
+Chromium tests use a static server without SPA fallback, check all public documents/local links/anchors, no-JavaScript article reading, search, translation, 404, code copying and Mermaid. Light/dark screenshots at 375, 768 and 1440 pixels are generated under artifacts/ui-review/verification. Safari/Firefox, the real Pages domain and remote Actions remain separate checks.
 
 Raw HTML nodes are removed before generating headings, descriptions and search data. Remote images, including reference images, fail validation. Images must use reviewed local assets; ordinary external navigation links remain supported.
 

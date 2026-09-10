@@ -2,39 +2,48 @@ import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 import { site } from "../config";
 
-const output = `site/.generated/screenshots/${site.base === "/" ? "root" : "project"}`;
+const output = `artifacts/ui-review/verification/${site.base === "/" ? "root" : "project"}`;
 
-test("mobile drawer traps focus, closes with Escape and restores navigation", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto("knowledge/cloud/aws-ec2/");
-  const summary = page.locator(".sidebar-shell > summary");
-  await summary.click();
-  await expect(page.locator('.sidebar-shell[role="dialog"]')).toBeVisible();
-  await expect(page.locator("main")).toHaveAttribute("inert", "");
-  await expect(summary).toBeFocused();
-  await page.keyboard.press("Control+k");
-  await expect(page.locator(".search-dialog")).not.toBeVisible();
-  await page.keyboard.press("Shift+Tab");
-  await expect(page.locator(".nav-group > summary").last()).toBeFocused();
-  await page.keyboard.press("Tab");
-  await expect(summary).toBeFocused();
-  await mkdir(output, { recursive: true });
-  await page.screenshot({ path: `${output}/drawer-375-ko-light.png` });
-  await page.keyboard.press("Escape");
-  await expect(summary).toBeFocused();
-  await expect(page.locator(".sidebar-shell")).not.toHaveAttribute("open", "");
-  await expect(page.locator("main")).not.toHaveAttribute("inert", "");
-  await summary.click();
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await expect(page.locator(".sidebar-shell")).not.toHaveAttribute(
-    "aria-modal",
-    "true",
-  );
-  await expect(page.locator("main")).not.toHaveAttribute("inert", "");
-  await expect(page.locator('.sidebar a[aria-current="page"]')).toBeVisible();
-});
+for (const width of [375, 768, 900])
+  test(`drawer at ${width}px traps focus, closes with Escape and restores navigation`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 812 });
+    await page.goto("knowledge/cloud/aws-ec2/");
+    expect(
+      await page
+        .locator("main")
+        .evaluate((node) => node.getBoundingClientRect().width),
+    ).toBeGreaterThan(width * 0.9);
+    const summary = page.locator(".sidebar-shell > summary");
+    await summary.click();
+    await expect(page.locator('.sidebar-shell[role="dialog"]')).toBeVisible();
+    await expect(page.locator("main")).toHaveAttribute("inert", "");
+    await expect(summary).toBeFocused();
+    await page.keyboard.press("Control+k");
+    await expect(page.locator(".search-dialog")).not.toBeVisible();
+    await page.keyboard.press("Shift+Tab");
+    await expect(page.locator(".nav-group > summary").last()).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(summary).toBeFocused();
+    await mkdir(output, { recursive: true });
+    await page.screenshot({ path: `${output}/drawer-${width}-ko-light.png` });
+    await page.keyboard.press("Escape");
+    await expect(summary).toBeFocused();
+    await expect(page.locator(".sidebar-shell")).not.toHaveAttribute(
+      "open",
+      "",
+    );
+    await expect(page.locator("main")).not.toHaveAttribute("inert", "");
+    await summary.click();
+    await page.setViewportSize({ width: 901, height: 1000 });
+    await expect(page.locator(".sidebar-shell")).not.toHaveAttribute(
+      "aria-modal",
+      "true",
+    );
+    await expect(page.locator("main")).not.toHaveAttribute("inert", "");
+    await expect(page.locator('.sidebar a[aria-current="page"]')).toBeVisible();
+  });
 
 test("search exposes loading, error, retry, empty and arrow-key focus", async ({
   page,

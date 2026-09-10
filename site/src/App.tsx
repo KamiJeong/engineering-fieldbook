@@ -532,26 +532,28 @@ export function App({ data }: { data: PageData }) {
                       ))}
                   </div>
                 )}
-                {doc.mermaid && (
-                  <button
-                    className="diagram-button"
-                    onClick={(e) => void diagrams(e)}
-                  >
-                    {t.diagram}
-                  </button>
-                )}
-                <details className="mobile-toc">
-                  <summary>{t.toc}</summary>
-                  <nav aria-label={t.toc}>
-                    {doc.toc
-                      .filter((h) => h.depth > 1)
-                      .map((h) => (
-                        <a key={h.id} href={`#${encodeURIComponent(h.id)}`}>
-                          {h.title}
-                        </a>
-                      ))}
-                  </nav>
-                </details>
+                <div className="doc-tools">
+                  {doc.mermaid && (
+                    <button
+                      className="diagram-button"
+                      onClick={(e) => void diagrams(e)}
+                    >
+                      {t.diagram}
+                    </button>
+                  )}
+                  <details className="mobile-toc">
+                    <summary>{t.toc}</summary>
+                    <nav aria-label={t.toc}>
+                      {doc.toc
+                        .filter((h) => h.depth > 1)
+                        .map((h) => (
+                          <a key={h.id} href={`#${encodeURIComponent(h.id)}`}>
+                            {h.title}
+                          </a>
+                        ))}
+                    </nav>
+                  </details>
+                </div>
                 <div
                   className="article-body"
                   dangerouslySetInnerHTML={articleParts.body}
@@ -638,76 +640,81 @@ export function App({ data }: { data: PageData }) {
             </>
           ) : (
             <>
-              <section className="home-intro">
-                <p className="eyebrow">
-                  {ui === "ko"
-                    ? "개념부터 설계 판단까지"
-                    : "From concepts to design decisions"}
-                </p>
-                <h1 className="home-title">
-                  {ui === "ko" ? "지식 공유소" : "Engineering Fieldbook"}
-                </h1>
-                <p className="intro">{t.intro}</p>
-                <div className="home-links">
-                  <a
-                    className="primary-link"
-                    href={url(`knowledge/${locale}/index.md`)}
-                  >
-                    {t.nav} →
-                  </a>
-                  <span>
-                    {
-                      data.entries.filter((entry) => entry.language === locale)
-                        .length
-                    }{" "}
-                    {ui === "ko" ? "공개 문서" : "published documents"}
-                  </span>
-                </div>
-              </section>
-              {!!data.learningPaths.filter((p) => p.language === locale)
-                .length && (
-                <section
-                  className="learning-start"
-                  aria-labelledby="start-title"
-                >
-                  <p className="learning-stages">
+              <div className="home-opening">
+                <section className="home-intro">
+                  <p className="eyebrow">
                     {ui === "ko"
-                      ? "101 이해 → 201 적용 → 301 판단"
-                      : "101 Understand → 201 Apply → 301 Evaluate"}
+                      ? "개념부터 설계 판단까지"
+                      : "From concepts to design decisions"}
                   </p>
-                  <h2 id="start-title">
-                    {ui === "ko"
-                      ? "학습 경로에서 시작하기"
-                      : "Start with a reading path"}
-                  </h2>
-                  <p>
-                    {ui === "ko"
-                      ? "연결된 개념을 원본 목차의 순서대로 읽어보세요."
-                      : "Follow connected concepts in the original index order."}
-                  </p>
-                  <div className="start-paths">
-                    {data.learningPaths
-                      .filter((p) => p.language === locale)
-                      .map((p) => (
-                        <div className="start-path" key={p.id}>
-                          <div>
-                            <strong>{p.title}</strong>
-                            <small>
-                              {p.steps.length}
-                              {ui === "ko"
-                                ? "개 문서 · 원본의 학습 순서"
-                                : " documents · original reading order"}
-                            </small>
-                          </div>
-                          <a href={pathHref(p.url, p)}>
-                            {ui === "ko" ? "경로 살펴보기" : "Explore the path"}{" "}
-                            →
-                          </a>
-                        </div>
-                      ))}
+                  <h1 className="home-title">
+                    {ui === "ko" ? "지식 공유소" : "Engineering Fieldbook"}
+                  </h1>
+                  <p className="intro">{t.intro}</p>
+                  <div className="home-links">
+                    <a
+                      className="primary-link"
+                      href={url(`knowledge/${locale}/index.md`)}
+                    >
+                      {t.nav} →
+                    </a>
+                    <span>
+                      {
+                        data.entries.filter(
+                          (entry) => entry.language === locale,
+                        ).length
+                      }{" "}
+                      {ui === "ko" ? "공개 문서" : "published documents"}
+                    </span>
                   </div>
                 </section>
-              )}
+                {!!data.learningPaths.filter((p) => p.language === locale)
+                  .length && (
+                  <section
+                    className="learning-start"
+                    aria-labelledby="start-title"
+                  >
+                    <p className="learning-stages">
+                      {ui === "ko"
+                        ? "101 이해 → 201 적용 → 301 판단"
+                        : "101 Understand → 201 Apply → 301 Evaluate"}
+                    </p>
+                    <h2 id="start-title">
+                      {ui === "ko"
+                        ? "학습 경로에서 시작하기"
+                        : "Start with a reading path"}
+                    </h2>
+                    <p>
+                      {ui === "ko"
+                        ? "연결된 개념을 원본 목차의 순서대로 읽어보세요."
+                        : "Follow connected concepts in the original index order."}
+                    </p>
+                    <div className="start-paths">
+                      {data.learningPaths
+                        .filter((p) => p.language === locale)
+                        .map((p) => (
+                          <div className="start-path" key={p.id}>
+                            <div>
+                              <strong>{p.title}</strong>
+                              <small>
+                                {p.steps.length}
+                                {ui === "ko"
+                                  ? "개 문서 · 원본의 학습 순서"
+                                  : " documents · original reading order"}
+                              </small>
+                            </div>
+                            <a href={pathHref(p.url, p)}>
+                              {ui === "ko"
+                                ? "경로 살펴보기"
+                                : "Explore the path"}{" "}
+                              →
+                            </a>
+                          </div>
+                        ))}
+                    </div>
+                  </section>
+                )}
+              </div>
               <section className="home-section">
                 <h2>{t.topics}</h2>
                 <div className="topics">
@@ -724,6 +731,13 @@ export function App({ data }: { data: PageData }) {
                       <a key={i} href={item.url}>
                         <span>
                           <strong>{item.title}</strong>
+                          <span className="topic-description">
+                            {
+                              data.entries.find(
+                                (entry) => entry.url === item.url,
+                              )?.description
+                            }
+                          </span>
                           <small>
                             {topicCounts.get(item.url)
                               ? `${topicCounts.get(item.url)}${ui === "ko" ? "개 문서" : " documents"}`
@@ -732,7 +746,6 @@ export function App({ data }: { data: PageData }) {
                                 : "Detailed guides coming later"}
                           </small>
                         </span>
-                        <span aria-hidden="true">→</span>
                       </a>
                     ))}
                 </div>

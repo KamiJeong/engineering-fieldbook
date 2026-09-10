@@ -28,7 +28,7 @@ export function Sidebar({
   const home = `${data.base}${locale === "ko" ? "" : `${locale}/`}`;
   const paths = data.learningPaths.filter((p) => p.language === locale);
   useEffect(() => {
-    if (matchMedia("(max-width: 640px)").matches && shell.current)
+    if (matchMedia("(max-width: 900px)").matches && shell.current)
       shell.current.open = false;
     try {
       const saved = JSON.parse(sessionStorage.getItem(key) || "{}");
@@ -53,7 +53,7 @@ export function Sidebar({
     setReady(true);
   }, [key, activeRoot]);
   useEffect(() => {
-    const media = matchMedia("(max-width: 640px)");
+    const media = matchMedia("(max-width: 900px)");
     const resize = () => {
       setDrawer(false);
       if (shell.current) shell.current.open = !media.matches;
@@ -140,7 +140,7 @@ export function Sidebar({
           setDrawer(
             ready &&
               event.currentTarget.open &&
-              matchMedia("(max-width: 640px)").matches,
+              matchMedia("(max-width: 900px)").matches,
           );
           if (!event.currentTarget.open) return;
           requestAnimationFrame(() => {

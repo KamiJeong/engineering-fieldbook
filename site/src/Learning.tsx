@@ -26,18 +26,20 @@ export function Learning({
         className="learning-context"
         aria-label={ko ? "학습 경로 선택" : "Choose a learning path"}
       >
-        <strong>{ko ? "학습 경로 선택" : "Choose a learning path"}</strong>
-        {available.map((p) => (
-          <a key={p.id} href={pathHref(doc.url, p)}>
-            {p.title} · {p.steps.length}
-            {ko ? "개 문서" : " documents"}
-          </a>
-        ))}
-        <small>
-          {ko
-            ? "경로를 선택하면 읽는 순서와 다음 문서를 안내합니다."
-            : "Choose a path to see the reading order and next document."}
-        </small>
+        <details className="learning-picker">
+          <summary>{ko ? "학습 경로 선택" : "Choose a learning path"}</summary>
+          {available.map((p) => (
+            <a key={p.id} href={pathHref(doc.url, p)}>
+              {p.title} · {p.steps.length}
+              {ko ? "개 문서" : " documents"}
+            </a>
+          ))}
+          <small>
+            {ko
+              ? "경로를 선택하면 읽는 순서와 다음 문서를 안내합니다."
+              : "Choose a path to see the reading order and next document."}
+          </small>
+        </details>
         <noscript>
           {ko
             ? "경로별 이전·다음 안내에는 JavaScript가 필요합니다. 왼쪽 학습 경로의 원본 목차에서 전체 순서를 읽을 수 있습니다."

@@ -12,7 +12,8 @@ test("global tree stays stable and a selected path crosses domains and translati
     page.getByRole("region", { name: "학습 경로 선택" }),
   ).toBeVisible();
   await expect(page.locator(".learning-next")).toHaveCount(0);
-  await page.locator(".learning-context > a").first().click();
+  await page.locator(".learning-picker > summary").click();
+  await page.locator(".learning-picker > a").first().click();
   await expect(page).toHaveURL(/path=/);
   await expect(page.locator(".learning-next")).toContainText("Amazon ECS");
   await page.locator(".learning-context summary").click();
