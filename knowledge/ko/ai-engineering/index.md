@@ -2,7 +2,13 @@
 
 범위와 추천 학습 순서: AI Native Development → Context Engineering → Agentic Development → RAG → LLM Evaluation.
 
-이 분야의 상세 학습 문서는 준비 중입니다. 아래 항목은 예정 범위이며, 현재 읽을 수 있는 개념은 [AWS 학습 경로](../cloud/index.md)와 [문서 검증](../testing/index.md)에서 찾을 수 있습니다.
+GPT-6 Astra와 추론 강도 선택부터 학습합니다. 아래 상세 문서는 현재 읽을 수 있으며, 나머지 항목은 예정 범위입니다.
+
+## 문서
+
+- [GPT-6 Astra: effort별 활용과 이전 모델 비교](gpt-6-astra.md)
+
+[선수 용어: 추론 강도](../../../glossary/ko/reasoning-effort.md)
 
 [Glossary](../../../glossary/ko/index.md) · [Related domains](../index.md) · [Other language](../../en/ai-engineering/index.md)
 

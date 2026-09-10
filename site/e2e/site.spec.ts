@@ -247,8 +247,8 @@ test("language navigation changes URLs, homes, sidebar and default search togeth
   await expect(page).toHaveURL(new RegExp(`${site.base}en/$`));
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator(".home-title")).toHaveText("Engineering Fieldbook");
-  await expect(page.locator(".topics a")).toHaveCount(4);
-  await expect(page.locator(".planned-topics a")).toHaveCount(5);
+  await expect(page.locator(".topics a")).toHaveCount(5);
+  await expect(page.locator(".planned-topics a")).toHaveCount(4);
   const sidebarLinks = await page
     .locator(".sidebar a:not(.fieldbook-map)")
     .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));

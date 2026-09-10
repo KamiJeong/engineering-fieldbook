@@ -1,5 +1,12 @@
 # Fieldbook knowledge change log
 
+## 2026-09-10
+
+- **Creation**: [GPT-6 Astra](knowledge/ko/ai-engineering/gpt-6-astra.md)와 [추론 강도](glossary/ko/reasoning-effort.md)를 한·영으로 작성했다. 개발자·비개발자 사례, effort별 선택, Max/Ultra 구분, 이전 모델 비교와 API 이전 주의점을 공식 자료에 연결했다. AI 분야·용어집 목차를 동기화했다.
+- **Verification**: OpenAI 공식 6개 페이지의 지원 값·제품 범위·이전 기능·사양을 직접 대조하고 새 2쌍의 목표·가정·권고·예제·질문 해설을 의미 검토했다. Agent 검증으로 stable 및 SYNCED를 기록하고 30일 재검토 기한을 설정했다. 활용 예제는 가상이며 API 실행·계정 접근성·독립 성능 측정은 검증 범위에 포함하지 않는다.
+
+- **Verification**: 이번 변경만 포함한 별도 작업 폴더에서 `bun run verify`를 통과했다. 문서 131개 Audit 문제 0건, 공개 문서 120개·변환 오류 0건, 단위 테스트 18개·브라우저 테스트 41개를 확인했다. 새 문서 한·영의 375/1440px 표시·도표·언어 전환·검색도 확인했다. 원 작업 폴더의 기존 미추적 `design-qa.md`는 메타데이터 누락 경고가 있어 보존한 채 검증 대상 복사본에서 제외했다.
+
 ## 2026-09-09
 
 - **Update**: [AWS 학습 경로](knowledge/ko/cloud/index.md)의 추천 순서를 실제 문서 링크가 있는 순서 목록으로 정리하고 영어를 동기화했다. Network → Identity → Compute → Data → Protection 순서와 기존 문서 경로·분류는 유지한다.

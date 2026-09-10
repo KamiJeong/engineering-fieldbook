@@ -17,3 +17,7 @@ Use definitions and short examples when a term is unfamiliar. Start networking w
 
 - [RPO: Recovery Point Objective](rpo.md) — An objective expressing tolerable data loss in time.
 - [RTO: Recovery Time Objective](rto.md) — An objective for the permitted time from service interruption to restoration.
+
+## AI
+
+- [Reasoning effort](reasoning-effort.md) — A setting guiding reasoning work, time, and token usage.
