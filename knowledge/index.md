@@ -6,7 +6,7 @@
 - [English](en/index.md) — synchronized knowledge.
 
 - **AI Engineering**: AI Native Development → Context Engineering → Agentic Development → RAG → LLM Evaluation
-- **Frontend**: React state → Real-time streams → Large-data rendering → Table / Topology / Chart → Permission UI
+- **Frontend**: React state → Real-time streams → Large-data rendering → Table / Topology / Chart → Permission UI → Micro Frontends
 - **Digital Marketing**: SEO → AEO / GEO / AIO → Customer discovery and measurement
 - **Cloud Infrastructure**: Infrastructure fundamentals → AWS Infrastructure → Cloud Cost / FinOps
 - **Security**: Identity → Cloud Security → Software Supply Chain Security

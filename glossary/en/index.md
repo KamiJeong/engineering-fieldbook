@@ -38,3 +38,4 @@ Use definitions and short examples when a term is unfamiliar. Start networking w
 - [Backpressure: matching production and consumption](backpressure.md)
 - [UI virtualization: render the visible range](ui-virtualization.md)
 - [Topology: connections between entities](topology.md)
+- [Micro Frontend: independently deployable business UI](micro-frontend.md)
