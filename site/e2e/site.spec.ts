@@ -10,6 +10,7 @@ test("every public HTML and local link exists on a static server", async ({
     await readFile("site/dist/documents.json", "utf8"),
   ) as { source: string; url: string }[];
   const cache = new Map<string, string>();
+  const idsByUrl = new Map<string, Set<string>>();
   for (const doc of mapping) {
     const response = await request.get(doc.url);
     expect(response.status(), doc.source).toBe(200);
@@ -20,7 +21,7 @@ test("every public HTML and local link exists on a static server", async ({
   await page.goto("./");
   const targets = new Set<string>();
   for (const [url, html] of cache) {
-    const { links, danglingAria } = await page.evaluate(
+    const { links, danglingAria, ids } = await page.evaluate(
       ({ html, url }) => {
         const doc = new DOMParser().parseFromString(html, "text/html");
         const danglingAria = [
@@ -44,10 +45,12 @@ test("every public HTML and local link exists on a static server", async ({
               location.origin + url,
             ).href,
         );
-        return { links, danglingAria };
+        const ids = [...doc.querySelectorAll("[id]")].map((node) => node.id);
+        return { links, danglingAria, ids };
       },
       { html, url },
     );
+    idsByUrl.set(url, new Set(ids));
     expect(danglingAria, url).toEqual([]);
     for (const link of links) {
       const parsed = new URL(link);
@@ -66,17 +69,19 @@ test("every public HTML and local link exists on a static server", async ({
         cache.set(parsed.pathname, await response.text());
     }
     if (parsed.hash && cache.has(parsed.pathname)) {
-      const exists = await page.evaluate(
-        ({ html, id }) =>
-          !!new DOMParser()
-            .parseFromString(html, "text/html")
-            .getElementById(id),
-        {
-          html: cache.get(parsed.pathname)!,
-          id: decodeURIComponent(parsed.hash.slice(1)),
-        },
-      );
-      expect(exists, link).toBe(true);
+      if (!idsByUrl.has(parsed.pathname)) {
+        const ids = await page.evaluate((html) => {
+          const doc = new DOMParser().parseFromString(html, "text/html");
+          return [...doc.querySelectorAll("[id]")].map((node) => node.id);
+        }, cache.get(parsed.pathname)!);
+        idsByUrl.set(parsed.pathname, new Set(ids));
+      }
+      expect(
+        idsByUrl
+          .get(parsed.pathname)!
+          .has(decodeURIComponent(parsed.hash.slice(1))),
+        link,
+      ).toBe(true);
     }
   }
   const missing = await request.get("no-such-page/");
