@@ -1,4 +1,4 @@
-# Frontend · React
+# Frontend
 
 Learn real-time data, large views, permissions, and complex interactions through an operations dashboard. Device lists, CPU trends, service dependencies, and restart actions share one design context. The examples are independent by topic, not an integrated finished application. After screen implementation, study Micro Frontend team and deployment boundaries, real cases, and a lab building two React apps independently.
 
