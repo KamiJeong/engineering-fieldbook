@@ -38,3 +38,4 @@
 - [Backpressure: 생산 속도와 소비 속도 조절](backpressure.md)
 - [UI virtualization: 보이는 범위만 렌더링](ui-virtualization.md)
 - [Topology: 요소 사이 연결 구조](topology.md)
+- [Micro Frontend: 업무 영역별 독립 프런트엔드](micro-frontend.md)

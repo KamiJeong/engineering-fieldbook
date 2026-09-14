@@ -5,7 +5,7 @@ Start with fundamentals, then application, decisions, and operations.
 Detailed concepts currently cover Frontend, AI model usage, digital marketing, GitHub/GitLab collaboration, AWS, and document verification. Choose a domain below and read through 101 understanding → 201 example application → 301 judgment. Domains without detailed entries are marked as upcoming.
 
 - [AI Engineering](ai-engineering/index.md) — AI Native Development → Context Engineering → Agentic Development → RAG → LLM Evaluation.
-- [Frontend](frontend/index.md) — React state models, real-time updates, WebSocket/SSE, large-data rendering, tables, topology, charts, and permission UI.
+- [Frontend](frontend/index.md) — React state models, real-time updates, WebSocket/SSE, large-data rendering, tables, topology, charts, and permission UI, plus Micro Frontend concepts, cases, and independent-build practice.
 - [Digital Marketing](digital-marketing/index.md) — SEO, AEO, GEO, and AIO concepts, differences, problem-based application, and outcome evaluation.
 - [Cloud Infrastructure](cloud/index.md) — Infrastructure fundamentals → AWS Infrastructure → Cloud Cost / FinOps.
 - [Security](security/index.md) — Identity → Cloud Security → Software Supply Chain Security.

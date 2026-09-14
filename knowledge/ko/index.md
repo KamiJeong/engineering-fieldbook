@@ -5,7 +5,7 @@
 현재 상세 개념 문서는 Frontend·AI 모델 활용·디지털 마케팅·GitHub/GitLab 협업·AWS·문서 검증 분야에 있습니다. 처음에는 아래에서 관심 분야를 선택해 101 이해 → 201 예제 적용 → 301 판단 순으로 읽습니다. 상세 문서가 없는 영역은 준비 상태를 표시합니다.
 
 - [AI Engineering](ai-engineering/index.md) — AI Native Development → Context Engineering → Agentic Development → RAG → LLM Evaluation.
-- [Frontend](frontend/index.md) — React 상태 모델·실시간 업데이트·WebSocket/SSE·대량 렌더링·테이블·토폴로지·차트·권한 UI.
+- [Frontend](frontend/index.md) — React 상태 모델·실시간 업데이트·WebSocket/SSE·대량 렌더링·테이블·토폴로지·차트·권한 UI·Micro Frontend 개념·사례와 독립 빌드 실습.
 - [Digital Marketing](digital-marketing/index.md) — SEO·AEO·GEO·AIO의 개념과 차이, 고객 문제별 적용과 성과 판단.
 - [Cloud Infrastructure](cloud/index.md) — Infrastructure fundamentals → AWS Infrastructure → Cloud Cost / FinOps.
 - [Security](security/index.md) — Identity → Cloud Security → Software Supply Chain Security.

@@ -1,12 +1,12 @@
 # Frontend · React
 
-Learn real-time data, large views, permissions, and complex interactions through an operations dashboard. Device lists, CPU trends, service dependencies, and restart actions share one design context. The examples are independent by topic, not an integrated finished application.
+Learn real-time data, large views, permissions, and complex interactions through an operations dashboard. Device lists, CPU trends, service dependencies, and restart actions share one design context. The examples are independent by topic, not an integrated finished application. After screen implementation, study Micro Frontend team and deployment boundaries, real cases, and a lab building two React apps independently.
 
 ## Prerequisites and environment
 
 Assume JavaScript arrays, objects, and promises; TypeScript types and unions; React components, props, useState and useEffect; and HTTP requests and responses. This is not a complete React syntax course. Start with components and state in [React Learn](https://react.dev/learn) if needed.
 
-In an existing React + TypeScript browser project, place each TSX example separately in `src/App.tsx`. Hooks used here exist in React 18 and later. CSS resets or global styles may affect row height. SSR frameworks require a browser component boundary and the separate SSR conditions described in the chapters. Run installation commands in a separate practice project, not this documentation repository.
+In an existing React + TypeScript browser project, place the TSX examples from the first eight topics separately in `src/App.tsx`. Hooks used here exist in React 18 and later. CSS resets or global styles may affect row height. SSR frameworks require a browser component boundary and the separate SSR conditions described in the chapters. Run installation commands in a separate practice project, not this documentation repository.
 
 | Topic | Extra package | Requirements |
 | --- | --- | --- |
@@ -14,6 +14,8 @@ In an existing React + TypeScript browser project, place each TSX example separa
 | Virtualized table | `npm install @tanstack/react-virtual@3` | Check fixed-height assumptions |
 | Topology | `npm install @xyflow/react@12` | Library CSS and parent height |
 | WebSocket/SSE | None | Server implementing the documented frame and sequence contract |
+
+The Micro Frontend lab is a separate project with multiple files and two servers. Follow its own file structure, versions, and commands.
 
 ## Reading order
 
@@ -25,6 +27,9 @@ In an existing React + TypeScript browser project, place each TSX example separa
 6. [Topology visualization: separate relationships from layout](topology-visualization.md)
 7. [Time-series chart: time, missing data, and aggregation](time-series-chart.md)
 8. [Permission-based UI: authorization and action state](permission-based-ui.md)
+
+9. [Micro Frontends: independent deployment boundaries and real-world use](micro-frontends.md)
+10. [React Micro Frontend lab: separate builds and failure boundaries](micro-frontends-react.md)
 
 ## Integrating a screen
 
@@ -57,6 +62,8 @@ Share selection by ID and keep time ranges and filters in URLs for direct access
 | Keyboard, zoom, and mobile | Accessible table alternatives, focus, scrolling, and pan checks |
 
 ## Example verification scope
+
+The record below covers the first eight screen examples. The two-artifact builds and browser checks for Micro Frontends are recorded separately in [that lab](micro-frontends-react.md).
 
 On 2026-09-14, all eight TSX examples were extracted into an isolated temporary project and passed TypeScript 5.9.3 strict checking. The environment was React/React DOM 19.2.4, @types/react 19.2.14, @types/react-dom 19.2.3, TanStack React Virtual 3.14.12, and React Flow 12.11.6. Eight temporary Bun tests (31 assertions) passed for save ordering, retained drafts after failure, invalid transitions, publication coalescing and cleanup, message validation, chart normalization and gap splitting, and permission-dependent server rendering. These tests target document examples, not the repository website application.
 
