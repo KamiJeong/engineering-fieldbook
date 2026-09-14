@@ -2,6 +2,8 @@
 
 ## 2026-09-14
 
+- **Correction**: [Frontend 목차](knowledge/ko/frontend/index.md)의 한·영 대분류 제목을 `Frontend`로 통일하고 루트 학습 경로 이름을 맞췄습니다. React는 개별 예제의 구현 기술로 안내합니다. 제목의 한·영 의미를 대조했습니다.
+
 - **Creation**: [Micro Frontend 개념·사례](knowledge/ko/frontend/micro-frontends.md), [React 독립 빌드 실습](knowledge/ko/frontend/micro-frontends-react.md), [용어](glossary/ko/micro-frontend.md)를 한·영 3쌍으로 작성했습니다. 경로·런타임·서버·iframe 합성, 모듈화·monorepo와의 차이, Vercel·American Express·Zalando·Spotify의 공개 사례, 계약·보안·캐시·롤백·도입과 철회 판단을 다룹니다. Frontend 학습 경로를 10개 주제로 확장했습니다.
 - **Verification**: 공식 도구 문서와 운영 주체의 공개 자료를 2026-09-14 기준으로 대조하고 과거 사례·archive/InnerSource·현재 제품 기능을 구분했습니다. 한·영 학습 목표·전제·예제·질문 해설·운영 한계를 대조해 Agent 검증 및 SYNCED를 기록하고 stable로 승격했습니다. React 19.2.4·webpack 5.110.3·TypeScript 5.9.3에서 두 산출물의 타입 검사·production 빌드와 Chromium 8개 시나리오를 확인했습니다. 정적 remote 초기화가 shell 표시를 늦출 수 있어 명시적 container 로딩으로 설계하고 지연·실패·계약 불일치·tenant 초기화·remote 단독 갱신을 검증했습니다. Host artifact SHA-256은 remote 단독 재빌드 전후 동일했습니다. 사이트 audit 198개 문서·0 issues, 단위 테스트 18개·브라우저 테스트 41개와 새 문서 한·영·모바일·데스크톱·라이트·다크 표시 검사를 통과했습니다. 기업 내부 현황·채택률·성과 재현과 실제 주문 서버·인증·CDN·SSR·운영 부하 검증은 포함하지 않습니다.
 
