@@ -32,3 +32,9 @@ Use definitions and short examples when a term is unfamiliar. Start networking w
 - [GEO: Generative Engine Optimization](geo.md)
 - [AEO: Answer Engine Optimization](aeo.md)
 - [AIO: distinguishing AI Optimization from AI Overviews](aio.md)
+
+## Frontend
+
+- [Backpressure: matching production and consumption](backpressure.md)
+- [UI virtualization: render the visible range](ui-virtualization.md)
+- [Topology: connections between entities](topology.md)

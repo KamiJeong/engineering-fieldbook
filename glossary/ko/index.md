@@ -32,3 +32,9 @@
 - [GEO: 생성형 엔진 최적화](geo.md)
 - [AEO: 답변 엔진 최적화](aeo.md)
 - [AIO: AI Optimization과 AI Overviews의 구분](aio.md)
+
+## Frontend
+
+- [Backpressure: 생산 속도와 소비 속도 조절](backpressure.md)
+- [UI virtualization: 보이는 범위만 렌더링](ui-virtualization.md)
+- [Topology: 요소 사이 연결 구조](topology.md)
