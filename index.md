@@ -9,6 +9,7 @@ okf_version: "0.2"
 ## Knowledge
 
 - [Knowledge domains](knowledge/index.md) — 개념과 도메인별 학습 경로.
+- [Frontend React 학습 경로](knowledge/ko/frontend/index.md) · [English](knowledge/en/frontend/index.md) — 상태·실시간·대량 렌더링과 권한 UI의 8개 주제.
 - [AWS 학습 경로](knowledge/ko/cloud/index.md) · [English](knowledge/en/cloud/index.md) — Compute, Network, Database, Storage, Security의 23개 Concept.
 - [Glossary](glossary/index.md) — 전문 용어를 한 개념씩 관리.
 - [Decisions](decisions/index.md) — 기술 선택의 맥락과 대안.
